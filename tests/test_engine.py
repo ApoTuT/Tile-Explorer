@@ -253,10 +253,15 @@ class TrayAndUndoTests(EngineAssertions):
     def test_seventh_tile_clears_a_triple_before_checking_loss(self):
         tray = flat_tiles([0, 0, 1, 1, 2, 2], first_id=10)
         game = example_game(flat_tiles([0, 1, 2]), tray)
-        game.pick(0)
+        events = game.pick(0)
+        self.assertEqual(events[0]["insert_index"], 2)
+        self.assertEqual([tile["id"] for tile in events[0]["tray_after_insert"]],
+                         [10, 11, 0, 12, 13, 14, 15])
+        self.assertEqual(events[1], {"type": "triple_clear", "kind": 0, "tile_ids": [10, 11, 0]})
         self.assertEqual(game.status, "playing")
         self.assertEqual(len(game.tray), 4)
         self.assertEqual(game.peak, 7)
+        self.assertEqual(game.score, 130)
         game.pick(1)
         game.pick(2)
         self.assertEqual(game.status, "won")
@@ -316,6 +321,47 @@ class TrayAndUndoTests(EngineAssertions):
         self.assert_rejected_unchanged(game, game.undo)
 
 
+class PresentationEventTests(EngineAssertions):
+    def test_enter_records_the_grouped_slot_without_becoming_game_state(self):
+        game = example_game(flat_tiles([0, 1, 0, 2]))
+        game.pick(0)
+        game.pick(1)
+        events = game.pick(2)
+        self.assertEqual(events, [{
+            "type": "tray_enter", "tile": {"id": 2, "kind": 0}, "insert_index": 1,
+            "tray_after_insert": [{"id": 0, "kind": 0}, {"id": 2, "kind": 0},
+                                  {"id": 1, "kind": 1}],
+        }])
+        self.assertNotIn("presentation", game.state())
+        self.assertNotIn("events", game.state())
+        self.assertNotIn("presentation", game.__dict__)
+        self.assertNotIn("events", game.__dict__)
+
+    def test_clear_snapshot_survives_elimination_later_moves_and_consumer_edits(self):
+        game = example_game(flat_tiles([0, 1, 0, 2, 0]))
+        for tile_id in range(4):
+            game.pick(tile_id)
+        events = game.pick(4)
+        self.assertEqual(events, [
+            {"type": "tray_enter", "tile": {"id": 4, "kind": 0}, "insert_index": 2,
+             "tray_after_insert": [{"id": 0, "kind": 0}, {"id": 2, "kind": 0},
+                                   {"id": 4, "kind": 0}, {"id": 1, "kind": 1},
+                                   {"id": 3, "kind": 2}]},
+            {"type": "triple_clear", "kind": 0, "tile_ids": [0, 2, 4]},
+        ])
+        self.assertEqual([tile.id for tile in game.tray], [1, 3])
+        captured = deepcopy(events)
+        game.undo()
+        later = game.pick(3)
+        self.assertEqual(events, captured)
+        self.assertEqual(len(later), 1)
+        self.assertEqual(later[0]["tile"], {"id": 3, "kind": 2})
+        events[0]["tray_after_insert"][3]["kind"] = 17
+        events[0]["tile"]["kind"] = 17
+        events[1]["tile_ids"].clear()
+        self.assertEqual(game.state()["tray"], [{"id": 1, "kind": 1}, {"id": 3, "kind": 2}])
+
+
 class MagicTests(EngineAssertions):
     def test_magic_takes_a_covered_tile_without_energy_and_can_be_undone(self):
         low, high = Tile(0, 0, 0, 0, 0), Tile(1, 1, 0.65, 0.65, 1)
@@ -343,7 +389,13 @@ class MagicTests(EngineAssertions):
     def test_magic_third_tile_matches_normally_and_cannot_revive_that_triple(self):
         low, high = Tile(0, 0, 0, 0, 0), Tile(1, 1, 0.65, 0.65, 1)
         game = example_game([low, high], flat_tiles([0, 0], first_id=10))
-        game.magic(0)
+        events = game.magic(0)
+        self.assertEqual(events, [
+            {"type": "tray_enter", "tile": {"id": 0, "kind": 0}, "insert_index": 2,
+             "tray_after_insert": [{"id": 10, "kind": 0}, {"id": 11, "kind": 0},
+                                   {"id": 0, "kind": 0}]},
+            {"type": "triple_clear", "kind": 0, "tile_ids": [10, 11, 0]},
+        ])
         self.assertEqual(game.tray, [])
         self.assertEqual(game.matches, 1)
         self.assertGreater(game.score, 0)

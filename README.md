@@ -1,8 +1,10 @@
-# 叠叠环游记 / Tile Explorer 原型 · v0.1
+# 叠叠环游记 / Tile Explorer 原型 · v0.2 开发版
 
 一个复现 Tile Explorer 层叠三张消除循环的 **9 关旅行原型**。Python 负责规则与关卡，浏览器负责画面与点击。无需第三方依赖或账号，启动后可以离线玩。
 
-本轮按用户截图重做堆叠与牌面：紧密底板、跨牌压叠和中央留白，去掉独立小牌堆与重复角标；底牌自然露出原大图案。牌面使用本地透明卡通图集，配白银色厚牌；七格深色暂存槽移到棋盘上方。
+v0.2 新增“候选槽小剧场”：18 种牌有自己的入槽声音与性格动作，槽内共存的特定牌面会触发 6 组双牌、2 组三牌互动，三同消除时有短暂退场反馈。声音和动画可被新操作打断，不增加消牌规则。当前为功能分支验证版，正式发布基线仍为 Git 标签 `v0.1`。
+
+18 种原创短音已随项目打包，无需在线服务。声音采用柔和的铃音、木音、拨弦和气泡音，单段约 90–150 毫秒；组合用同一套五声音阶轻轻呼应。槽下方可关闭音效，静音后仍保留视觉互动。第一关依次取苹果、猫、汽车即可体验组合；同段表演有间隔，避免连续重复。
 
 ## 开始游玩
 
@@ -13,6 +15,8 @@ python main.py
 ```
 
 默认打开 `http://127.0.0.1:8765`；端口被占用时自动选择空闲端口，并打开实际地址。`python main.py --port 0` 会直接选择空闲端口，`--no-browser` 关闭自动打开网页。
+
+Windows 的 `python` 命令不可用时，可使用 `py -3.12 main.py`（需要已安装 Python 3.12）。
 
 ## 怎么玩
 
@@ -47,7 +51,10 @@ python main.py
 
 ```text
 python -m unittest discover -s tests -v
+node --test --test-isolation=none tests/audio.test.cjs tests/theater.test.cjs tests/ui.test.cjs
 ```
+
+Node.js 24 仅用于开发测试，启动游戏不需要 Node 或 npm 依赖。本轮音效修订后本地通过 50 项 Python 测试和 51 项 JavaScript 测试；手机检查为窄视口检查，Android/iOS 实机尚未验证。GitHub Actions 已配置 Linux/Windows 回归检查，远程结果以 PR 为准。
 
 - `tile_explorer/engine.py`：Python 规则与关卡生成。
 - `tile_explorer/geometry.py`：紧密交错牌阵、真实露出与点击区域检查。
@@ -56,7 +63,10 @@ python -m unittest discover -s tests -v
 - `web/`：离线可用的浏览器界面。
 - `docs/DESIGN.md`：本版设计与研究依据。
 - `docs/IDEAS.md`：供后续脑暴的候选创意，未列入本版已实现功能。
-- `docs/ITERATION_LOG.md`：版本变化和实际验证记录。
+- [docs/ITERATION_LOG.md](docs/ITERATION_LOG.md)：各代新增功能、内容与体验变化，以及实现、验证和发布状态。
+- [docs/technical/README.md](docs/technical/README.md)：各代独立技术文档索引，说明实现方式、数据流程、技术边界与验证。
+- [docs/technical/v0.2.md](docs/technical/v0.2.md)：小剧场实际实现、素材调整、验证结果和待实机检查事项。
+- [web/assets/audio/v02/manifest.json](web/assets/audio/v02/manifest.json)：18 个声音的来源、时长、体积及校验值；可用 `py -3.12 tools/generate_audio.py` 离线重新生成。
 - `docs/ASSETS_V3.md`：卡通牌面生成记录、完整提示词与图集索引。
 - `docs/VERSION_CONTROL.md`：主分支、版本标签及后续提交约定。
 

@@ -199,7 +199,8 @@ class Game:
         cover = blockers(self.board)
         return [tile_id for tile_id in self.board if not cover[tile_id]]
 
-    def pick(self, tile_id: int, penetrate: bool = False):
+    def pick(self, tile_id: int, penetrate: bool = False) -> list[dict]:
+        """Apply the complete move and return its one-shot presentation facts."""
         if self.status != "playing":
             raise GameError("本局已结束，可以撤回槽内一张牌、整体重排，或重新选关。")
         if type(tile_id) is not int or tile_id not in self.board:
@@ -214,13 +215,23 @@ class Game:
             self.assists += 1
         tile = self.board.pop(tile_id)
         same = [i for i, held in enumerate(self.tray) if held.kind == tile.kind]
-        self.tray.insert(same[-1] + 1 if same else len(self.tray), tile)
+        insert_index = same[-1] + 1 if same else len(self.tray)
+        self.tray.insert(insert_index, tile)
+        # Copy before elimination: the third actor may not exist in final state.
+        events = [{
+            "type": "tray_enter",
+            "tile": {"id": tile.id, "kind": tile.kind},
+            "insert_index": insert_index,
+            "tray_after_insert": [{"id": held.id, "kind": held.kind} for held in self.tray],
+        }]
         self.tray_order.append(tile.id)
         self.moves += 1
         self.peak = max(self.peak, len(self.tray))
         matched = sum(held.kind == tile.kind for held in self.tray) == 3
         if matched:
-            removed = {held.id for held in self.tray if held.kind == tile.kind}
+            tile_ids = [held.id for held in self.tray if held.kind == tile.kind]
+            events.append({"type": "triple_clear", "kind": tile.kind, "tile_ids": tile_ids})
+            removed = set(tile_ids)
             self.tray = [held for held in self.tray if held.id not in removed]
             self.tray_order = [i for i in self.tray_order if i not in removed]
             self.matches += 1
@@ -239,9 +250,10 @@ class Game:
             self.message = "三张消除！再看看刚刚露出的牌。"
         else:
             self.message = "留意槽中已有的图案，给下一组三张留出空间。"
+        return events
 
-    def magic(self, tile_id: int):
-        self.pick(tile_id, penetrate=True)
+    def magic(self, tile_id: int) -> list[dict]:
+        return self.pick(tile_id, penetrate=True)
 
     def undo(self):
         if not self.tray:

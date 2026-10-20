@@ -1,0 +1,291 @@
+{
+  "schema_version": 1,
+  "revision": "v02-gentle-pentatonic-1",
+  "sound_palette": "Gentle C-major pentatonic: C5 D5 E5 G5 A5 C6; soft bubble, wood, pluck and bell cues",
+  "notes": [
+    "Short 90-150 ms musical cues; no voice, animal or mechanical imitations",
+    "8 ms raised-cosine attack and 24 ms release; no noise, pitch sweeps, vibrato or reverb",
+    "Only a fundamental and two weak integer harmonics; minimum fundamental 523.251131 Hz",
+    "Peak amplitude 0.35 with silent PCM endpoints and DC removal",
+    "Generated deterministically with Python standard library; no recordings or external samples"
+  ],
+  "format": "WAV mono PCM signed 16-bit little-endian",
+  "sample_rate_hz": 22050,
+  "generator": "tools/generate_audio.py (Python standard library)",
+  "total_audio_bytes": 97372,
+  "assets": [
+    {
+      "id": "apple",
+      "path": "/assets/audio/v02/apple.wav",
+      "duration_seconds": 0.1,
+      "bytes": 4454,
+      "sha256": "9e03c7cd26fd2bbbb5ce533a3c6f6c4315ea3c5aa6020317333b74b520b025d9",
+      "gain": 1.0,
+      "peak_amplitude": 0.349986,
+      "rms_amplitude": 0.149845,
+      "notes": [
+        "E5"
+      ],
+      "description": "Cheerful soft E5 bubble",
+      "source": "Original offline musical synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "banana",
+      "path": "/assets/audio/v02/banana.wav",
+      "duration_seconds": 0.12,
+      "bytes": 5336,
+      "sha256": "cdbd7266eae3f6480c4fc4933240e820c47fa1fc8eddbcdd969f1880c967266f",
+      "gain": 1.0,
+      "peak_amplitude": 0.349986,
+      "rms_amplitude": 0.133189,
+      "notes": [
+        "G5"
+      ],
+      "description": "Playful light G5 pluck",
+      "source": "Original offline musical synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "cherry",
+      "path": "/assets/audio/v02/cherry.wav",
+      "duration_seconds": 0.150023,
+      "bytes": 6660,
+      "sha256": "e25b4ab1d5b6e9796a935f86f7576cc9f0a8816b7d4ecbc69abe311f23e886da",
+      "gain": 1.0,
+      "peak_amplitude": 0.349986,
+      "rms_amplitude": 0.111028,
+      "notes": [
+        "E5",
+        "G5"
+      ],
+      "description": "Two friendly E5-G5 wooden notes",
+      "source": "Original offline musical synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "grape",
+      "path": "/assets/audio/v02/grape.wav",
+      "duration_seconds": 0.129977,
+      "bytes": 5776,
+      "sha256": "386f128aafb3527edcae65f3461c667f69c970e20523f6a9c73333099f385f4b",
+      "gain": 1.0,
+      "peak_amplitude": 0.349986,
+      "rms_amplitude": 0.136751,
+      "notes": [
+        "D5"
+      ],
+      "description": "Delicate rounded D5 bubble",
+      "source": "Original offline musical synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "orange",
+      "path": "/assets/audio/v02/orange.wav",
+      "duration_seconds": 0.110023,
+      "bytes": 4896,
+      "sha256": "bb97dae3f256485688c0e0ba8b16ac9eda0007a523bde5e4c933984d6270d2a3",
+      "gain": 1.0,
+      "peak_amplitude": 0.349986,
+      "rms_amplitude": 0.130994,
+      "notes": [
+        "C5"
+      ],
+      "description": "Sunny rounded C5 wooden note",
+      "source": "Original offline musical synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "strawberry",
+      "path": "/assets/audio/v02/strawberry.wav",
+      "duration_seconds": 0.14,
+      "bytes": 6218,
+      "sha256": "126e8b850553a1da04a3c49bc50b8196330dffdbd49debf7220f4c42cbc3fb6b",
+      "gain": 1.0,
+      "peak_amplitude": 0.349986,
+      "rms_amplitude": 0.141649,
+      "notes": [
+        "A5"
+      ],
+      "description": "Gentle sparkling A5 chime",
+      "source": "Original offline musical synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "car",
+      "path": "/assets/audio/v02/car.wav",
+      "duration_seconds": 0.1,
+      "bytes": 4454,
+      "sha256": "19538afe9008274abde3070cd3fc6e63920a69430c393b5524f635a8599a1bef",
+      "gain": 1.0,
+      "peak_amplitude": 0.349986,
+      "rms_amplitude": 0.136251,
+      "notes": [
+        "G5"
+      ],
+      "description": "Bouncy light G5 wooden note",
+      "source": "Original offline musical synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "taxi",
+      "path": "/assets/audio/v02/taxi.wav",
+      "duration_seconds": 0.150023,
+      "bytes": 6660,
+      "sha256": "4f96cdc677bffcef8e87f00170bce550619c230fa1e78f2de4102defbc53e18b",
+      "gain": 1.0,
+      "peak_amplitude": 0.349986,
+      "rms_amplitude": 0.119893,
+      "notes": [
+        "G5",
+        "A5"
+      ],
+      "description": "Friendly G5-A5 bubble greeting",
+      "source": "Original offline musical synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "bus",
+      "path": "/assets/audio/v02/bus.wav",
+      "duration_seconds": 0.14,
+      "bytes": 6218,
+      "sha256": "41a5c3fc77d78f6fc7ffc32059e954064e7c1ebd588de01b898783d1385a9187",
+      "gain": 1.0,
+      "peak_amplitude": 0.349986,
+      "rms_amplitude": 0.117621,
+      "notes": [
+        "C5",
+        "E5"
+      ],
+      "description": "Calm bright C5-E5 chime pair",
+      "source": "Original offline musical synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "train",
+      "path": "/assets/audio/v02/train.wav",
+      "duration_seconds": 0.129977,
+      "bytes": 5776,
+      "sha256": "db1dc7a4af90e6d33facd3e9eeaa8175dcec14e3564373183135fa88c246529a",
+      "gain": 1.0,
+      "peak_amplitude": 0.349986,
+      "rms_amplitude": 0.128921,
+      "notes": [
+        "A5"
+      ],
+      "description": "Airy cheerful A5 pluck",
+      "source": "Original offline musical synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "bicycle",
+      "path": "/assets/audio/v02/bicycle.wav",
+      "duration_seconds": 0.12,
+      "bytes": 5336,
+      "sha256": "900687bc47380bb6f0aa93569d002fd586881b451327e0cdc9f7c193a12c7fc4",
+      "gain": 1.0,
+      "peak_amplitude": 0.349986,
+      "rms_amplitude": 0.150185,
+      "notes": [
+        "C6"
+      ],
+      "description": "Small clear C6 musical bell",
+      "source": "Original offline musical synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "scooter",
+      "path": "/assets/audio/v02/scooter.wav",
+      "duration_seconds": 0.110023,
+      "bytes": 4896,
+      "sha256": "3eb613f4e7849fb2fea0a62ec249e627a4058fdf146754e5691a8bd13c869db7",
+      "gain": 1.0,
+      "peak_amplitude": 0.349986,
+      "rms_amplitude": 0.138427,
+      "notes": [
+        "D5"
+      ],
+      "description": "Nimble gentle D5 pluck",
+      "source": "Original offline musical synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "cat",
+      "path": "/assets/audio/v02/cat.wav",
+      "duration_seconds": 0.12,
+      "bytes": 5336,
+      "sha256": "7e8021888833cbac079988579593b9460c431c3b0a8d96bb2d53240f3b92f8db",
+      "gain": 1.0,
+      "peak_amplitude": 0.349986,
+      "rms_amplitude": 0.149175,
+      "notes": [
+        "E5"
+      ],
+      "description": "Curious sweet E5 chime",
+      "source": "Original offline musical synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "dog",
+      "path": "/assets/audio/v02/dog.wav",
+      "duration_seconds": 0.110023,
+      "bytes": 4896,
+      "sha256": "85bcad1f29eea48a4837a90e48921151aea0ceadcf3269edf7bdfcada8a6c753",
+      "gain": 1.0,
+      "peak_amplitude": 0.349986,
+      "rms_amplitude": 0.145651,
+      "notes": [
+        "G5"
+      ],
+      "description": "Happy rounded G5 bubble",
+      "source": "Original offline musical synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "rabbit",
+      "path": "/assets/audio/v02/rabbit.wav",
+      "duration_seconds": 0.089977,
+      "bytes": 4012,
+      "sha256": "23980c2d705305707a75d35be1b13fff80e7a50e2fb17fa71ef3a110b5a879c9",
+      "gain": 1.0,
+      "peak_amplitude": 0.349986,
+      "rms_amplitude": 0.141029,
+      "notes": [
+        "A5"
+      ],
+      "description": "Tiny light A5 wooden note",
+      "source": "Original offline musical synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "panda",
+      "path": "/assets/audio/v02/panda.wav",
+      "duration_seconds": 0.14,
+      "bytes": 6218,
+      "sha256": "61a82606a2f37edbc99a6f3b46780f8a1a7c90b97bf664386a12fad13f0dbe04",
+      "gain": 1.0,
+      "peak_amplitude": 0.349986,
+      "rms_amplitude": 0.132908,
+      "notes": [
+        "C5"
+      ],
+      "description": "Relaxed soft C5 bubble",
+      "source": "Original offline musical synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "fox",
+      "path": "/assets/audio/v02/fox.wav",
+      "duration_seconds": 0.1,
+      "bytes": 4454,
+      "sha256": "c2fd88a61c56afd44ae3fc23a11941b1816f8c372d2e3321d240a434875f9324",
+      "gain": 1.0,
+      "peak_amplitude": 0.349986,
+      "rms_amplitude": 0.142998,
+      "notes": [
+        "C6"
+      ],
+      "description": "Bright quick C6 pluck",
+      "source": "Original offline musical synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "bear",
+      "path": "/assets/audio/v02/bear.wav",
+      "duration_seconds": 0.129977,
+      "bytes": 5776,
+      "sha256": "deec9bf8427c10f99bb8a881117c34a6a05a7c28f7ba43011bedbec0ab11b143",
+      "gain": 1.0,
+      "peak_amplitude": 0.349986,
+      "rms_amplitude": 0.121682,
+      "notes": [
+        "E5"
+      ],
+      "description": "Warm gentle E5 wooden note",
+      "source": "Original offline musical synthesis; tools/generate_audio.py; no external samples"
+    }
+  ]
+}
