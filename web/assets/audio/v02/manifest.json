@@ -1,0 +1,190 @@
+{
+  "schema_version": 1,
+  "format": "WAV mono PCM signed 16-bit little-endian",
+  "sample_rate_hz": 22050,
+  "generator": "tools/generate_audio.py (Python standard library)",
+  "seed": "tile-explorer-v02:{code}",
+  "total_audio_bytes": 187776,
+  "assets": [
+    {
+      "id": "apple",
+      "path": "/assets/audio/v02/apple.wav",
+      "duration_seconds": 0.14,
+      "bytes": 6218,
+      "sha256": "66580f718b6f3753c4f73a791bfa5bbae98589cfebd52bff0e6954a666fed48d",
+      "gain": 1.0,
+      "description": "Energetic bright bubble pop",
+      "source": "Original offline procedural synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "banana",
+      "path": "/assets/audio/v02/banana.wav",
+      "duration_seconds": 0.209977,
+      "bytes": 9304,
+      "sha256": "987518503987043deb5531f728e9c9c152c954910edaf6804e4bebc827b2de08",
+      "gain": 1.0,
+      "description": "Playful descending rubber slide",
+      "source": "Original offline procedural synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "cherry",
+      "path": "/assets/audio/v02/cherry.wav",
+      "duration_seconds": 0.230023,
+      "bytes": 10188,
+      "sha256": "e32078b1edd877538d48ce019abbe6f1c77fef816f14627240c3a8669de8eb90",
+      "gain": 1.0,
+      "description": "Two coordinated cherry plucks",
+      "source": "Original offline procedural synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "grape",
+      "path": "/assets/audio/v02/grape.wav",
+      "duration_seconds": 0.249977,
+      "bytes": 11068,
+      "sha256": "2e10b4a939bd8a4704dd4a4758980bc5eb1ef827b3470998be0848a0506c4ebb",
+      "gain": 1.0,
+      "description": "Three timid soft bubble trembles",
+      "source": "Original offline procedural synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "orange",
+      "path": "/assets/audio/v02/orange.wav",
+      "duration_seconds": 0.170023,
+      "bytes": 7542,
+      "sha256": "e68df4e348c3e51ca5d6a4043ddfa166804c47d847269b88dab4dc51fe804365",
+      "gain": 1.0,
+      "description": "Round confident low bounce",
+      "source": "Original offline procedural synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "strawberry",
+      "path": "/assets/audio/v02/strawberry.wav",
+      "duration_seconds": 0.249977,
+      "bytes": 11068,
+      "sha256": "d1865f0dd232deb9c10845ce247731ce2628e07e67378ed1100409e1198a6c80",
+      "gain": 1.0,
+      "description": "Shy soft sparkling chime",
+      "source": "Original offline procedural synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "car",
+      "path": "/assets/audio/v02/car.wav",
+      "duration_seconds": 0.16,
+      "bytes": 7100,
+      "sha256": "cf9e92fe70a71b025829a0b1ed1434395fd6d162bc4eb2ca4b21f2323693fa54",
+      "gain": 1.0,
+      "description": "Impatient short two-tone horn",
+      "source": "Original offline procedural synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "taxi",
+      "path": "/assets/audio/v02/taxi.wav",
+      "duration_seconds": 0.249977,
+      "bytes": 11068,
+      "sha256": "0585e595a7250199f8e33b748efc3394de00a0fc423a28f72277c187f31e2607",
+      "gain": 1.0,
+      "description": "Friendly double greeting horn",
+      "source": "Original offline procedural synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "bus",
+      "path": "/assets/audio/v02/bus.wav",
+      "duration_seconds": 0.28,
+      "bytes": 12392,
+      "sha256": "346e9d49c81d4cff8f2027d119e92210eb7cb78d62e3128ff060f48f2e1e94b4",
+      "gain": 1.0,
+      "description": "Steady two-note door chime",
+      "source": "Original offline procedural synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "train",
+      "path": "/assets/audio/v02/train.wav",
+      "duration_seconds": 0.310023,
+      "bytes": 13716,
+      "sha256": "547d7cc69c1510ff348d87ef5884df25ba021739b285a8cfac94e9db7a3e013f",
+      "gain": 1.0,
+      "description": "Proud breathy cartoon whistle",
+      "source": "Original offline procedural synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "bicycle",
+      "path": "/assets/audio/v02/bicycle.wav",
+      "duration_seconds": 0.28,
+      "bytes": 12392,
+      "sha256": "1a2a5c00bcd9678c80425bc58fd91b241843af2718a4964219300eeb8643e6f2",
+      "gain": 1.0,
+      "description": "Light metallic bicycle bell",
+      "source": "Original offline procedural synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "scooter",
+      "path": "/assets/audio/v02/scooter.wav",
+      "duration_seconds": 0.249977,
+      "bytes": 11068,
+      "sha256": "b7ca85d1c05a3e94a5907bd6a2fa8e4d256872c0f5d5b81f282969529350980b",
+      "gain": 1.0,
+      "description": "Mischievous short engine rev",
+      "source": "Original offline procedural synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "cat",
+      "path": "/assets/audio/v02/cat.wav",
+      "duration_seconds": 0.3,
+      "bytes": 13274,
+      "sha256": "33f6de2b169f021122b0578098546cd70531ca25f267cd47793205b0e98b3fbf",
+      "gain": 1.0,
+      "description": "Curious rising then falling cartoon meow",
+      "source": "Original offline procedural synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "dog",
+      "path": "/assets/audio/v02/dog.wav",
+      "duration_seconds": 0.22,
+      "bytes": 9746,
+      "sha256": "b77701eb80f916c8eb828b1163d348fbd07c962eccd9a44b2d785239e433f307",
+      "gain": 1.0,
+      "description": "Enthusiastic raspy cartoon woof",
+      "source": "Original offline procedural synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "rabbit",
+      "path": "/assets/audio/v02/rabbit.wav",
+      "duration_seconds": 0.150023,
+      "bytes": 6660,
+      "sha256": "401c239ef9fe0cbb4ed3bc3c6d50f38ce8f58f91db5d536a413d7efe4399b1f3",
+      "gain": 1.0,
+      "description": "Cautious delicate squeak",
+      "source": "Original offline procedural synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "panda",
+      "path": "/assets/audio/v02/panda.wav",
+      "duration_seconds": 0.32,
+      "bytes": 14156,
+      "sha256": "b74378822061f6611a8ab71a45f67e1a212d0428f18a8e6609ef734efe3559b1",
+      "gain": 1.0,
+      "description": "Sleepy low nasal murmur",
+      "source": "Original offline procedural synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "fox",
+      "path": "/assets/audio/v02/fox.wav",
+      "duration_seconds": 0.2,
+      "bytes": 8864,
+      "sha256": "452b921548898be88f78636db23a9f6dca4b47c22ca0637c272a6e5535c86148",
+      "gain": 1.0,
+      "description": "Clever bright upward yip",
+      "source": "Original offline procedural synthesis; tools/generate_audio.py; no external samples"
+    },
+    {
+      "id": "bear",
+      "path": "/assets/audio/v02/bear.wav",
+      "duration_seconds": 0.270023,
+      "bytes": 11952,
+      "sha256": "985005c148906a955408b849307cdcbd4ce5ecc99f7b784cef2504536355a10c",
+      "gain": 1.0,
+      "description": "Warm rounded low hum",
+      "source": "Original offline procedural synthesis; tools/generate_audio.py; no external samples"
+    }
+  ]
+}

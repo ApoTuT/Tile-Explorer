@@ -2,6 +2,10 @@
   'use strict';
   const $ = id => document.getElementById(id);
   let state = null, busy = false, magicArmed = false, boardBounds = null, boardKey = '', sceneKey = '', toastTimer, resizeFrame, previousSaveWarning = '';
+  const theater = globalThis.TileTheater || {};
+  const audio = theater.AudioManager ? new theater.AudioManager() : null;
+  const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let sceneEpoch = 0, actionSeq = 0, presentationEpoch = 0, trayView, director;
   const cities = [
     {id:'paris',city:'巴黎',country:'法国',english:'PARIS',title:'你好，巴黎！',subtitle:'沿着塞纳河，收集一小份浪漫。',accent:'#e88c74',deep:'#ba6c59',tint:'#fff0e3'},
     {id:'kyoto',city:'京都',country:'日本',english:'KYOTO',title:'花见，京都！',subtitle:'穿过鸟居，遇见樱花与古都。',accent:'#b998b4',deep:'#926989',tint:'#f6ecf0'},
@@ -53,6 +57,84 @@
     const index = Math.max(0, symbolDefs.findIndex(def => def[0] === s.code));
     return `<span class="tile-art" style="background-position:${atlasPositions[index][0]}% ${atlasPositions[index][1]}%" aria-hidden="true"><svg class="tile-symbol" viewBox="0 0 48 48" style="color:${color}">${shapes[s.code] || shapes.apple}</svg></span>`;
   }
+  class TrayView {
+    constructor(element) {
+      this.element=element;this.actors=new Map();this.animations=new Set();this.timers=new Set();this.effects=new Set();this.items=[];
+      this.slots=Array.from({length:7},()=>{const slot=document.createElement('div');slot.className='tray-slot empty';element.appendChild(slot);return slot;});
+      this.actorLayer=document.createElement('div');this.actorLayer.className='tray-actors';element.appendChild(this.actorLayer);
+      this.fx=document.createElement('div');this.fx.className='tray-fx';this.fx.setAttribute('aria-hidden','true');element.appendChild(this.fx);
+    }
+    card(tile,ghost=false) {
+      const card=document.createElement('div');card.className=`tray-actor${ghost?' tray-ghost':''}`;card.dataset.id=String(tile.id);card.dataset.code=symbolData(tile.kind).code;card.setAttribute('aria-hidden','true');
+      const motion=document.createElement('div');motion.className='tray-motion';motion.innerHTML=`<div class="tray-surface">${symbolSvg(tile.kind)}</div>`;card.appendChild(motion);return card;
+    }
+    sync(next) {
+      this.items=next.tray;const alive=new Set(this.items.map(tile=>tile.id));
+      for(const [id,card] of this.actors){if(!alive.has(id)){card.remove();this.actors.delete(id);}}
+      for(const tile of this.items){let card=this.actors.get(tile.id);const code=symbolData(tile.kind).code;
+        if(card&&card.dataset.code!==code){card.remove();this.actors.delete(tile.id);card=null;}
+        if(!card){card=this.card(tile);this.actors.set(tile.id,card);this.actorLayer.appendChild(card);}
+      }
+      this.slots.forEach((slot,i)=>{const tile=this.items[i];slot.setAttribute('aria-label',tile?`${i+1} 号槽：${symbolName(tile.kind)}`:`${i+1} 号空槽`);});
+      this.layout();
+    }
+    place(card,index,layer,animate=false) {
+      const slot=this.slots[index];if(!slot)return;
+      const rect=slot.getBoundingClientRect(),origin=layer.getBoundingClientRect();
+      const target=`translate3d(${rect.left-origin.left}px,${rect.top-origin.top}px,0)`;
+      const previous=card.style.transform;card.style.width=`${rect.width}px`;card.style.height=`${rect.height}px`;card.style.transform=target;
+      if(animate&&previous&&previous!==target)this.animate(card,[{transform:previous},{transform:target}],120);
+    }
+    layout() {this.items.forEach((tile,i)=>{const card=this.actors.get(tile.id);if(card)this.place(card,i,this.actorLayer,true);});}
+    animate(element,keyframes,duration,easing='cubic-bezier(.2,.8,.2,1)',done) {
+      if(motionPreference.matches||!element.animate){if(done)this.after(Math.min(duration,120),done);return;}
+      const animation=element.animate(keyframes,{duration,easing});this.animations.add(animation);
+      const finish=()=>{this.animations.delete(animation);if(done)done();};animation.onfinish=finish;animation.oncancel=finish;
+    }
+    after(duration,callback) {const timer=setTimeout(()=>{this.timers.delete(timer);callback();},duration);this.timers.add(timer);return timer;}
+    enter(id,profile) {
+      this.motion(id,profile.enter_motion);
+      const reaction={strawberry:'heart',fox:'sparkle',panda:'sleep'}[profile.code];if(reaction)this.reaction(id,reaction,300);
+    }
+    motion(id,name,duration) {
+      const card=this.actors.get(id),preset=theater.motions?.[name];if(!card||!preset)return;
+      this.animate(card.firstElementChild,preset.keyframes,duration||preset.duration,preset.easing);
+    }
+    reaction(id,name,duration=300) {
+      const card=this.actors.get(id);if(!card)return;
+      const glyph={exclamation:'!',sweat:'💧',heart:'♥',note:'♪',sleep:'zZ',sparkle:'✦'}[name];if(!glyph)return;
+      const bubble=document.createElement('span');bubble.className=`actor-reaction reaction-${name}`;bubble.textContent=glyph;
+      const rect=card.getBoundingClientRect(),origin=this.fx.getBoundingClientRect(),anchor=theater.profiles?.[card.dataset.code]?.reaction_anchor || {x:.72,y:.14};
+      bubble.style.left=`${rect.left-origin.left+rect.width*anchor.x}px`;bubble.style.top=`${rect.top-origin.top+rect.height*anchor.y}px`;
+      this.fx.appendChild(bubble);this.effects.add(bubble);
+      this.after(duration,()=>{bubble.remove();this.effects.delete(bubble);});
+    }
+    clear(event,enterEvent) {
+      if(!enterEvent?.tray_after_insert)return;
+      const ids=new Set(event.tile_ids);
+      enterEvent.tray_after_insert.forEach((tile,index)=>{if(!ids.has(tile.id))return;
+        const ghost=this.card(tile,true);this.fx.appendChild(ghost);this.effects.add(ghost);this.place(ghost,index,this.fx);
+        const incoming=tile.id===enterEvent.tile.id;
+        const frames=incoming?[{transform:'scale(.76)',opacity:.4},{transform:'scale(1.08)',opacity:1,offset:.3},{transform:'translateY(-12px) scale(.55)',opacity:0}]:[{transform:'scale(1)',opacity:1},{transform:'scale(1.08)',opacity:1,offset:.3},{transform:'translateY(-12px) scale(.55)',opacity:0}];
+        this.animate(ghost.firstElementChild,frames,240,undefined,()=>{ghost.remove();this.effects.delete(ghost);});
+      });
+    }
+    cancel() {
+      for(const timer of this.timers)clearTimeout(timer);this.timers.clear();
+      for(const animation of [...this.animations])animation.cancel();this.animations.clear();
+      for(const effect of this.effects)effect.remove();this.effects.clear();
+    }
+    reset() {this.cancel();for(const card of this.actors.values())card.remove();this.actors.clear();this.items=[];}
+  }
+  trayView=new TrayView($('tray'));
+  if(theater.Director)director=new theater.Director({audio,view:trayView,visible:()=>!document.hidden,reducedMotion:()=>motionPreference.matches});
+  function updateSoundUI() {
+    const enabled=Boolean(audio?.enabled),button=$('sound-button');button.setAttribute('aria-pressed',String(enabled));button.classList.toggle('muted',!enabled);button.title=enabled?'关闭角色音效':'开启角色音效';
+    button.innerHTML=`<span aria-hidden="true">${enabled?'♫':'♪'}</span><span>音效${enabled?'开':'关'}</span>`;
+  }
+  function unlockAudio() {if(audio?.enabled&&!document.hidden)Promise.resolve(audio.unlock()).catch(()=>{});}
+  function cancelTheater(reset=false) {try{director?.cancel({reset});}catch{}if(reset)trayView.reset();else trayView.cancel();}
+  function preloadAudio() {if(!audio||!state)return;const codes=[...new Set([...state.tiles,...state.tray].map(tile=>symbolData(tile.kind).code))];Promise.resolve(audio.preload(codes)).catch(()=>{});}
   function setText(id,value) { $(id).textContent = String(value); }
   function starsMarkup(stars) { return [0,1,2].map(i => icon('star',i < stars ? '' : 'no-star')).join(''); }
   function records() { return state?.progress?.completed || state?.progress?.classic || state?.progress?.[state?.mode] || {}; }
@@ -102,15 +184,21 @@
   }
   async function perform(action, extras={}) {
     if(busy)return;busy=true;document.body.classList.add('busy');
+    const reset=['level','next','restart','shuffle'].includes(action);if(reset)sceneEpoch++;
+    cancelTheater(reset);const epoch=sceneEpoch,seq=++actionSeq,presentationToken=presentationEpoch;
     try {
       const response=await fetch('/api/action',{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({action,...extras})});
       const data=await response.json();
       if(!response.ok){if(data.state){state=data.state;render();}const message=data.error || '这一步暂时无法完成。';showToast(message);setText('game-message',message);$('game-message').classList.add('error');return;}
-      state=data;
+      const {presentation,...nextState}=data;state=nextState;
       if(['level','next','restart','shuffle'].includes(action)){boardBounds=null;magicArmed=false;}
       if(action==='magic')magicArmed=false;
       render();
-    }catch(error){showToast('连接暂时中断，请确认本地游戏仍在运行。');console.error('Game action failed:',error);}
+      if(epoch===sceneEpoch&&presentationToken===presentationEpoch){try{director?.consume(presentation,state,{epoch,seq});}catch{cancelTheater();}}
+      preloadAudio();
+    }catch(error){cancelTheater();showToast('连接暂时中断，请确认本地游戏仍在运行。');console.error('Game action failed:',error);
+      try{const response=await fetch('/api/state',{credentials:'same-origin',headers:{Accept:'application/json'}});if(response.ok){state=await response.json();render();}}catch{}
+    }
     finally{busy=false;document.body.classList.remove('busy');}
   }
   function selectTile(tile) {
@@ -148,8 +236,7 @@
     for(const tile of state.tiles){const el=elements.get(tile.id);if(!el)continue;el.style.left=`${originX+(tile.x-b.minX)*scale}px`;el.style.top=`${originY+(tile.y-b.minY)*scale}px`;el.style.width=`${scale*2-1}px`;el.style.height=`${scale*2-1}px`;}
   }
   function renderTray() {
-    const tray=$('tray'),capacity=state.capacity || 7;tray.replaceChildren();tray.classList.toggle('full',state.tray.length>=6);
-    for(let i=0;i<capacity;i++){const item=state.tray[i],slot=document.createElement('div');slot.className=`tray-slot ${item?'filled':'empty'}`;slot.setAttribute('aria-label',item?`${i+1} 号槽：${symbolName(item.kind)}`:`${i+1} 号空槽`);if(item){slot.innerHTML=symbolSvg(item.kind);slot.title=symbolName(item.kind);}tray.appendChild(slot);}
+    const tray=$('tray'),capacity=state.capacity || 7;tray.classList.toggle('full',state.tray.length>=6);trayView.sync(state);
     $('tray-count').innerHTML=`${state.tray.length} <small>/ ${capacity}</small>`;$('tray-count').classList.toggle('danger',state.tray.length>=5);
     const removed=Math.max(0,state.total-state.remaining);$('progress-fill').style.width=`${state.total?Math.min(100,removed/state.total*100):0}%`;setText('progress-label',`已消除 ${removed} / ${state.total}`);
   }
@@ -181,13 +268,19 @@
     }openDialog('levels-dialog');
   }
   document.querySelectorAll('[data-icon]').forEach(el=>{el.innerHTML=icon(el.dataset.icon);});
+  document.addEventListener('click',unlockAudio,{capture:true});
+  document.addEventListener('keydown',event=>{if(!event.repeat&&!event.ctrlKey&&!event.metaKey&&!event.altKey)unlockAudio();},{capture:true});
+  $('sound-button').addEventListener('click',()=>{if(!audio)return;audio.setEnabled(!audio.enabled);updateSoundUI();if(audio.enabled){unlockAudio();preloadAudio();}});updateSoundUI();
+  document.addEventListener('visibilitychange',()=>{if(document.hidden){presentationEpoch++;cancelTheater();Promise.resolve(audio?.suspend()).catch(()=>{});}});
+  motionPreference.addEventListener?.('change',()=>cancelTheater());
   $('rules-button').addEventListener('click',()=>openDialog('rules-dialog'));$('level-button').addEventListener('click',showLevels);$('undo-button').addEventListener('click',()=>perform('undo'));$('shuffle-button').addEventListener('click',()=>perform('shuffle'));
   $('magic-button').addEventListener('click',()=>{if(!state || busy || state.status!=='playing')return;magicArmed=!magicArmed;updateMagicUI();renderBoard();if(magicArmed)setText('game-message','魔法笔已点亮：点击下层牌露出的部分，就能直接收入暂存槽。');else setText('game-message',state.message || '魔法笔已收起，继续收集露出的牌吧。');});
   document.querySelectorAll('[data-close]').forEach(button=>button.addEventListener('click',()=>closeDialog(button.dataset.close)));
   document.querySelectorAll('dialog').forEach(dialog=>dialog.addEventListener('click',event=>{if(event.target!==dialog)return;const r=dialog.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom)dialog.close();}));
   document.addEventListener('keydown',event=>{if(event.ctrlKey||event.metaKey||event.altKey||event.repeat||document.querySelector('dialog[open]')||/^(INPUT|TEXTAREA|SELECT)$/.test(event.target.tagName)||event.target.isContentEditable||!state||busy)return;if(event.key.toLowerCase()==='z'&&state.can_undo){event.preventDefault();perform('undo');}if(event.key==='Escape'&&magicArmed){magicArmed=false;updateMagicUI();renderBoard();}});
-  new ResizeObserver(()=>{cancelAnimationFrame(resizeFrame);resizeFrame=requestAnimationFrame(layoutBoard);}).observe($('board'));
-  async function init(){try{const response=await fetch('/api/state',{credentials:'same-origin',headers:{Accept:'application/json'}});if(!response.ok)throw new Error(`State returned ${response.status}`);state=await response.json();render();}catch(error){$('board-loading').querySelector('p').textContent='点击这里，重新连接旅行。';$('board-loading').style.cursor='pointer';$('board-loading').onclick=init;setText('game-message','请保持本地游戏服务运行，然后点击棋盘重试连接。');console.error('Game initialization failed:',error);}}
+  let observedBoardSize=null;
+  new ResizeObserver(entries=>{const rect=entries[0]?.contentRect || $('board').getBoundingClientRect();const changed=observedBoardSize&&(rect.width!==observedBoardSize.width||rect.height!==observedBoardSize.height);observedBoardSize={width:rect.width,height:rect.height};cancelAnimationFrame(resizeFrame);resizeFrame=requestAnimationFrame(()=>{if(changed)cancelTheater();layoutBoard();trayView.layout();});}).observe($('board'));
+  async function init(){try{const response=await fetch('/api/state',{credentials:'same-origin',headers:{Accept:'application/json'}});if(!response.ok)throw new Error(`State returned ${response.status}`);state=await response.json();render();preloadAudio();}catch(error){$('board-loading').querySelector('p').textContent='点击这里，重新连接旅行。';$('board-loading').style.cursor='pointer';$('board-loading').onclick=init;setText('game-message','请保持本地游戏服务运行，然后点击棋盘重试连接。');console.error('Game initialization failed:',error);}}
   const tileAtlas = new Image();
   tileAtlas.onload = () => document.documentElement.classList.add('tile-art-ready');
   tileAtlas.src = '/assets/tile-atlas-v3.png';
