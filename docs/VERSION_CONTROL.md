@@ -1,0 +1,35 @@
+# Git 版本管理
+
+远程仓库：[ApoTuT/Tile-Explorer](https://github.com/ApoTuT/Tile-Explorer)。主分支为 `main`。
+
+## 首个基线
+
+`v0.1` 对应本项目首次纳入 Git 的完整可玩版本：三城九关、三个功能键、紧密交错牌阵、卡通图集、知识卡、设计文档与测试。
+
+此前的开发轮次保存在迭代文档中，文档内的 0.1、0.2、0.3 是开发阶段记录，不是 Git 发布标签；不补造历史提交。正式版本从 `v0.1` 这个真实快照继续记录。
+
+## 后续迭代
+
+1. 从最新 `main` 创建功能分支，例如 `feat/level-editor` 或 `fix/tile-selection`。
+2. 完成一个可独立说明的改动后，运行测试，再提交相关文件。
+3. 推送功能分支，通过 Pull Request 检查后合入 `main`。
+4. 可交付的稳定版本使用标签，例如 `v0.2`；既有标签不移动、不覆盖远端历史。
+
+```text
+git switch main
+git pull --ff-only
+git switch -c feat/your-change
+python -m unittest discover -s tests -v
+git add <本次修改的文件>
+git commit -m "feat: describe the completed change"
+git push -u origin HEAD
+```
+
+提交说明使用 `feat:`（功能）、`fix:`（修复）、`docs:`（文档）、`test:`（测试）或 `chore:`（维护），描述实际完成的改动。
+
+## 跟踪范围
+
+- 提交源码、启动器、测试、玩法与迭代文档、游戏内必需图集及试玩截图。
+- 不提交 `.local/` 中的玩家进度、`.qa/` 临时测试文件、Python 缓存、虚拟环境、日志或 `.env` 等本地配置。
+- 图集和预览图目前可直接纳入普通 Git，无需额外下载资源。
+- `.gitattributes` 统一文本换行；Windows 启动器保留 CRLF，其他源码使用 LF。

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#fff5e7">
+  <meta name="description" content="叠叠环游记：收集三张相同的牌，开启九站城市小旅行。">
+  <title>叠叠环游记 · Tile Explorer</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="叠叠环游记首页"><span class="brand-mark" aria-hidden="true">✦</span><span><strong>叠叠环游记</strong><small>TILE EXPLORER</small></span></a>
+      <div class="topbar-note">三张小牌，一场大旅行。</div>
+      <button id="rules-button" class="help-button" aria-label="查看玩法说明">?<span>怎么玩</span></button>
+    </header>
+    <main>
+      <div class="page-heading"><div><p class="eyebrow">PACK YOUR CURIOSITY</p><h1>下一站，<span id="hero-city">巴黎</span><i>！</i></h1></div><div class="passport-count"><span aria-hidden="true">✈</span><div><strong id="journey-completed">0</strong><span> / 9 枚旅行印章</span></div></div></div>
+      <div class="game-layout">
+        <section class="play-column" aria-label="消除游戏">
+          <div class="board-panel">
+            <div class="board-header"><div class="level-heading"><span id="level-number" class="level-number">01</span><div><div class="chapter-line"><span id="chapter-name">法国 · 巴黎</span><span id="chapter-step" class="chapter-step">1 / 3</span></div><h2 id="level-title">第一张旅行明信片</h2></div></div><button id="level-button" class="level-menu" title="选择关卡；点击当前关卡可重新开始"><span class="grid-icon" aria-hidden="true">▦</span><span>选关</span></button></div>
+            <div class="tray-panel"><div class="tray-heading"><h3>旅行暂存槽 <span>集齐 3 张，自动消除</span></h3><span id="tray-count" class="tray-count">0 <small>/ 7</small></span></div><div id="tray" class="tray" aria-label="暂存槽，最多七张"></div></div>
+            <div id="board" class="board" aria-label="层叠牌棋盘"><div id="city-scene" class="city-scene" aria-hidden="true"></div><div class="scene-scrim" aria-hidden="true"></div><div class="board-cloud cloud-one" aria-hidden="true"></div><div class="board-cloud cloud-two" aria-hidden="true"></div><div id="board-cards" class="board-cards"></div><div id="board-loading" class="board-loading"><span class="loading-tile">✦</span><p>正在铺开新的风景…</p></div><div id="magic-banner" class="magic-banner" hidden>✦ 魔法笔已就绪 · 点击一张下层牌</div></div>
+            <div class="board-footer"><span><i class="legend-tile"></i>底牌可见，先移走上层才能普通拾取</span><span id="board-remaining">— 张待收集</span></div>
+          </div>
+          <div class="game-status"><div class="progress-row"><div class="progress-track"><div id="progress-fill" class="progress-fill"></div></div><span id="progress-label">已消除 0 / 0</span></div><p id="game-message" class="game-message" role="status" aria-live="polite">先找到三张相同的图案，一起出发吧。</p></div>
+          <div id="result-panel" class="result-panel" hidden></div>
+          <div class="tools-bar" aria-label="三个游戏功能">
+            <button id="undo-button" class="tool-button" title="撤回暂存槽中最近加入且尚未消除的一张牌，放回原处。不限次数。"><span class="tool-icon undo-icon" data-icon="undo"></span><span>撤回一张<small>退回最近入槽的牌</small></span></button>
+            <button id="magic-button" class="tool-button" aria-pressed="false" title="开启后，直接点击被压着的牌，将它放入暂存槽。不限次数。"><span class="tool-icon magic-icon" data-icon="magic"></span><span>魔法笔<small id="magic-label">点一下，再选底牌</small></span></button>
+            <button id="shuffle-button" class="tool-button" title="将棋盘与暂存槽的剩余牌整体重新排布，牌数与图案数量保持不变，生成可解的新布局。不限次数。"><span class="tool-icon shuffle-icon" data-icon="shuffle"></span><span>整体重排<small>换个布局，继续旅行</small></span></button>
+          </div>
+          <p class="keyboard-note">没有倒计时 · 三个工具不限次数 · 按你的节奏慢慢玩</p>
+        </section>
+        <aside class="sidebar" aria-label="城市旅行手册">
+          <section class="postcard"><div class="postcard-topline"><span>一城一张明信片</span><span class="postmark" aria-hidden="true">BON<br>VOYAGE</span></div><p id="city-english" class="city-english">PARIS</p><h2 id="city-title">你好，巴黎！</h2><p id="city-subtitle" class="city-subtitle">沿着塞纳河，收集一小份浪漫。</p><div class="chapter-dots" id="chapter-dots" aria-label="本城三个关卡"></div><div class="postcard-divider"></div><div class="fact-kicker"><span>✧</span> 旅途小知识 <span id="fact-page">01 / 03</span></div><h3 id="fact-title">一座为世博会而生的铁塔</h3><p id="fact-text" class="fact-text">正在翻开城市手册…</p><a id="fact-source" class="fact-source" target="_blank" rel="noreferrer">阅读资料 ↗</a><span class="postcard-tape" aria-hidden="true"></span></section>
+          <section class="route-card"><div class="section-label">这趟旅程 <span>3 座城市 · 9 个关卡</span></div><ol id="city-route" class="city-route"><li class="current"><span>01</span><div><strong>巴黎</strong><small>浪漫初相遇 · 1—3 关</small></div><i>✦</i></li><li><span>02</span><div><strong>京都</strong><small>樱花与古都 · 4—6 关</small></div><i>✿</i></li><li><span>03</span><div><strong>纽约</strong><small>都市大冒险 · 7—9 关</small></div><i>★</i></li></ol></section>
+          <section class="level-card"><div class="section-label">本关行李清单 <span id="difficulty-label">入门</span></div><div class="level-facts"><div><strong id="fact-kinds">—</strong><span>种图案</span></div><div><strong id="fact-layers">—</strong><span>层叠放</span></div><div><strong id="fact-total">—</strong><span>张小牌</span></div></div><p class="little-tip"><span>小窍门</span>看一眼底牌，再决定先收哪一组。</p></section>
+        </aside>
+      </div>
+    </main>
+    <footer class="page-footer"><span>叠叠环游记 / TILE EXPLORER</span><span>把好奇心，装进口袋。✦</span></footer>
+  </div>
+  <dialog id="rules-dialog" class="modal"><div class="modal-heading"><div><p class="eyebrow">LET'S GO!</p><h2>三张相同，一起出发。</h2></div><button class="close-button" data-close="rules-dialog" aria-label="关闭玩法说明">×</button></div><div class="rules-demo" id="rules-demo" aria-hidden="true"></div><div class="rules-content"><p>点击<strong>没有被上层压住的牌</strong>，放进七格暂存槽。三张相同图案会自动消除；收完所有牌就能收获旅行印章。</p><p>卡牌交错叠放，下层图案会从未被遮住的部分自然露出。普通拾取需要先移走盖在上方的牌。</p><ul><li><strong>撤回一张：</strong>把暂存槽中最近加入、尚未消除的一张牌放回原处。</li><li><strong>魔法笔：</strong>点亮后，点击一张下层牌露出的部分，将它直接放入暂存槽；再点按钮可取消。</li><li><strong>整体重排：</strong>把棋盘和暂存槽的剩余牌一起重新排布。剩余图案数量保持不变。</li></ul><p>三个工具都不限次数。七槽填满且无法三消时，仍可撤回或重排继续；在选关中点击当前关卡即可重新开始。</p><div class="rule-note">9 个关卡，3 座城市。关卡难度逐步上升，每一站都有一则城市小故事。</div></div><button class="primary-button full-width" data-close="rules-dialog">收拾好奇心，出发！</button></dialog>
+  <dialog id="levels-dialog" class="modal levels-modal"><div class="modal-heading"><div><p class="eyebrow">YOUR LITTLE WORLD TOUR</p><h2>下一站，想去哪里？</h2></div><button class="close-button" data-close="levels-dialog" aria-label="关闭关卡选择">×</button></div><p class="modal-description">每座城市三关，从轻松入门到动脑挑战。点击当前关卡可以重新开始。</p><div id="levels-grid" class="levels-grid"></div></dialog>
+  <div id="toast" class="toast" role="alert" hidden></div>
+</body>
+</html>
