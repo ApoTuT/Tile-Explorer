@@ -56,7 +56,8 @@ python -m unittest discover -s tests -v
 - `web/`：离线可用的浏览器界面。
 - `docs/DESIGN.md`：本版设计与研究依据。
 - `docs/IDEAS.md`：供后续脑暴的候选创意，未列入本版已实现功能。
-- `docs/ITERATION_LOG.md`：版本变化和实际验证记录。
+- [docs/ITERATION_LOG.md](docs/ITERATION_LOG.md)：各代新增功能、内容与体验变化，区分已实现的 v0.1 和规划中的 v0.2。
+- [docs/technical/README.md](docs/technical/README.md)：各代独立技术文档索引，说明实现方式、数据流程、技术边界与验证。
 - `docs/ASSETS_V3.md`：卡通牌面生成记录、完整提示词与图集索引。
 - `docs/VERSION_CONTROL.md`：主分支、版本标签及后续提交约定。
 
