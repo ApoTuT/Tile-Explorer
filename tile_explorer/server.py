@@ -14,6 +14,23 @@ from .engine import Game, GameError, LEVEL_COUNT
 
 
 ROOT = Path(__file__).resolve().parent.parent
+THEATER_AUDIO_CODES = (
+    "apple", "banana", "cherry", "grape", "orange", "strawberry",
+    "car", "taxi", "bus", "train", "bicycle", "scooter",
+    "cat", "dog", "rabbit", "panda", "fox", "bear",
+)
+STATIC_FILES = {
+    "/": "index.html", "/index.html": "index.html", "/app.js": "app.js", "/style.css": "style.css",
+    "/tray-content.js": "tray-content.js", "/tray-director.js": "tray-director.js",
+    "/audio-manager.js": "audio-manager.js",
+    "/assets/tile-atlas-v3.png": "assets/tile-atlas-v3.png",
+    **{f"/assets/audio/v02/{code}.wav": f"assets/audio/v02/{code}.wav"
+       for code in THEATER_AUDIO_CODES},
+}
+STATIC_MIME = {
+    ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8",
+    ".css": "text/css; charset=utf-8", ".png": "image/png", ".wav": "audio/wav",
+}
 
 
 class Progress:
@@ -134,14 +151,11 @@ class Handler(BaseHTTPRequestHandler):
                 _, game, cookie = self._session()
                 self._send(200, self._state(game), cookie=cookie)
             return
-        names = {"/": "index.html", "/index.html": "index.html", "/app.js": "app.js", "/style.css": "style.css",
-                 "/assets/tile-atlas-v3.png": "assets/tile-atlas-v3.png"}
-        if path not in names:
+        if path not in STATIC_FILES:
             self._send(404, {"error": "页面不存在。"})
             return
-        file = ROOT / "web" / names[path]
-        mime = {".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8",
-                ".png": "image/png"}[file.suffix]
+        file = ROOT / "web" / STATIC_FILES[path]
+        mime = STATIC_MIME[file.suffix]
         try:
             self._send(200, file.read_bytes(), mime)
         except OSError:
@@ -173,10 +187,11 @@ class Handler(BaseHTTPRequestHandler):
             sid, game, cookie = self._session()
             try:
                 action = data.get("action")
+                events = None
                 if action == "pick":
-                    game.pick(data.get("tile_id"))
+                    events = game.pick(data.get("tile_id"))
                 elif action == "magic":
-                    game.magic(data.get("tile_id"))
+                    events = game.magic(data.get("tile_id"))
                 elif action in ("undo", "shuffle"):
                     getattr(game, action)()
                 elif action == "restart":
@@ -194,6 +209,9 @@ class Handler(BaseHTTPRequestHandler):
                 self.server.sessions[sid] = game
                 if game.status == "won":
                     self.server.progress.record(game)
-                self._send(200, self._state(game), cookie=cookie)
+                state = self._state(game)
+                if events is not None:
+                    state["presentation"] = {"schema_version": 1, "events": events}
+                self._send(200, state, cookie=cookie)
             except GameError as error:
                 self._send(400, {"error": str(error), "state": self._state(game)}, cookie=cookie)
