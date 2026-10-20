@@ -3,6 +3,9 @@
   const theater = globalThis.TileTheater = globalThis.TileTheater || {};
   const SETTINGS_KEY = 'tile-explorer.settings.v02';
   const CODES = 'apple banana cherry grape orange strawberry car taxi bus train bicycle scooter cat dog rabbit panda fox bear'.split(' ');
+  const ATTACK = 0.004;
+  const RELEASE = 0.010;
+  const INTERRUPT_RELEASE = 0.006;
 
   /** Local short sounds only. Missing, late or unavailable sounds are discarded. */
   class AudioManager {
@@ -16,6 +19,8 @@
       this.decoding = new Map();
       this.failed = new Set();
       this.voices = new Set();
+      this._retiring = new Set();
+      this._silenceUntil = 0;
       this._enabled = true;
       this._unlocked = false;
       this._epoch = 0;
@@ -54,7 +59,7 @@
           if (!Context) return false;
           this.context = new Context();
           this.master = this.context.createGain();
-          this.master.gain.value = 0.42;
+          this.master.gain.value = 0.30;
           this.master.connect(this.context.destination);
         }
         if (this.context.state === 'closed') return false;
@@ -141,6 +146,7 @@
     play(code, {priority = 0, delay = 0, duration} = {}) {
       if (!this.enabled || !this._unlocked || this._hidden() ||
           !this.context || this.context.state !== 'running' || !this.buffers.has(code)) return false;
+      this._prune();
       const rank = Number.isFinite(priority) ? priority : 0;
       if (this.voices.size >= 2) {
         const weakest = [...this.voices].sort((a, b) => a.priority - b.priority)[0];
@@ -151,34 +157,80 @@
       try {
         const source = this.context.createBufferSource();
         source.buffer = this.buffers.get(code);
-        source.connect(this.master);
-        voice = {source, priority: rank};
-        source.onended = () => {
-          this.voices.delete(voice);
-          try { source.disconnect(); } catch (_) { /* Already disconnected. */ }
-        };
-        this.voices.add(voice);
+        const gain = this.context.createGain();
         const seconds = Number.isFinite(delay) ? Math.max(0, Math.min(delay, 0.6)) : 0;
-        const startAt = this.context.currentTime + seconds;
+        // A replacement waits for the outgoing fade, including during rapid input.
+        const startAt = Math.max(this.context.currentTime + seconds, this._silenceUntil);
+        const length = Math.min(source.buffer.duration,
+          Number.isFinite(duration) ? Math.max(0.04, Math.min(duration, 0.6)) : Infinity);
+        if (!Number.isFinite(length) || length <= 0) return false;
+        const endAt = startAt + length;
+        const attackEnd = startAt + Math.min(ATTACK, length / 2);
+        const releaseStart = Math.max(attackEnd, endAt - RELEASE);
+        voice = {source, gain, priority: rank, startAt, endAt, attackEnd, releaseStart, ended: false};
+        gain.gain.value = 0;
+        gain.gain.setValueAtTime(0, startAt);
+        gain.gain.linearRampToValueAtTime(1, attackEnd);
+        gain.gain.setValueAtTime(1, releaseStart);
+        gain.gain.linearRampToValueAtTime(0, endAt);
+        source.connect(gain);
+        gain.connect(this.master);
+        source.onended = () => this._finish(voice);
+        this.voices.add(voice);
         source.start(startAt);
-        if (Number.isFinite(duration)) {
-          source.stop(startAt + Math.max(0.04, Math.min(duration, 0.6)));
-        }
+        source.stop(endAt);
         return true;
       } catch (_) {
-        if (voice) this._stop(voice);
+        if (voice) this._finish(voice);
         return false;
       }
     }
 
-    _stop(voice) {
+    _finish(voice) {
+      if (voice.ended) return;
+      voice.ended = true;
       this.voices.delete(voice);
+      this._retiring.delete(voice);
       voice.source.onended = null;
-      try { voice.source.stop(); } catch (_) { /* A finished source is harmless. */ }
-      try { voice.source.disconnect(); } catch (_) { /* A failed source is harmless. */ }
+      try { voice.source.disconnect(); } catch (_) { /* Already disconnected. */ }
+      try { voice.gain.disconnect(); } catch (_) { /* Already disconnected. */ }
+    }
+
+    _prune() {
+      const now = this.context.currentTime;
+      for (const voice of [...this.voices, ...this._retiring]) {
+        // onended is delivered as a task and can lag behind the audio clock.
+        if (now >= voice.endAt) this._finish(voice);
+      }
+    }
+
+    _stop(voice) {
+      if (voice.ended || this._retiring.has(voice)) return;
+      this.voices.delete(voice);
+      const now = this.context.currentTime;
+      if (now >= voice.endAt) { this._finish(voice); return; }
+      try {
+        if (now <= voice.startAt) {
+          // No audible samples exist yet, so cancellation needs no fade or slot.
+          voice.source.stop(now);
+          this._finish(voice);
+          return;
+        }
+        const level = now < voice.attackEnd ? (now - voice.startAt) / (voice.attackEnd - voice.startAt)
+          : now > voice.releaseStart ? (voice.endAt - now) / (voice.endAt - voice.releaseStart) : 1;
+        voice.gain.gain.cancelScheduledValues(now);
+        voice.gain.gain.setValueAtTime(Math.max(0, Math.min(level, 1)), now);
+        voice.endAt = Math.min(now + INTERRUPT_RELEASE, voice.endAt);
+        voice.gain.gain.linearRampToValueAtTime(0, voice.endAt);
+        this._silenceUntil = Math.max(this._silenceUntil, voice.endAt);
+        this._retiring.add(voice);
+        voice.source.stop(voice.endAt);
+      } catch (_) { this._finish(voice); }
     }
 
     stopAll() {
+      if (!this.context) return;
+      this._prune();
       for (const voice of [...this.voices]) this._stop(voice);
     }
 
@@ -189,6 +241,14 @@
       try {
         if (this.context && this.context.state !== 'closed') await this.context.suspend();
       } catch (_) { /* Browser lifecycle policies may reject suspension. */ }
+      if (this.context && this.context.state !== 'running') {
+        // A suspended audio clock cannot finish a fade. It is already silent.
+        for (const voice of [...this._retiring]) {
+          try { voice.source.stop(this.context.currentTime); } catch (_) {}
+          this._finish(voice);
+        }
+        this._silenceUntil = this.context.currentTime;
+      }
     }
   }
 

@@ -8,7 +8,7 @@ const script = fs.readFileSync(path.join(__dirname, '../web/audio-manager.js'), 
 
 function setup({saved, storageError = false, resume, fetcher, decoder} = {}) {
   const stored = new Map(saved ? [['tile-explorer.settings.v02', saved]] : []);
-  const sources = [];
+  const sources = [], gains = [];
   let context;
   class FakeContext {
     constructor() {
@@ -18,7 +18,19 @@ function setup({saved, storageError = false, resume, fetcher, decoder} = {}) {
       this.destination = {};
       this.suspendCount = 0;
     }
-    createGain() { return {gain: {value: 1}, connect() {}}; }
+    createGain() {
+      const events = [];
+      const node = {disconnected: false,
+        gain: {value: 1, events,
+          setValueAtTime(value, at) { events.push({type: 'set', value, at}); },
+          linearRampToValueAtTime(value, at) { events.push({type: 'ramp', value, at}); },
+          cancelScheduledValues(at) { events.push({type: 'cancel', at}); },
+        },
+        connect(target) { this.target = target; },
+        disconnect() { this.disconnected = true; },
+      };
+      gains.push(node); return node;
+    }
     async resume() {
       if (resume) await resume();
       this.state = 'running';
@@ -26,23 +38,32 @@ function setup({saved, storageError = false, resume, fetcher, decoder} = {}) {
     async suspend() { this.suspendCount++; this.state = 'suspended'; }
     async decodeAudioData(data) { return decoder ? decoder(data) : {duration: .2}; }
     advance(seconds) {
-      this.currentTime += seconds;
-      for (const source of sources) {
-        if (!source.stopped && source.stopAt !== undefined && source.stopAt <= this.currentTime) source.end();
+      const endAt = this.currentTime + seconds;
+      for (;;) {
+        const next = sources.filter(source => !source.stopped)
+          .map(source => ({source, at: Math.min(source.stopAt ?? Infinity, source.naturalEndAt ?? Infinity)}))
+          .filter(item => item.at <= endAt).sort((a, b) => a.at - b.at)[0];
+        if (!next) break;
+        this.currentTime = Math.max(this.currentTime, next.at); next.source.end();
       }
+      this.currentTime = endAt;
     }
     createBufferSource() {
       const source = {
         stopped: false,
         disconnected: false,
-        connect() {},
+        connect(target) { this.target = target; },
         disconnect() { this.disconnected = true; },
-        start(at) { this.at = at; },
+        start(at) { this.at = at; this.naturalEndAt = at + this.buffer.duration; },
         stop(at) {
           this.stopAt = at;
           if (at === undefined || at <= context.currentTime) this.end();
         },
-        end() { this.stopped = true; if (this.onended) this.onended(); },
+        end() {
+          if (this.stopped) return;
+          this.stopped = true; this.endedAt = context.currentTime;
+          if (this.onended) this.onended();
+        },
       };
       sources.push(source);
       return source;
@@ -59,7 +80,18 @@ function setup({saved, storageError = false, resume, fetcher, decoder} = {}) {
   };
   vm.createContext(sandbox);
   vm.runInContext(script, sandbox);
-  return {AudioManager: sandbox.TileTheater.AudioManager, sandbox, stored, sources, get context() { return context; }};
+  return {AudioManager: sandbox.TileTheater.AudioManager, sandbox, stored, sources, gains,
+    get context() { return context; }};
+}
+
+function maximumVoices(sources) {
+  const edges = sources.flatMap(source => {
+    const endAt = Math.min(source.endedAt ?? Infinity, source.stopAt ?? Infinity, source.naturalEndAt ?? Infinity);
+    return endAt > source.at ? [[source.at, 1], [endAt, -1]] : [];
+  }).sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+  let active = 0, maximum = 0;
+  for (const [, change] of edges) { active += change; maximum = Math.max(maximum, active); }
+  return maximum;
 }
 
 async function ready(fixture, codes = ['apple', 'cat', 'dog']) {
@@ -79,7 +111,10 @@ test('sound preference persists independently and preserves other settings', asy
   assert.equal(await manager.unlock(), true);
   await manager.preload(['apple']);
   assert.equal(manager.play('apple'), true);
+  fixture.context.advance(.02);
   manager.setEnabled(false);
+  assert.equal(fixture.sources[0].stopped, false, 'muting finishes a short release');
+  fixture.context.advance(.006);
   assert.equal(fixture.sources[0].stopped, true);
   assert.equal(manager.play('apple'), false);
   assert.deepEqual(JSON.parse(fixture.stored.get('tile-explorer.settings.v02')), {soundEnabled: false, visual: 'low'});
@@ -113,18 +148,22 @@ test('limits to two voices; only strictly greater priority can replace a voice',
   const manager = await ready(fixture);
   assert.equal(manager.play('apple', {priority: 0}), true);
   assert.equal(manager.play('cat', {priority: 1}), true);
+  fixture.context.advance(.02);
   assert.equal(manager.play('dog', {priority: 0}), false);
   assert.equal(fixture.sources.length, 2);
   assert.equal(manager.play('dog', {priority: 2, delay: .12}), true);
-  assert.equal(fixture.sources[0].stopped, true);
+  assert.equal(fixture.sources[0].stopped, false, 'replacement releases the outgoing voice');
   assert.equal(fixture.sources[1].stopped, false);
-  assert.equal(fixture.sources[2].at, 12.12);
+  assert.equal(fixture.sources[2].at, fixture.context.currentTime + .12);
   assert.equal(manager.voices.size, 2);
   fixture.sources[1].end();
   assert.equal(manager.voices.size, 1);
   manager.stopAll();
   assert.equal(manager.voices.size, 0);
   assert.equal(fixture.sources[2].stopped, true);
+  fixture.context.advance(.006);
+  assert.equal(fixture.sources[0].stopped, true);
+  assert.equal(manager._retiring.size, 0);
 });
 
 test('optional duration schedules an audio-clock stop after the delayed start', async () => {
@@ -149,16 +188,81 @@ test('duration clamps to a short safe interval and expired voices free their slo
   assert.equal(manager.play('apple', {duration: 0}), true);
   assert.equal(manager.play('cat', {duration: 2}), true);
   assert.equal(fixture.sources[0].stopAt, 12.04);
-  assert.equal(fixture.sources[1].stopAt, 12.6);
+  assert.equal(fixture.sources[1].stopAt, 12.2, 'duration cannot exceed the actual buffer');
   assert.equal(manager.play('dog'), false);
   fixture.context.advance(.05);
   assert.equal(manager.voices.size, 1);
   assert.equal(manager.play('dog'), true, 'expired source no longer consumes a voice');
-  assert.equal(fixture.sources[2].stopAt, undefined, 'omitting duration preserves the full sound');
+  assert.equal(fixture.sources[2].stopAt, 12.25, 'omitting duration preserves the full buffer');
   fixture.context.advance(.6);
-  assert.equal(manager.voices.size, 1);
-  fixture.sources[2].end();
   assert.equal(manager.voices.size, 0);
+});
+
+test('each voice has a quiet master and short attack and release for natural and clipped playback', async () => {
+  const fixture = setup(), manager = await ready(fixture);
+  assert.equal(fixture.gains[0].gain.value, .30);
+  manager.play('apple');
+  const natural = fixture.gains[1];
+  assert.equal(fixture.sources[0].target, natural);
+  assert.equal(natural.target, manager.master);
+  assert.deepEqual(natural.gain.events, [
+    {type: 'set', value: 0, at: 12}, {type: 'ramp', value: 1, at: 12.004},
+    {type: 'set', value: 1, at: 12.19}, {type: 'ramp', value: 0, at: 12.2},
+  ]);
+  manager.play('cat', {duration: .08});
+  const clipped = fixture.gains[2].gain.events;
+  assert.ok(Math.abs(clipped[2].at - 12.07) < 1e-9);
+  assert.equal(clipped[3].value, 0);
+  assert.equal(clipped[3].at, 12.08);
+  fixture.context.advance(.2);
+  assert.ok(fixture.gains.slice(1).every(node => node.disconnected));
+  assert.equal(manager.voices.size, 0);
+});
+
+test('early cancellation holds the current attack or release level before its short fade', async () => {
+  for (const age of [.002, .196]) {
+    const fixture = setup(), manager = await ready(fixture);
+    manager.play('apple'); fixture.context.advance(age); manager.stopAll();
+    const source = fixture.sources[0], automation = fixture.gains[1].gain.events;
+    const held = automation.at(-2);
+    assert.equal(automation.at(-3).type, 'cancel');
+    assert.ok(Math.abs(held.value - (age < .004 ? .5 : .4)) < 1e-9);
+    assert.equal(source.disconnected, false, 'the gain remains connected throughout the release');
+    assert.ok(source.stopAt <= fixture.context.currentTime + .006 + 1e-9);
+    fixture.context.advance(.006);
+    assert.equal(source.disconnected, true);
+    assert.equal(manager._retiring.size, 0);
+  }
+});
+
+test('rapid interruption and priority replacement never overlap more than two sounding sources', async () => {
+  const fixture = setup(), manager = await ready(fixture);
+  manager.play('apple', {priority: 0}); manager.play('cat', {priority: 1});
+  fixture.context.advance(.02);
+  manager.play('dog', {priority: 2});
+  assert.equal(fixture.sources[2].at, fixture.sources[0].stopAt);
+  assert.equal(manager.voices.size, 2);
+  assert.equal(manager._retiring.size, 1);
+  manager.stopAll();
+  for (let index = 0; index < 20; index++) {
+    manager.play('apple'); manager.stopAll();
+    assert.ok(manager._retiring.size <= 2);
+  }
+  manager.play('dog');
+  assert.ok(maximumVoices(fixture.sources) <= 2);
+  fixture.context.advance(.3);
+  assert.equal(manager.voices.size, 0);
+  assert.equal(manager._retiring.size, 0);
+  assert.ok(fixture.sources.every(source => source.disconnected));
+});
+
+test('suspending during a fade retires voices despite the frozen audio clock', async () => {
+  const fixture = setup(), manager = await ready(fixture);
+  manager.play('apple'); fixture.context.advance(.02);
+  await manager.suspend();
+  assert.equal(manager.voices.size, 0);
+  assert.equal(manager._retiring.size, 0);
+  assert.equal(fixture.sources[0].disconnected, true);
 });
 
 test('hidden pages stop all voices and require a new gesture after returning', async () => {
@@ -254,8 +358,13 @@ test('all generated assets are distinct bounded mono PCM and match their manifes
   const base = path.join(__dirname, '../web/assets/audio/v02');
   const manifest = JSON.parse(fs.readFileSync(path.join(base, 'manifest.json'), 'utf8'));
   assert.equal(manifest.assets.length, 18);
+  assert.equal(manifest.revision, 'v02-gentle-pentatonic-1');
+  assert.match(manifest.sound_palette, /C-major pentatonic/);
+  assert.ok(manifest.notes.length >= 4);
+  const palette = new Set(['C5', 'D5', 'E5', 'G5', 'A5', 'C6']);
   let total = 0;
   const hashes = new Set();
+  const levels = [];
   for (const asset of manifest.assets) {
     const data = fs.readFileSync(path.join(base, `${asset.id}.wav`));
     assert.equal(data.subarray(0, 4).toString(), 'RIFF');
@@ -265,13 +374,35 @@ test('all generated assets are distinct bounded mono PCM and match their manifes
     assert.equal(data.readUInt32LE(24), 22050);
     assert.equal(data.readUInt16LE(34), 16);
     assert.equal(data.length, asset.bytes);
-    assert.ok(asset.duration_seconds >= .1 && asset.duration_seconds <= .35);
+    assert.equal(asset.path, `/assets/audio/v02/${asset.id}.wav`);
+    assert.ok(asset.duration_seconds >= .08 && asset.duration_seconds <= .16);
+    const sampleCount = data.readUInt32LE(40) / 2;
+    assert.equal(data.length, 44 + sampleCount * 2);
+    assert.ok(Math.abs(sampleCount / 22050 - asset.duration_seconds) < .000001);
+    assert.ok(asset.notes.length >= 1 && asset.notes.every(note => palette.has(note)));
+    assert.match(asset.source, /Original offline musical synthesis/);
+    const samples = Array.from({length: sampleCount}, (_, index) => data.readInt16LE(44 + index * 2) / 32767);
+    const peak = Math.max(...samples.map(Math.abs));
+    const rms = Math.sqrt(samples.reduce((sum, sample) => sum + sample * sample, 0) / sampleCount);
+    const mean = samples.reduce((sum, sample) => sum + sample, 0) / sampleCount;
+    const maxStep = Math.max(...samples.slice(1).map((sample, index) => Math.abs(sample - samples[index])));
+    assert.ok(peak >= .3 && peak <= .42, `${asset.id}: gentle peak with ample headroom`);
+    assert.ok(Math.abs(peak - asset.peak_amplitude) < .000001);
+    assert.ok(Math.abs(rms - asset.rms_amplitude) < .000001);
+    assert.ok(Math.abs(mean) < 1 / 32767, `${asset.id}: no DC bias`);
+    assert.equal(samples[0], 0, `${asset.id}: starts silently`);
+    assert.equal(samples.at(-1), 0, `${asset.id}: ends silently`);
+    assert.ok(maxStep < .13, `${asset.id}: no abrupt PCM discontinuities`);
+    assert.ok(samples.slice(0, 22).every(sample => Math.abs(sample) < .03), `${asset.id}: smooth attack`);
+    assert.ok(samples.slice(-22).every(sample => Math.abs(sample) < .005), `${asset.id}: smooth release`);
+    levels.push(rms);
     const hash = crypto.createHash('sha256').update(data).digest('hex');
     assert.equal(hash, asset.sha256);
     hashes.add(hash);
     total += data.length;
   }
   assert.equal(hashes.size, 18);
+  assert.ok(Math.max(...levels) / Math.min(...levels) < 1.5, 'consistent perceived cue levels');
   assert.equal(total, manifest.total_audio_bytes);
   assert.ok(total < 2_000_000);
 });

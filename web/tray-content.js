@@ -37,8 +37,8 @@
     ['fox','狐狸','机灵','peek'], ['bear','小熊','憨厚','bounce']
   ];
   // Actual durations in the local v02 manifest; used to keep cues inside a scene.
-  const soundDurations = [.14,.209977,.230023,.249977,.170023,.249977,
-    .16,.249977,.28,.310023,.28,.249977,.3,.22,.150023,.32,.2,.270023];
+  const soundDurations = [.1,.12,.150023,.129977,.110023,.14,
+    .1,.150023,.14,.129977,.12,.110023,.12,.110023,.089977,.14,.1,.129977];
   const profiles = freeze(Object.fromEntries(definitions.map(([code,name,personality,enterMotion],index) => [code, {
     code, name, personality, enter_sound:code, enter_motion:enterMotion,
     sound_duration_seconds:soundDurations[index],
@@ -47,7 +47,7 @@
   }])));
   const fallbackProfile = freeze({
     code:'unknown',name:'小角色',personality:'好奇',enter_sound:'apple',enter_motion:'bounce',
-    sound_duration_seconds:.14,
+    sound_duration_seconds:.1,
     reaction_anchor:{x:.72,y:.14},clear_motion:'clear',clear_sound:'apple',idle_motion:null
   });
   const script = (id, codes, priority, duration, cues) => ({

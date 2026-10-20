@@ -73,22 +73,31 @@ function realAudioFixture(clock) {
   let maximumActive=0;
   const context={
     state:'running',get currentTime(){return clock.now()/1000;},
+    createGain() {
+      return {gain:{value:1,setValueAtTime(){},linearRampToValueAtTime(){},cancelScheduledValues(){}},
+        connect(){},disconnect(){}};
+    },
     createBufferSource() {
-      let endTimer=null;
+      let startTimer=null,endTimer=null,stopTimer=null;
       const source={buffer:null,onended:null,ended:false,startedAt:null,endedAt:null,
         connect(){},disconnect(){},
         finish() {
           if(this.ended)return;this.ended=true;this.endedAt=clock.now()/1000;active.delete(this);
-          if(endTimer!==null)clock.clearTimeout(endTimer);this.onended?.();
+          for(const timer of [startTimer,endTimer,stopTimer])if(timer!==null)clock.clearTimeout(timer);
+          this.onended?.();
         },
         start(at,offset=0,duration=Infinity) {
-          this.startedAt=at;active.add(this);maximumActive=Math.max(maximumActive,active.size);
+          this.startedAt=at;
+          const begin=()=>{if(this.ended)return;active.add(this);maximumActive=Math.max(maximumActive,active.size);};
+          if(at>context.currentTime)startTimer=clock.setTimeout(begin,(at-context.currentTime)*1000);
+          else begin();
           const length=Math.min(this.buffer.duration-offset,duration);
           endTimer=clock.setTimeout(()=>this.finish(),Math.max(0,(at+length-context.currentTime)*1000));
         },
         stop(at) {
+          if(stopTimer!==null)clock.clearTimeout(stopTimer);
           if(Number.isFinite(at)&&at>context.currentTime) {
-            clock.setTimeout(()=>this.finish(),(at-context.currentTime)*1000);
+            stopTimer=clock.setTimeout(()=>this.finish(),(at-context.currentTime)*1000);
           } else this.finish();
         }
       };

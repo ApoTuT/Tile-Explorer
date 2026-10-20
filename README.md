@@ -4,7 +4,7 @@
 
 v0.2 新增“候选槽小剧场”：18 种牌有自己的入槽声音与性格动作，槽内共存的特定牌面会触发 6 组双牌、2 组三牌互动，三同消除时有短暂退场反馈。声音和动画可被新操作打断，不增加消牌规则。当前为功能分支验证版，正式发布基线仍为 Git 标签 `v0.1`。
 
-18 种原创卡通短音已随项目打包，无需在线服务。槽下方可关闭音效，静音后仍保留视觉互动。第一关依次取苹果、猫、汽车即可体验组合；同段表演有间隔，避免连续重复。
+18 种原创短音已随项目打包，无需在线服务。声音采用柔和的铃音、木音、拨弦和气泡音，单段约 90–150 毫秒；组合用同一套五声音阶轻轻呼应。槽下方可关闭音效，静音后仍保留视觉互动。第一关依次取苹果、猫、汽车即可体验组合；同段表演有间隔，避免连续重复。
 
 ## 开始游玩
 
@@ -54,7 +54,7 @@ python -m unittest discover -s tests -v
 node --test --test-isolation=none tests/audio.test.cjs tests/theater.test.cjs tests/ui.test.cjs
 ```
 
-Node.js 24 仅用于开发测试，启动游戏不需要 Node 或 npm 依赖。本轮本地通过 50 项 Python 测试和 47 项 JavaScript 测试；手机检查为窄视口检查，Android/iOS 实机尚未验证。GitHub Actions 已配置 Linux/Windows 回归检查，远程结果以 PR 为准。
+Node.js 24 仅用于开发测试，启动游戏不需要 Node 或 npm 依赖。本轮音效修订后本地通过 50 项 Python 测试和 51 项 JavaScript 测试；手机检查为窄视口检查，Android/iOS 实机尚未验证。GitHub Actions 已配置 Linux/Windows 回归检查，远程结果以 PR 为准。
 
 - `tile_explorer/engine.py`：Python 规则与关卡生成。
 - `tile_explorer/geometry.py`：紧密交错牌阵、真实露出与点击区域检查。
