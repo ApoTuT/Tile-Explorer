@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#faf4e7">
+  <meta name="description" content="斜着拖一拖，让小狗长大。三关轻松的层叠合成小游戏。">
+  <title>小狗长大啦 · 叠叠环游记 v0.3</title>
+  <link rel="stylesheet" href="./merge-v03/style.css">
+  <script src="./merge-v03/settings.js" defer></script>
+  <script src="./merge-v03/geometry.js" defer></script>
+  <script src="./merge-v03/engine.js" defer></script>
+  <script src="./merge-v03/levels.js" defer></script>
+  <script src="./audio-manager.js" defer></script>
+  <script src="./merge-v03/storage.js" defer></script>
+  <script src="./merge-v03/session.js" defer></script>
+  <script src="./merge-v03/view.js" defer></script>
+  <script src="./merge-v03/input.js" defer></script>
+  <script src="./merge-v03/presentation.js" defer></script>
+  <script src="./merge-v03/app.js" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <header class="masthead">
+      <a id="classic-link" href="./index.html" aria-label="返回叠叠环游记原模式">← 环游记</a>
+      <span class="edition">玩法实验室 <b>v0.3</b></span>
+    </header>
+    <div class="title"><span class="little-paw" aria-hidden="true">✿</span><h1>小狗长大啦<span>一点点靠近，一起长大。</span></h1></div>
+    <main class="game" aria-label="小狗合成游戏">
+      <div class="level-bar"><div><span id="level-label" class="level-label">第 1 关</span><h2 id="level-title">靠近一点</h2></div><button id="levels-button" class="pill" aria-haspopup="dialog">☷ 选关</button></div>
+      <section class="goal-tray" aria-label="金毛交付目标">
+        <div class="goal-heading"><span>让金毛到家 <i>✓</i></span><strong id="goal-count">0 / 1</strong></div>
+        <div id="goals" class="goals"></div>
+      </section>
+      <div class="playfield">
+        <span class="field-flower flower-one" aria-hidden="true">✳</span><span class="field-flower flower-two" aria-hidden="true">✳</span>
+        <div id="merge-board" class="merge-board" aria-label="松散层叠牌阵"></div>
+        <p class="field-note" aria-hidden="true">小狗 + 小狗 <span>→</span> 金毛</p>
+      </div>
+      <div class="status-line"><p id="message" role="status" aria-live="polite">把上面的小狗，斜着拖到下面的小狗上。</p><span id="move-count">0 次操作</span></div>
+      <section id="result" class="result" hidden aria-label="通关">
+        <div><span class="result-star" aria-hidden="true">✦</span><h3 id="result-title">长大啦！</h3><p id="result-copy">金毛已经到家。</p></div>
+        <button id="next-button" class="primary">下一关 →</button>
+      </section>
+      <nav class="tools" aria-label="游戏工具">
+        <button id="undo-button" disabled><span aria-hidden="true">↶</span>撤销</button>
+        <button id="restart-button"><span aria-hidden="true">↻</span>重开</button>
+        <button id="sound-button" aria-pressed="true"><span aria-hidden="true">♫</span><b>音效开</b></button>
+      </nav>
+    </main>
+    <footer><p>挤住了，借个位。窝里只能等一只小狗。</p><details><summary>键盘怎么玩</summary><p>Tab 选上层或窝里的小狗，Enter 拿起；Tab 选底牌或临时窝，Enter 放下。Esc 取消，Ctrl / ⌘ + Z 撤销。</p></details><p id="save-note" class="save-note" hidden></p></footer>
+  </div>
+  <dialog id="levels-dialog">
+    <div class="dialog-heading"><div><small>慢慢来，一关一小步</small><h2>今天，长大一点点</h2></div><button id="close-levels" aria-label="关闭选关">×</button></div>
+    <div id="level-list" class="level-list"></div><p class="dialog-note">三关都可以自由试试，完成记录会留在这台设备。</p>
+  </dialog>
+  <noscript>请打开浏览器 JavaScript，才能拖动小狗。</noscript>
+</body>
+</html>

@@ -11,6 +11,7 @@ import threading
 from urllib.parse import urlsplit
 
 from .engine import Game, GameError, LEVEL_COUNT
+from .assets import load_merge_manifest
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -20,6 +21,7 @@ THEATER_AUDIO_CODES = (
     "cat", "dog", "rabbit", "panda", "fox", "bear",
 )
 STATIC_FILES = {
+    **{"/" + name: name for name in load_merge_manifest().files},
     "/": "index.html", "/index.html": "index.html", "/app.js": "app.js", "/style.css": "style.css",
     "/tray-content.js": "tray-content.js", "/tray-director.js": "tray-director.js",
     "/audio-manager.js": "audio-manager.js",
@@ -30,6 +32,7 @@ STATIC_FILES = {
 STATIC_MIME = {
     ".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8",
     ".css": "text/css; charset=utf-8", ".png": "image/png", ".wav": "audio/wav",
+    ".svg": "image/svg+xml", ".json": "application/json; charset=utf-8",
 }
 
 

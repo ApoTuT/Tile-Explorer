@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "source": "Original local SVG illustrations; no external requests or generated bitmap dependencies.",
+  "puppy": {"file": "puppy.svg", "viewBox": [0, 0, 100, 100], "placement": "100% of tile face", "identityRegion": {"x": 35, "y": 35, "width": 30, "height": 30}, "identity": "both eyes and nose"},
+  "golden": {"file": "golden.svg", "viewBox": [0, 0, 100, 100], "identity": "seated adult, golden coat, collar, wagging tail"},
+  "audio": "../audio/v02/dog.wav"
+}

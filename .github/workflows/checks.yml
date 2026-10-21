@@ -2,9 +2,9 @@ name: Game checks
 
 on:
   push:
-    branches: [main, 'feat/**', 'fix/**']
+    branches: [main, 'feat/**', 'fix/**', 'codex/**']
   pull_request:
-    branches: [main]
+    branches: [main, 'feat/**', 'codex/**']
 
 permissions:
   contents: read
@@ -27,11 +27,5 @@ jobs:
         with:
           node-version: '24'
           package-manager-cache: false
-      - name: Python rules and HTTP tests
-        run: python -m unittest discover -s tests -v
-      - name: Browser application syntax
-        run: node --check web/app.js
-      - name: Audio, direction and UI lifecycle tests
-        run: node --test --test-isolation=none tests/audio.test.cjs tests/theater.test.cjs tests/ui.test.cjs
-      - name: Whitespace check
-        run: git diff --check
+      - name: Project checks
+        run: python tools/checks.py
