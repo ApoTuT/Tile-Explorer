@@ -1,0 +1,132 @@
+{
+  "ruleset": "merge-v03-2",
+  "levels": [
+    {
+      "id": "merge-01",
+      "ok": true,
+      "errors": [],
+      "definitionHash": "6b299847",
+      "visibility": [
+        {
+          "id": "l1",
+          "area": 0.79,
+          "identity": 1
+        }
+      ],
+      "search": {
+        "status": "solved",
+        "states": 3,
+        "deadStates": 0,
+        "recoverableStates": 3,
+        "allReachableSolvable": true,
+        "winningRoutes": 2,
+        "deadRoutes": 0,
+        "shortest": 1,
+        "route": [
+          {
+            "sourceId": "u1",
+            "targetId": "l1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "merge-02",
+      "ok": true,
+      "errors": [],
+      "definitionHash": "dc35470b",
+      "visibility": [
+        {
+          "id": "l0",
+          "area": 0.812,
+          "identity": 1
+        },
+        {
+          "id": "l1",
+          "area": 0.812,
+          "identity": 1
+        }
+      ],
+      "search": {
+        "status": "solved",
+        "states": 8,
+        "deadStates": 0,
+        "recoverableStates": 8,
+        "allReachableSolvable": true,
+        "winningRoutes": 4,
+        "deadRoutes": 0,
+        "shortest": 3,
+        "route": [
+          {
+            "type": "park",
+            "sourceId": "u1"
+          },
+          {
+            "sourceId": "u2",
+            "targetId": "l0"
+          },
+          {
+            "sourceId": "u1",
+            "targetId": "l1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "merge-03",
+      "ok": true,
+      "errors": [],
+      "definitionHash": "0bdf5b8e",
+      "visibility": [
+        {
+          "id": "l0",
+          "area": 1,
+          "identity": 1
+        },
+        {
+          "id": "l1",
+          "area": 0.624,
+          "identity": 1
+        },
+        {
+          "id": "l2",
+          "area": 0.812,
+          "identity": 1
+        },
+        {
+          "id": "l3",
+          "area": 0.812,
+          "identity": 1
+        }
+      ],
+      "search": {
+        "status": "solved",
+        "states": 74,
+        "deadStates": 0,
+        "recoverableStates": 74,
+        "allReachableSolvable": true,
+        "winningRoutes": 816,
+        "deadRoutes": 0,
+        "shortest": 4,
+        "route": [
+          {
+            "sourceId": "u2",
+            "targetId": "l0"
+          },
+          {
+            "sourceId": "u3",
+            "targetId": "l2"
+          },
+          {
+            "sourceId": "u1",
+            "targetId": "l3"
+          },
+          {
+            "sourceId": "u4",
+            "targetId": "l1"
+          }
+        ]
+      }
+    }
+  ]
+}

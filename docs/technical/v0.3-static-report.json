@@ -1,0 +1,46 @@
+{
+  "base": "http://127.0.0.1:8767/index.html",
+  "ruleset": "merge-v03-2",
+  "browser": "155.0.4283.62",
+  "desktop": "3 lessons, screenshot loop recovered on board without undo, single-nest capacity",
+  "viewports": [
+    "320x568",
+    "360x780",
+    "390x844",
+    "768x1024",
+    "1280x1000"
+  ],
+  "touch": "Chromium emulation, all 3 lessons; reduced motion + mute",
+  "lifecycle": "undo/restart during FX, resize during drag, restored parked-puppy history",
+  "migration": "old third-level four-card loop retained and solved after reload",
+  "fallback": "localStorage denied + AudioContext unavailable + keyboard completion",
+  "interaction": {
+    "releaseToReadyMs": [
+      5.5
+    ],
+    "continuedDuringFX": true,
+    "stableNodes": true,
+    "releasePointResampled": true,
+    "mobileSnapOffsetCss": 18,
+    "returnPreview": true
+  },
+  "errors": [],
+  "requests": [
+    "http://127.0.0.1:8767/index.html",
+    "http://127.0.0.1:8767/merge-v03/style.css",
+    "http://127.0.0.1:8767/merge-v03/settings.js",
+    "http://127.0.0.1:8767/merge-v03/geometry.js",
+    "http://127.0.0.1:8767/merge-v03/engine.js",
+    "http://127.0.0.1:8767/merge-v03/levels.js",
+    "http://127.0.0.1:8767/audio-manager.js",
+    "http://127.0.0.1:8767/merge-v03/storage.js",
+    "http://127.0.0.1:8767/merge-v03/session.js",
+    "http://127.0.0.1:8767/merge-v03/view.js",
+    "http://127.0.0.1:8767/merge-v03/input.js",
+    "http://127.0.0.1:8767/merge-v03/presentation.js",
+    "http://127.0.0.1:8767/merge-v03/app.js",
+    "http://127.0.0.1:8767/assets/audio/v02/dog.wav",
+    "http://127.0.0.1:8767/assets/merge-v03/puppy.svg",
+    "http://127.0.0.1:8767/assets/merge-v03/golden.svg"
+  ]
+}
