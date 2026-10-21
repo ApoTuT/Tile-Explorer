@@ -9,8 +9,10 @@
 
   /** Local short sounds only. Missing, late or unavailable sounds are discarded. */
   class AudioManager {
-    constructor({profiles = {}} = {}) {
+    constructor({profiles = {}, assetBase = '/assets/audio/v02', settingsKey = SETTINGS_KEY} = {}) {
       this.profiles = profiles;
+      this.assetBase = assetBase.replace(/\/$/, '');
+      this.settingsKey = settingsKey;
       this.context = null;
       this.master = null;
       this.buffers = new Map();
@@ -25,7 +27,7 @@
       this._unlocked = false;
       this._epoch = 0;
       try {
-        const saved = JSON.parse(globalThis.localStorage.getItem(SETTINGS_KEY) || '{}');
+        const saved = JSON.parse(globalThis.localStorage.getItem(this.settingsKey) || '{}');
         if (typeof saved.soundEnabled === 'boolean') this._enabled = saved.soundEnabled;
       } catch (_) { /* Storage is optional, including in private browsing. */ }
     }
@@ -40,10 +42,10 @@
         this.stopAll();
       }
       try {
-        const saved = JSON.parse(globalThis.localStorage.getItem(SETTINGS_KEY) || '{}');
+        const saved = JSON.parse(globalThis.localStorage.getItem(this.settingsKey) || '{}');
         const settings = saved && typeof saved === 'object' && !Array.isArray(saved) ? saved : {};
         settings.soundEnabled = this._enabled;
-        globalThis.localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+        globalThis.localStorage.setItem(this.settingsKey, JSON.stringify(settings));
       } catch (_) { /* An in-memory setting still works when storage is blocked. */ }
     }
 
@@ -89,7 +91,7 @@
         const path = profile.audio || profile.src || profile.url;
         if (typeof path === 'string') return path;
       }
-      return CODES.includes(code) ? `/assets/audio/v02/${code}.wav` : null;
+      return CODES.includes(code) ? this.assetBase + '/' + code + '.wav' : null;
     }
 
     async _decode(code) {

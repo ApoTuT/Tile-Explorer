@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "entry": "merge-v03.html",
+  "scripts": [
+    "merge-v03/settings.js",
+    "merge-v03/geometry.js",
+    "merge-v03/engine.js",
+    "merge-v03/levels.js",
+    "audio-manager.js",
+    "merge-v03/storage.js",
+    "merge-v03/session.js",
+    "merge-v03/view.js",
+    "merge-v03/input.js",
+    "merge-v03/presentation.js",
+    "merge-v03/app.js"
+  ],
+  "styles": ["merge-v03/style.css"],
+  "assets": [
+    "assets/merge-v03/puppy.svg",
+    "assets/merge-v03/golden.svg",
+    "assets/merge-v03/manifest.json",
+    "assets/audio/v02/dog.wav"
+  ]
+}

@@ -19,7 +19,7 @@
 git switch main
 git pull --ff-only
 git switch -c feat/your-change
-python -m unittest discover -s tests -v
+python tools/checks.py
 git add <本次修改的文件>
 git commit -m "feat: describe the completed change"
 git push -u origin HEAD
@@ -36,6 +36,16 @@ git push -u origin HEAD
 [Game checks](../.github/workflows/checks.yml) 在功能分支推送和 PR 上执行 Linux/Windows 检查：Python 规则与服务测试、JavaScript 语法、音频/调度/UI 生命周期测试。Node.js 是开发测试工具，不成为游戏运行依赖。CI 使用只读仓库权限，不在工作流中发布或修改分支。
 
 本地测试结果记录在 [v0.2 技术文档](technical/v0.2.md)，远程结果以 GitHub PR 页面显示为准。当前尚未创建正式 `v0.2` 发布标签。
+
+## v0.3 的分支与检查
+
+当前工作分支为 codex/v0.3-diagonal-merge，基于已有 v0.2 实现继续开发三关合成模式。2026-10-21 的交互与代码结构整理已通过统一自动检查，以及主模式、独立 H5 的浏览器复测，实现已推送并建立 [PR #2](https://github.com/ApoTuT/Tile-Explorer/pull/2)。
+
+远端 main 仍是 v0.1 基线，[v0.2 的 PR #1](https://github.com/ApoTuT/Tile-Explorer/pull/1) 尚未合并。v0.3 的 PR #2 以 feat/v0.2-tray-theater 为目标分支，单独呈现 v0.3 的差异；这是依赖分支的审阅关系。两个 PR 均未在本轮合并，未建立正式 v0.2 或 v0.3 标签。
+
+本地与 GitHub Actions 共用 tools/checks.py。它运行 Python、全部网页 JavaScript 语法、自动发现的全部 JavaScript 测试、三关验关、独立 H5 导出和空白检查。浏览器实际拖放及截图另外运行 tools/playtest_v03.cjs，不用纯内核测试代替交互验证。PR 检查覆盖 main、feat/** 和 codex/** 目标，支持本轮依赖分支。
+
+首轮远程 CI 因实现提交未附关卡报告而失败；关卡报告随本轮验证文档纳入，复跑结果以 PR 最新提交的实际记录为准，不把本地通过当作远程通过。不把本机导出、玩家进度、临时 QA 或与本次无关的文件带入提交。当前状态和证据见 [v0.3 技术文档](technical/v0.3.md)。
 
 ## 跟踪范围
 

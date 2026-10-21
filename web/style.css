@@ -33,3 +33,6 @@
 .sound-button>span:first-child{font-size:13px}.sound-button:hover{background:#fffdf7}.sound-button:focus-visible{outline:2px solid var(--accent-deep);outline-offset:3px}.sound-button.muted{color:#a6a196;background:#f0ece4}
 @media(max-width:740px){.tray-surface{border-radius:9px;border-bottom-width:3px}.theater-caption{font-size:8px;padding-top:7px}.sound-button{font-size:8px;min-height:24px}.actor-reaction{min-width:20px;height:22px;font-size:14px}}
 @media(prefers-reduced-motion:reduce){.tray-actor,.tray-motion,.actor-reaction{animation:none!important;transition:none!important}}
+.experiment-link{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:13px;padding:10px 14px;border:1px solid #dfdfca;border-radius:11px;background:#f0f1e2;color:#74856b;font-size:11px;letter-spacing:.3px}
+.experiment-link:hover{background:#e9edd8;color:#526b50}
+@media(max-width:390px){.experiment-link{font-size:10px;padding:9px 10px}}
