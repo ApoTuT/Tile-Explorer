@@ -83,7 +83,7 @@ python tools/checks.py
 
 真实交互另外使用 tools/playtest_v04.cjs。它需要本机已有 Playwright 和 Edge，检查三关、多类目标、借位顺序、快速操作、教程、设置、撤销与恢复，并保存截图和报告。V04_URL 指定实际地址，V04_STATIC=1 检查独立静态导出，V04_QA_OUTPUT 可隔离并行测试产物；PLAYWRIGHT_MODULE 可指定已有 Playwright 模块路径。tools/playtest_v03.cjs 留作上一版历史脚本。
 
-2026-10-22 本地统一检查通过 57 项 Python、127 项 JavaScript、网页脚本语法、三关验解、25 文件导出与空白检查。主模式及独立静态 H5 均检查 320×568、375×667、390×844、768×1024、1280×900 五种尺寸，以及鼠标、Chromium 触摸模拟和键盘，报告错误列表为空。结果见 [主模式](technical/v0.4-browser-report.json)、[静态 H5](technical/v0.4-static-report.json)。这些检查不等于 Android/iOS 实机或陌生玩家试玩，也不表示服务器已经同步。
+2026-10-22 本地统一检查通过 57 项 Python、127 项 JavaScript、网页脚本语法、三关验解、25 文件导出与空白检查。主模式、独立静态 H5 及公网入口均检查 320×568、375×667、390×844、768×1024、1280×900 五种尺寸，以及鼠标、Chromium 触摸模拟和键盘，报告错误列表为空。结果见 [主模式](technical/v0.4-browser-report.json)、[静态 H5](technical/v0.4-static-report.json)、[公网](technical/v0.4-public-report.json)。实施提交 4b282549 已通过 [GitHub Actions Linux／Windows 回归](https://github.com/ApoTuT/Tile-Explorer/actions/runs/39806403450)。这些检查不等于 Android/iOS 实机或陌生玩家试玩。
 
 .editorconfig 统一缩进、UTF-8 和换行编辑习惯；.gitattributes 约束 Git 中的文本换行。不要提交 .local、.qa、缓存、账号配置或不相关文件。
 
@@ -93,4 +93,4 @@ python tools/checks.py
 
 当前保证只覆盖 merge-v04-1 的三关：分别枚举 3、6、30 个合法可达状态，死局均为 0，最短通关操作数分别为 1、3、5，证据见 [v0.4 验关报告](technical/v0.4-level-report.json)。新增关卡必须使用实际内核验证，不能把现有结果扩展成任意布局都不会卡住。新模式仍是三关，比赛要求的 50 关未实现。
 
-本轮已实现且本地验收通过，待同步服务器。具体执行结果和已知体验限制见 [v0.4 实现记录](technical/v0.4.md)；v0.3 原规则与当时证据保留在 [历史实现记录](technical/v0.3.md)。版本和提交约定见 [VERSION_CONTROL.md](VERSION_CONTROL.md)。
+本轮已实现并部署到 [在线入口](http://106.12.167.253/tile-explorer/)，[PR #3](https://github.com/ApoTuT/Tile-Explorer/pull/3) 尚未合并。稳定入口通过不缓存的 HTTP 302 跳转至不可变版本目录 /tile-explorer/releases/20261022-v04-4b282549/，对应源码提交 4b282549a804ce5341bdd9f28e974ce3ed85c33c；旧版资源保留用于回退。具体部署与回退步骤见 [v0.4 发布记录](technical/v0.4-deployment.md)，实现和体验限制见 [v0.4 实现记录](technical/v0.4.md)。v0.3 原规则与当时证据保留在 [历史实现记录](technical/v0.3.md)。版本和提交约定见 [VERSION_CONTROL.md](VERSION_CONTROL.md)。

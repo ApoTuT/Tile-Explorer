@@ -6,7 +6,7 @@ v0.4 已实现三关 **「叠出新花样」**：把上层方块拖到可用的�
 
 新手演示只画虚影，抓牌时立即退场；连续拖错时提供当前局面的提示，帮助入口可重看操作。设置支持静音和减少动态效果；拖放、回位及交付表现可以被新操作取消，不要求等动画演完。v0.4 存档与旧版隔离，只迁移旧版静音偏好，预览存档也与正式入口分开。
 
-2026-10-22：本地自动检查、主模式与独立静态 H5 的浏览器验收已通过，待同步服务器。Android/iOS 实机和陌生玩家试玩尚未完成。实现与验收记录见 [v0.4 文档](docs/technical/v0.4.md)；此前 v0.3 的交互整理及 [PR #2](https://github.com/ApoTuT/Tile-Explorer/pull/2) 保留为历史记录。
+2026-10-22：本地自动检查、主模式与独立静态 H5 的浏览器验收已通过，现已部署到 [在线试玩](http://106.12.167.253/tile-explorer/)，公网全套试玩错误列表为空。[PR #3](https://github.com/ApoTuT/Tile-Explorer/pull/3) 已提交，尚未合并；实施提交 4b282549 已通过 [Linux／Windows CI](https://github.com/ApoTuT/Tile-Explorer/actions/runs/39806403450)。Android/iOS 实机和陌生玩家试玩尚未完成。实现见 [v0.4 文档](docs/technical/v0.4.md)，部署与回退见 [发布记录](docs/technical/v0.4-deployment.md)，公网证据见 [试玩报告](docs/technical/v0.4-public-report.json)；此前 v0.3 的交互整理及 [PR #2](https://github.com/ApoTuT/Tile-Explorer/pull/2) 保留为历史记录。
 
 启动后访问 [叠出新花样](http://127.0.0.1:8765/merge-v03.html)，或点击首页顶部的 v0.4 入口。若启动器选择了其他端口，在实际地址后加 /merge-v03.html。入口、内部目录和导出脚本暂沿用 merge-v03 命名，没有另建一套游戏运行代码。
 
@@ -76,7 +76,7 @@ python tools/checks.py
 
 本地与 CI 共用这一入口：运行 Python 测试、检查全部网页 JavaScript 语法、自动发现所有 JavaScript 测试、验关、导出 H5 和检查空白。开发检查需要 Node.js 24；游戏运行不需要 Node 或 npm 依赖。
 
-2026-10-22 的 v0.4 统一检查通过 57 项 Python、127 项 JavaScript、全部网页脚本语法、三关完整验解、25 文件 H5 导出及空白检查。主模式和静态 H5 均检查了 320×568、375×667、390×844、768×1024、1280×900 五种尺寸，以及鼠标、Chromium 触摸模拟、键盘、连续输入、完整撤销、刷新恢复、帮助与设置，浏览器错误列表为空。报告见 [主模式](docs/technical/v0.4-browser-report.json) 和 [静态 H5](docs/technical/v0.4-static-report.json)。这些结果不代表 Android/iOS 实机或陌生玩家试玩已经完成。GitHub Actions 配置 Linux/Windows 回归，远程结果另以实际工作流记录为准。
+2026-10-22 的 v0.4 统一检查通过 57 项 Python、127 项 JavaScript、全部网页脚本语法、三关完整验解、25 文件 H5 导出及空白检查。主模式、静态 H5 和公网入口均检查了 320×568、375×667、390×844、768×1024、1280×900 五种尺寸，以及鼠标、Chromium 触摸模拟、键盘、连续输入、完整撤销、刷新恢复、帮助与设置，浏览器错误列表为空。报告见 [主模式](docs/technical/v0.4-browser-report.json)、[静态 H5](docs/technical/v0.4-static-report.json)、[公网](docs/technical/v0.4-public-report.json)。这些结果不代表 Android/iOS 实机或陌生玩家试玩已经完成。实施提交 4b282549 的 [GitHub Actions Linux／Windows 回归](https://github.com/ApoTuT/Tile-Explorer/actions/runs/39806403450) 已通过。
 
 浏览器复测使用 tools/playtest_v04.cjs，需要已安装 Playwright 与 Edge：V04_URL 指定游戏地址，V04_STATIC=1 用于独立静态入口，V04_QA_OUTPUT 指定截图与报告目录；Playwright 不在默认模块路径时可设置 PLAYWRIGHT_MODULE。运行命令为 node tools/playtest_v04.cjs。
 
