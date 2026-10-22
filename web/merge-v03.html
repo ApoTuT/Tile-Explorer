@@ -3,12 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#faf4e7">
-  <meta name="description" content="斜着拖一拖，让小狗长大。三关轻松的层叠合成小游戏。">
-  <title>小狗长大啦 · 叠叠环游记 v0.3</title>
+  <meta name="theme-color" content="#efd085">
+  <meta name="description" content="找同类，拖到一起。水果变大、小车升级、树苗长大，三关轻松的层叠合成小游戏。">
+  <title>叠出新花样 · v0.4</title>
   <link rel="stylesheet" href="./merge-v03/style.css">
   <script src="./merge-v03/settings.js" defer></script>
   <script src="./merge-v03/geometry.js" defer></script>
+  <script src="./merge-v03/content.js" defer></script>
+  <script src="./merge-v03/copy.js" defer></script>
   <script src="./merge-v03/engine.js" defer></script>
   <script src="./merge-v03/levels.js" defer></script>
   <script src="./audio-manager.js" defer></script>
@@ -17,43 +19,97 @@
   <script src="./merge-v03/view.js" defer></script>
   <script src="./merge-v03/input.js" defer></script>
   <script src="./merge-v03/presentation.js" defer></script>
+  <script src="./merge-v03/guide-view.js" defer></script>
+  <script src="./merge-v03/tutorial.js" defer></script>
   <script src="./merge-v03/app.js" defer></script>
 </head>
 <body>
   <div class="shell">
-    <header class="masthead">
-      <a id="classic-link" href="./index.html" aria-label="返回叠叠环游记原模式">← 环游记</a>
-      <span class="edition">玩法实验室 <b>v0.3</b></span>
+    <header class="topbar">
+      <button id="levels-button" class="icon-button" aria-label="选关" aria-haspopup="dialog" title="选关">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5L7.5 12L14.5 19"/></svg>
+      </button>
+      <div class="level-heading">
+        <span class="game-name">叠出新花样 <b>v0.4</b></span>
+        <strong id="level-label">第 1 关</strong>
+        <h1 id="level-title">拖过去，变大啦</h1>
+      </div>
+      <button id="settings-button" class="icon-button" aria-label="设置" aria-haspopup="dialog" title="设置">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3L8.3 5.4L6 6L3.8 5.3L1.8 8.7L3.4 10.5V13.5L1.8 15.3L3.8 18.7L6 18L8.3 18.6L9 21H13L13.7 18.6L16 18L18.2 18.7L20.2 15.3L18.6 13.5V10.5L20.2 8.7L18.2 5.3L16 6L13.7 5.4L13 3Z"/><circle cx="11" cy="12" r="3.3"/></svg>
+      </button>
     </header>
-    <div class="title"><span class="little-paw" aria-hidden="true">✿</span><h1>小狗长大啦<span>一点点靠近，一起长大。</span></h1></div>
-    <main class="game" aria-label="小狗合成游戏">
-      <div class="level-bar"><div><span id="level-label" class="level-label">第 1 关</span><h2 id="level-title">靠近一点</h2></div><button id="levels-button" class="pill" aria-haspopup="dialog">☷ 选关</button></div>
-      <section class="goal-tray" aria-label="金毛交付目标">
-        <div class="goal-heading"><span>让金毛到家 <i>✓</i></span><strong id="goal-count">0 / 1</strong></div>
+
+    <main class="game" aria-label="叠出新花样，层叠合成游戏">
+      <section class="goal-tray" aria-label="本关目标">
+        <div class="goal-heading"><span><i aria-hidden="true">✦</i> 本关目标</span><strong id="goal-count">0 / 1</strong></div>
         <div id="goals" class="goals"></div>
       </section>
+
       <div class="playfield">
-        <span class="field-flower flower-one" aria-hidden="true">✳</span><span class="field-flower flower-two" aria-hidden="true">✳</span>
-        <div id="merge-board" class="merge-board" aria-label="松散层叠牌阵"></div>
-        <p class="field-note" aria-hidden="true">小狗 + 小狗 <span>→</span> 金毛</p>
+        <span class="field-spark spark-one" aria-hidden="true">✧</span>
+        <span class="field-spark spark-two" aria-hidden="true">✧</span>
+        <span class="field-ring" aria-hidden="true"></span>
+        <div id="merge-board" class="merge-board" aria-label="层叠牌阵，拖动上层方块寻找同类"></div>
       </div>
-      <div class="status-line"><p id="message" role="status" aria-live="polite">把上面的小狗，斜着拖到下面的小狗上。</p><span id="move-count">0 次操作</span></div>
+
+      <div class="status-line">
+        <p id="message" role="status" aria-live="polite">找相同图案，按住拖到一起。</p>
+        <span id="move-count">0 次操作</span>
+      </div>
+
       <section id="result" class="result" hidden aria-label="通关">
-        <div><span class="result-star" aria-hidden="true">✦</span><h3 id="result-title">长大啦！</h3><p id="result-copy">金毛已经到家。</p></div>
-        <button id="next-button" class="primary">下一关 →</button>
+        <span class="result-star" aria-hidden="true">✦</span>
+        <div class="result-body"><h2 id="result-title">目标收齐啦！</h2><p id="result-copy">看看下一关，还会变出什么？</p></div>
+        <button id="next-button" class="primary">下一关 <span aria-hidden="true">→</span></button>
       </section>
+
       <nav class="tools" aria-label="游戏工具">
-        <button id="undo-button" disabled><span aria-hidden="true">↶</span>撤销</button>
-        <button id="restart-button"><span aria-hidden="true">↻</span>重开</button>
-        <button id="sound-button" aria-pressed="true"><span aria-hidden="true">♫</span><b>音效开</b></button>
+        <button id="undo-button" class="tool-button" disabled title="撤销上一步">
+          <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5L3 10L8 15M4 10H13C17.5 10 20 12.2 20 16C20 18.2 18.7 20 16 20"/></svg></span>
+          <span>撤销</span>
+        </button>
+        <button id="restart-button" class="tool-button" title="重新开始本关">
+          <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 8A9 9 0 1 0 21 14M20 3V8H15"/></svg></span>
+          <span>重开</span>
+        </button>
+        <button id="help-button" class="tool-button" aria-haspopup="dialog" title="玩法帮助">
+          <span class="tool-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 8A4 4 0 0 1 16 8C16 11 12 10.5 12 14"/><circle cx="12" cy="18" r=".7" fill="currentColor" stroke="none"/></svg></span>
+          <span>怎么玩</span>
+        </button>
       </nav>
     </main>
-    <footer><p>挤住了，借个位。窝里只能等一只小狗。</p><details><summary>键盘怎么玩</summary><p>Tab 选上层或窝里的小狗，Enter 拿起；Tab 选底牌或临时窝，Enter 放下。Esc 取消，Ctrl / ⌘ + Z 撤销。</p></details><p id="save-note" class="save-note" hidden></p></footer>
+    <p id="save-note" class="save-note" role="status" hidden></p>
   </div>
-  <dialog id="levels-dialog">
-    <div class="dialog-heading"><div><small>慢慢来，一关一小步</small><h2>今天，长大一点点</h2></div><button id="close-levels" aria-label="关闭选关">×</button></div>
-    <div id="level-list" class="level-list"></div><p class="dialog-note">三关都可以自由试试，完成记录会留在这台设备。</p>
+
+  <dialog id="levels-dialog" aria-labelledby="levels-heading">
+    <div class="dialog-heading"><div><small>拖一拖，看看会变成什么</small><h2 id="levels-heading">选一关，试试新花样</h2></div><button id="close-levels" class="close-button" aria-label="关闭选关">×</button></div>
+    <div id="level-list" class="level-list"></div>
+    <p class="dialog-note">三关都可以自由尝试，完成记录保存在这台设备。</p>
   </dialog>
-  <noscript>请打开浏览器 JavaScript，才能拖动小狗。</noscript>
+
+  <dialog id="help-dialog" aria-labelledby="help-heading">
+    <div class="dialog-heading"><div><small>很简单，一起试一下</small><h2 id="help-heading">找同类，拖到一起</h2></div><button id="close-help" class="close-button" aria-label="关闭帮助">×</button></div>
+    <div class="help-recipes" aria-label="合成图示">
+      <div><img src="./assets/merge-v04/strawberry-small.svg" alt="两颗小草莓"><span>× 2 <b>→</b></span><img src="./assets/merge-v04/strawberry-large.svg" alt="大草莓"></div>
+      <div><img src="./assets/merge-v04/car-small.svg" alt="两辆普通小车"><span>× 2 <b>→</b></span><img src="./assets/merge-v04/sports-car.svg" alt="跑车"></div>
+      <div><img src="./assets/merge-v04/tree-small.svg" alt="两棵小树苗"><span>× 2 <b>→</b></span><img src="./assets/merge-v04/tree-grown.svg" alt="大树"></div>
+    </div>
+    <ol class="help-steps">
+      <li><strong>按住上层方块</strong><p>拖到相同图案的底牌上，松手合成。</p></li>
+      <li><strong>挤住了，先暂放</strong><p>暂放位只能放一个。腾出空间，再把它接回来配对。</p></li>
+      <li><strong>成品自动收集</strong><p>上方目标全部收齐，就能过关。随时可以撤销。</p></li>
+    </ol>
+    <div class="help-actions"><button id="hint-button" class="primary">给我一步提示</button><button id="replay-guide-button" class="secondary">重看操作指引</button></div>
+    <details class="keyboard-help"><summary>键盘操作</summary><p>Tab 选择上层或暂放的方块，Enter 或空格拿起；选择底牌或暂放位，再按 Enter 放下。Esc 取消，Ctrl / ⌘ + Z 撤销。</p></details>
+  </dialog>
+
+  <dialog id="settings-dialog" aria-labelledby="settings-heading">
+    <div class="dialog-heading"><div><small>按你喜欢的方式玩</small><h2 id="settings-heading">设置</h2></div><button id="close-settings" class="close-button" aria-label="关闭设置">×</button></div>
+    <div class="settings-row"><div><strong>游戏音效</strong><p>轻轻一声，每次合成都有回应</p></div><button id="sound-button" class="toggle-button" aria-pressed="true"><span aria-hidden="true">♫</span><b>音效开</b></button></div>
+    <label class="settings-row" for="reduce-motion"><span><strong>减少动态效果</strong><small>保留操作提示，减少移动和弹跳</small></span><input id="reduce-motion" type="checkbox" role="switch"></label>
+    <a id="classic-link" class="classic-link" href="./index.html">进入叠叠环游记原模式 <span aria-hidden="true">↗</span></a>
+    <p class="dialog-note">叠出新花样 · v0.4<br>找同类，拖过去，等一个小惊喜。</p>
+  </dialog>
+  <noscript>请启用浏览器 JavaScript，才能拖动方块并合成新图形。</noscript>
 </body>
 </html>

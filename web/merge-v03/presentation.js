@@ -1,15 +1,17 @@
 (function (root) {
   'use strict';
-  const defaults = {snapMs: 85, growMs: 140, deliverMs: 150, parkMs: 110};
+  const defaults = {snapMs: 85, growMs: 180, deliverMs: 170, parkMs: 110};
   const pose = (x, y, scale = 1, angle = 0) =>
     'translate3d(' + x + 'px,' + y + 'px,0) scale(' + scale + ') rotate(' + angle + 'deg)';
+  const reducedBySystem = () => Boolean(root.matchMedia?.('(prefers-reduced-motion: reduce)').matches);
 
-  /** Disposable visual actors. Simulation never waits for their existence. */
+  /** Disposable, cancellable visual actors; committed state never waits on a visual result. */
   class Presentation {
-    constructor() {
+    constructor({isReducedMotion = reducedBySystem} = {}) {
       this.epoch = 0;
       this.actors = new Set();
       this.animations = new Set();
+      this.isReducedMotion = isReducedMotion;
     }
 
     cancel() {
@@ -22,14 +24,16 @@
 
     async play(event, from, target, goal) {
       if (!target || !root.document?.body) return false;
+      const {content: C, config} = root.TileMergeV03;
       const epoch = this.epoch;
-      const reduced = root.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-      const timing = {...defaults, ...root.TileMergeV03.config};
+      const reduced = this.isReducedMotion();
+      const timing = {...defaults, ...config};
       const actor = document.createElement('div');
       actor.className = 'delivery-actor';
       actor.setAttribute?.('aria-hidden', 'true');
       const image = document.createElement('img');
-      image.src = root.TileMergeV03.asset('puppy');
+      const source = C.items[event.sourceItemId];
+      image.src = C.assetUrl(source.assetId);
       image.alt = '';
       actor.append(image);
       const start = from || target;
@@ -74,26 +78,40 @@
             {transform: pose(target.left, target.top)}
           ], timing.parkMs);
         } else {
-          image.src = root.TileMergeV03.asset('golden');
+          const result = C.items[event.resultId];
+          image.src = C.assetUrl(result.assetId);
           actor.classList.add('grown');
-          await animate([
-            {transform: pose(target.left, target.top, .9, -4)},
-            {transform: pose(target.left, target.top, 1.12, 3)},
-            {transform: pose(target.left, target.top)}
-          ], timing.growMs);
+          const recipe = C.recipes[event.recipeId];
+          const preset = recipe?.feedbackId || 'inflate';
+          actor.dataset.feedback = preset;
+          const x = target.left, y = target.top;
+          const frames = preset === 'upgrade' ? [
+            {transform: pose(x - 4, y, .87, -2)},
+            {transform: pose(x + 4, y, 1.08, 1)},
+            {transform: pose(x, y)}
+          ] : preset === 'sprout' ? [
+            {transform: pose(x, y + target.height * .12, .65, -3), opacity: .7},
+            {transform: pose(x, y - 3, 1.1, 2), opacity: 1},
+            {transform: pose(x, y), opacity: 1}
+          ] : [
+            {transform: pose(x, y, .8, -4)},
+            {transform: pose(x, y, 1.15, 3)},
+            {transform: pose(x, y)}
+          ];
+          await animate(frames, timing.growMs);
           if (goal) {
             const width = goal.width || target.width * .5;
             const height = goal.height || target.height * .5;
             await animate([
-              {transform: pose(target.left, target.top), opacity: 1},
+              {transform: pose(x, y), opacity: 1},
               {transform: pose(goal.left + (width - target.width) / 2,
-                goal.top + (height - target.height) / 2, width / target.width), opacity: .12}
+                goal.top + (height - target.height) / 2, width / target.width), opacity: .15}
             ], timing.deliverMs);
           }
         }
         completed = epoch === this.epoch;
       } catch (_) {
-        // Cancelling, leaving the page or missing an animation API never changes rules.
+        // Reduced motion, missing APIs and interrupted effects never change the saved transaction.
       } finally {
         actor.remove();
         this.actors.delete(actor);

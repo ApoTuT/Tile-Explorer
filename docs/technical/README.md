@@ -1,6 +1,6 @@
 # 各代技术文档
 
-更新日期：2026-10-21。
+更新日期：2026-10-22。
 
 本目录说明每一代更新如何实现，包括架构、数据、流程、素材接入、技术边界和验证。只想了解每次增加了什么，请阅读 [迭代更新记录](../ITERATION_LOG.md)。
 
@@ -8,6 +8,7 @@
 
 | 版本或阶段 | 状态 | 实现说明 |
 |---|---|---|
+| v0.4：多图形与前三关打磨 | 已部署在线试玩；本地／公网验收及实施提交双平台 CI 通过；[PR #3](https://github.com/ApoTuT/Tile-Explorer/pull/3) 未合并 | [v0.4.md](v0.4.md)、[发布记录](v0.4-deployment.md) |
 | v0.3：叠合与单格借位 | 本地及浏览器验证通过；[PR #2](https://github.com/ApoTuT/Tile-Explorer/pull/2) 已创建，未合并或发布 | [v0.3.md](v0.3.md) |
 | v0.2：候选槽小剧场 | 已实现，本地验证通过，待 PR 审阅与发布 | [v0.2.md](v0.2.md) |
 | 正式 v0.1：九关旅行原型 | 已实现，已有版本标签 | [v0.1.md](v0.1.md) |
@@ -36,4 +37,6 @@
 5. 只记录实际执行的验证及其结果，未执行、无法复现或设备不可用的项目明确标注。历史记录应说明来源，不把旧结果当作本次复测。
 6. 验证后更新为“已验证”；正式发布时再补充真实提交、标签和日期，并同步 README 与本索引。
 
-本轮已实施 v0.2 小剧场与 v0.3 三关合成模式，实际结果见对应技术文档；正式发布基线仍为 `v0.1`。历史阶段的原验证记录与本轮验证分开记录。
+当前 v0.4 已实现“叠出新花样”三关、多图形配方、通用目标与暂放位、游戏界面和非阻塞操作指引，已部署至 [在线试玩](http://106.12.167.253/tile-explorer/)。本地通过 57 项 Python、127 项 JavaScript 检查，三关 3／6／30 个合法可达状态全部可继续通关。主模式、静态 H5 和公网的五尺寸、鼠标、触摸模拟和键盘检查结果分别记录在 [v0.4-browser-report.json](v0.4-browser-report.json)、[v0.4-static-report.json](v0.4-static-report.json)、[v0.4-public-report.json](v0.4-public-report.json)，验关结果见 [v0.4-level-report.json](v0.4-level-report.json)。源码实施提交 4b282549 已通过 [Linux／Windows CI](https://github.com/ApoTuT/Tile-Explorer/actions/runs/39806403450)，[PR #3](https://github.com/ApoTuT/Tile-Explorer/pull/3) 尚未合并，发布路径与回退见 [部署记录](v0.4-deployment.md)。Android/iOS 实机和陌生玩家试玩未完成，也未扩为 50 关。
+
+v0.2、v0.3 的实际结果保留在对应技术文档；正式发布基线仍为 `v0.1`。历史阶段的原验证记录与本轮验证分开记录。

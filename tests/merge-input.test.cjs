@@ -4,6 +4,7 @@ const assert = require('node:assert/strict');
 const {dragPosition, snapRadius, nearestTarget, bindInput} = require('../web/merge-v03/input.js');
 const E = require('../web/merge-v03/engine.js');
 const levels = require('../web/merge-v03/levels.js');
+require('../web/merge-v03/copy.js');
 
 const fixtures = [];
 test.afterEach(() => { for (const fixture of fixtures.splice(0)) fixture.input.destroy(); });
@@ -43,12 +44,12 @@ function eventSurface() {
   };
 }
 
-function setup({initial = E.createState(levels[0]), sourceId = 'u1', withNest = false,
+function setup({initial = E.createState(levels[0]), sourceId = 'u1', withParking = false,
   scale = 1, reduced = false, animatedReturn = true, onGestureStart} = {}) {
   const board = eventSurface(), doc = eventSurface();
   const commits = [], messages = [], marks = [], rejections = [], frames = new Map(), ghosts = [], animations = [];
   let state = initial, frameId = 0, transformReads = 0, captured = false, removed = 0, gestureStarts = 0;
-  const sourcePosition = () => state.nestId === sourceId ? state.nestSlot : state.tiles.find(tile => tile.id === sourceId);
+  const sourcePosition = () => state.parkingId === sourceId ? state.parkingSlot : state.tiles.find(tile => tile.id === sourceId);
   const sourceBox = () => ({left: sourcePosition().x * scale, top: sourcePosition().y * scale, width: 100 * scale, height: 100 * scale});
   const node = {dataset: {tileId: sourceId}, classList: classes(), closest() { return this; },
     getBoundingClientRect: sourceBox, setPointerCapture() { captured = true; }, hasPointerCapture: () => captured,
@@ -70,8 +71,8 @@ function setup({initial = E.createState(levels[0]), sourceId = 'u1', withNest = 
   global.matchMedia = () => ({matches: reduced});
   const view = {transform() { transformReads++; return {left: 0, top: 0, scale}; }, clearTargets() {},
     markTargets: (id, check) => marks.push({id, check}), reject: (id, blockers) => rejections.push({id, blockers})};
-  if (withNest) view.dropTargets = current => [...current.tiles.filter(tile => tile.z === 0),
-    {id: '__nest__', type: 'park', ...current.nestSlot}];
+  if (withParking) view.dropTargets = current => [...current.tiles.filter(tile => tile.z === 0),
+    {id: '__parking__', type: 'park', ...current.parkingSlot}];
   const before = E.clone(state);
   const input = bindInput({board, view, getState: () => state, commit: (move, from) => commits.push({move, from}),
     message: text => messages.push(text), unlock() {}, isBusy: () => false,
@@ -203,46 +204,46 @@ test('destroy removes every board and document listener and cancels frames and r
   assert.equal(f.commits.length, 0);
 });
 
-test('a physical nest drop previews without changing blockers and commits exactly once', () => {
-  const f = setup({withNest: true}), nest = f.state.nestSlot;
-  f.fire('pointerdown'); f.moveTo(nest); f.frame();
+test('a physical parking drop previews without changing blockers and commits exactly once', () => {
+  const f = setup({withParking: true}), parking = f.state.parkingSlot;
+  f.fire('pointerdown'); f.moveTo(parking); f.frame();
   assert.deepEqual(f.state, f.before); assert.equal(f.commits.length, 0);
-  assert.equal(f.marks.at(-1).id, '__nest__'); assert.equal(f.marks.at(-1).check.ok, true);
+  assert.equal(f.marks.at(-1).id, '__parking__'); assert.equal(f.marks.at(-1).check.ok, true);
   f.fire('pointerup'); f.fire('pointerup');
   assert.deepEqual(moves(f), [{type: 'park', sourceId: 'u1', revision: 0}]);
 });
 
-test('an occupied nest returns a second puppy without changing material or submitting input', () => {
+test('an occupied parking returns a second material without changing material or submitting input', () => {
   const parked = E.applyMove(E.createState(levels[1]), {type: 'park', sourceId: 'u1'}).state;
-  const f = setup({initial: parked, sourceId: 'u2', withNest: true});
-  f.fire('pointerdown'); f.moveTo(parked.nestSlot); f.frame(); f.fire('pointerup');
+  const f = setup({initial: parked, sourceId: 'u2', withParking: true});
+  f.fire('pointerdown'); f.moveTo(parked.parkingSlot); f.frame(); f.fire('pointerup');
   assert.equal(f.marks.at(-1).check.ok, false); assert.equal(f.commits.length, 0);
-  assert.ok(f.messages.at(-1).includes('只能放一张')); assert.equal(f.rejections.at(-1).id, '__nest__');
+  assert.ok(f.messages.at(-1).includes('满了')); assert.equal(f.rejections.at(-1).id, '__parking__');
   assert.equal(f.animations.length, 1); assert.deepEqual(f.state, f.before);
 });
 
-test('a puppy dragged from its physical nest position reaches the correct lower target', () => {
+test('a material dragged from its physical parking position reaches the correct lower target', () => {
   const parked = E.applyMove(E.createState(levels[1]), {type: 'park', sourceId: 'u1'}).state;
   const state = E.applyMove(parked, {sourceId: 'u2', targetId: 'l0'}).state;
-  const target = state.tiles.find(tile => tile.id === 'l1'), f = setup({initial: state, sourceId: 'u1', withNest: true});
+  const target = state.tiles.find(tile => tile.id === 'l1'), f = setup({initial: state, sourceId: 'u1', withParking: true});
   f.fire('pointerdown'); f.moveTo(target); f.fire('pointerup');
   assert.deepEqual(moves(f), [{sourceId: 'u1', targetId: 'l1', revision: state.revision}]);
   assert.equal(f.commits[0].from.left, target.x); assert.equal(f.commits[0].from.top, target.y);
   assert.deepEqual(f.state, f.before);
 });
 
-test('nest eligibility and revision are rechecked at release rather than trusting the highlight', () => {
-  const initial = E.createState(levels[2]), f = setup({initial, sourceId: 'u1', withNest: true});
-  f.fire('pointerdown'); f.moveTo(initial.nestSlot); f.frame();
+test('parking eligibility and revision are rechecked at release rather than trusting the highlight', () => {
+  const initial = E.createState(levels[2]), f = setup({initial, sourceId: 'u1', withParking: true});
+  f.fire('pointerdown'); f.moveTo(initial.parkingSlot); f.frame();
   assert.equal(f.marks.at(-1).check.ok, true);
   const occupied = E.applyMove(initial, {type: 'park', sourceId: 'u2'}).state;
   f.setState(occupied); f.fire('pointerup');
   assert.equal(f.commits.length, 0); assert.deepEqual(f.state, occupied);
-  assert.ok(f.messages.at(-1).includes('只能放一张'));
+  assert.ok(f.messages.at(-1).includes('满了'));
 });
 
 test('a still-valid endpoint cannot submit a stale gesture after another transaction', () => {
-  const state = E.createState(levels[2]), f = setup({initial: state, sourceId: 'u1'});
+  const state = E.createState(levels[2]), f = setup({initial: state, sourceId: 'u4'});
   const target = state.tiles.find(tile => tile.id === 'l0');
   f.fire('pointerdown'); f.moveTo(target); f.frame();
   f.setState({...E.clone(state), revision: 1}); f.fire('pointerup');
