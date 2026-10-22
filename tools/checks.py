@@ -34,7 +34,7 @@ def main() -> int:
             [node, "--test", "--test-isolation=none", *test_files])
         run("Exhaustive merge level validation", [node, "tools/validate_v03_levels.cjs"])
         run("Standalone H5 export",
-            [sys.executable, "tools/export_v03.py", "--output", ".local/h5-v03"])
+            [sys.executable, "tools/export_v03.py", "--output", ".local/h5-v04"])
         run("Whitespace check", ["git", "diff", "--check"])
     except (OSError, subprocess.CalledProcessError, RuntimeError) as error:
         print(f"\nChecks failed: {error}", file=sys.stderr)

@@ -4,6 +4,8 @@
   "scripts": [
     "merge-v03/settings.js",
     "merge-v03/geometry.js",
+    "merge-v03/content.js",
+    "merge-v03/copy.js",
     "merge-v03/engine.js",
     "merge-v03/levels.js",
     "audio-manager.js",
@@ -12,13 +14,19 @@
     "merge-v03/view.js",
     "merge-v03/input.js",
     "merge-v03/presentation.js",
+    "merge-v03/guide-view.js",
+    "merge-v03/tutorial.js",
     "merge-v03/app.js"
   ],
   "styles": ["merge-v03/style.css"],
   "assets": [
-    "assets/merge-v03/puppy.svg",
-    "assets/merge-v03/golden.svg",
-    "assets/merge-v03/manifest.json",
-    "assets/audio/v02/dog.wav"
+    "assets/merge-v04/strawberry-small.svg",
+    "assets/merge-v04/strawberry-large.svg",
+    "assets/merge-v04/car-small.svg",
+    "assets/merge-v04/sports-car.svg",
+    "assets/merge-v04/tree-small.svg",
+    "assets/merge-v04/tree-grown.svg",
+    "assets/merge-v04/manifest.json",
+    "assets/audio/v02/strawberry.wav"
   ]
 }

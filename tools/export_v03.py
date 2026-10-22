@@ -1,4 +1,4 @@
-"""Export the v0.3 game as local, backend-free static H5 files."""
+"""Export the current merge game as local, backend-free static H5 files."""
 from __future__ import annotations
 
 import argparse
@@ -37,7 +37,7 @@ def export(output: Path) -> list[Path]:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--output", type=Path, default=ROOT / ".local" / "h5-v03")
+    parser.add_argument("--output", type=Path, default=ROOT / ".local" / "h5-v04")
     args = parser.parse_args()
     files = export(args.output)
     print(f"Exported {len(files)} files to {args.output.resolve()}")

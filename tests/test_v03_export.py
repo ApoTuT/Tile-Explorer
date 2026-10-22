@@ -49,7 +49,8 @@ class ExportTests(unittest.TestCase):
                 if name.endswith(".js") and name.startswith("merge-v03/"):
                     text = (output / name).read_text(encoding="utf-8")
                     self.assertNotIn("/api/", text)
-            self.assertTrue((output / "assets/audio/v02/dog.wav").is_file())
+            self.assertTrue((output / "assets/audio/v02/strawberry.wav").is_file())
+            self.assertTrue((output / "assets/merge-v04/sports-car.svg").is_file())
             (output / "keep.txt").write_text("unrelated", encoding="utf-8")
             exporter.export(output)
             self.assertEqual((output / "keep.txt").read_text(), "unrelated")

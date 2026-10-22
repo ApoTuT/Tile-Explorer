@@ -37,12 +37,17 @@
 
   const translation = box => 'translate3d(' + box.left + 'px, ' + box.top + 'px, 0)';
 
-  function bindInput({board, view, getState, commit, message, unlock, isBusy, onGestureStart = () => {}}) {
+  function bindInput({board, view, getState, commit, message, unlock, isBusy,
+    onGestureStart = () => {}, onEvent = () => {},
+    isReducedMotion = () => Boolean(root.matchMedia?.('(prefers-reduced-motion: reduce)').matches)}) {
     const engine = root.TileMergeV03.engine, doc = board.ownerDocument || root.document;
     const transients = new Set(), listeners = [];
     let drag = null, destroyed = false;
     const requestFrame = root.requestAnimationFrame.bind(root);
     const cancelFrame = root.cancelAnimationFrame.bind(root);
+    const notify = (type, gesture, extra = {}) => onEvent({type, sourceId: gesture?.tile.id,
+      inputMode: 'pointer', pointerType: gesture?.pointerType || 'mouse', ...extra});
+    const rejectMessage = reason => root.TileMergeV03.copy?.reject(reason) || '这里暂时放不了，再试一下。';
 
     function listen(target, name, listener, options) {
       target.addEventListener(name, listener, options);
@@ -76,13 +81,16 @@
     }
 
     function cancel() {
-      if (drag) { const old = drag; release(old); discard(old); }
+      if (drag) {
+        const old = drag; release(old); discard(old);
+        notify('gesture-cancelled', old);
+      }
       clearTransients();
     }
 
     function showReturn(gesture) {
       if (!gesture.ghost) { discard(gesture); return; }
-      const reduced = root.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+      const reduced = isReducedMotion();
       if (reduced || typeof gesture.ghost.animate !== 'function') { discard(gesture); return; }
       const preview = {gesture, frame: null, animation: null};
       transients.add(preview);
@@ -107,12 +115,13 @@
       const ghost = gesture.node.cloneNode(true);
       ghost.removeAttribute('id'); ghost.removeAttribute('data-tile-id');
       ghost.setAttribute('aria-hidden', 'true'); ghost.tabIndex = -1;
-      ghost.className = 'animal-tile drag-ghost';
+      ghost.className = 'merge-tile drag-ghost';
       const box = screenBox(gesture);
       Object.assign(ghost.style, {left: '0px', top: '0px', width: box.width + 'px',
         height: box.height + 'px', transform: translation(box), willChange: 'transform'});
       doc.body.append(ghost); gesture.ghost = ghost;
       gesture.node.classList.add('lifted'); board.classList.add('has-dragged');
+      notify('drag-start', gesture);
     }
 
     function updatePoint(gesture, event) {
@@ -153,15 +162,19 @@
       if (!tile || state.status !== 'playing') return;
       unlock();
       if (tile.z !== 1 || engine.getBlockers(state, tile.id).length) {
-        message('抓住上面的小狗，拖到下面的小狗上。'); return;
+        message(rejectMessage('source-blocked'));
+        onEvent({type: 'drop-rejected', sourceId: tile.id, reason: 'source-blocked', inputMode: 'pointer'});
+        return;
       }
       onGestureStart();
       const transform = view.transform(), origin = node.getBoundingClientRect();
       const start = {x: event.clientX, y: event.clientY};
       const grab = {x: (start.x - origin.left) / transform.scale, y: (start.y - origin.top) / transform.scale};
       drag = {pointerId: event.pointerId, node, tile, revision: state.revision, transform, origin,
+        pointerType: event.pointerType,
         start, grab, position: dragPosition(start, grab, transform), ghost: null, frame: null,
         targets: dropTargets(view, state), targetRevision: state.revision, highlight: null};
+      notify('gesture-start', drag);
       try { node.setPointerCapture(event.pointerId); } catch (_) { cancel(); }
     }
 
@@ -178,22 +191,27 @@
       // A release can arrive before the last queued frame, or without a final
       // pointermove. Decisions always use the release point and current rules.
       updatePoint(gesture, event);
-      if (!gesture.ghost) { release(gesture); discard(gesture); return; }
+      if (!gesture.ghost) {
+        release(gesture); discard(gesture); notify('tap-without-drag', gesture); return;
+      }
       paint(gesture);
       const state = getState(), target = nearestTarget(gesture.position,
         dropTargets(view, state), snapRadius(gesture.transform.scale));
       const from = screenBox(gesture);
       release(gesture);
-      if (!target) { showReturn(gesture); message('再靠近一点，松手就能对齐。'); return; }
+      if (!target) {
+        showReturn(gesture); notify('drop-rejected', gesture, {reason: 'blank'}); return;
+      }
       const check = checkDrop(engine, state, gesture.tile.id, target);
       if (!check.ok) {
         showReturn(gesture);
-        message(target.type === 'park' ? '窝里只能放一张，先把里面的小狗接回来配对。' :
-          check.reason === 'target-blocked' ? '还有小狗压着，先把一张拖到临时窝借个位。' : '这两张还不能配对。');
+        message(rejectMessage(check.reason));
+        notify('drop-rejected', gesture, {reason: check.reason, blockers: check.blockers, targetId: target.id});
         view.reject(target.id, check.blockers); return;
       }
       if (state.revision !== gesture.revision) {
-        showReturn(gesture); message('牌阵已更新，再拖一次就好。'); return;
+        showReturn(gesture); message(rejectMessage('stale'));
+        notify('drop-rejected', gesture, {reason: 'stale'}); return;
       }
       handoff(gesture);
       commit(target.type === 'park' ? {type: 'park', sourceId: gesture.tile.id, revision: gesture.revision} :

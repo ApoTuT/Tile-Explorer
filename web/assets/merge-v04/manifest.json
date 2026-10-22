@@ -1,0 +1,13 @@
+{
+  "version": "0.4.0",
+  "license": "Original vector artwork created for Tile Explorer. No external image sources.",
+  "viewBox": "0 0 100 100",
+  "assets": [
+    {"id": "strawberry-small", "path": "strawberry-small.svg", "name": "小草莓"},
+    {"id": "strawberry-large", "path": "strawberry-large.svg", "name": "大草莓"},
+    {"id": "car-small", "path": "car-small.svg", "name": "普通小车"},
+    {"id": "sports-car", "path": "sports-car.svg", "name": "跑车"},
+    {"id": "tree-small", "path": "tree-small.svg", "name": "小树苗"},
+    {"id": "tree-grown", "path": "tree-grown.svg", "name": "大树"}
+  ]
+}
