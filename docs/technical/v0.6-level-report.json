@@ -1,12 +1,12 @@
 {
-  "ruleset": "slide-v06-2",
+  "ruleset": "slide-v06-3",
   "scoringVersion": "score-v06-1",
   "method": "Complete reachable spatial graphs for all ten levels. Every legal edge uses shipped engine.applyAction with only the move budget ignored; reverse breadth-first search proves all reachable states can complete. Normal kernel replays independently verify move limits and scoring witnesses.",
   "levels": [
     {
       "id": "slide06-01",
       "title": "初次碰面",
-      "definitionHash": "8d52926c",
+      "definitionHash": "42739779",
       "initialSolvable": true,
       "allReachableSolvable": true,
       "unwinnableStates": 0,
@@ -17,8 +17,16 @@
       "shortestMoves": 1,
       "shortest": 1,
       "worstRemainingMoves": 2,
+      "placementProofs": [
+        {
+          "placement": null,
+          "shortestMoves": 1,
+          "withinBudget": true
+        }
+      ],
       "spatialMoveLimitIgnored": true,
-      "kernel": "slide-v06-2",
+      "obstacleLimitRespected": true,
+      "kernel": "slide-v06-3",
       "moveLimit": 20,
       "referenceMoves": 1,
       "referenceWithinMoveLimit": true,
@@ -37,7 +45,7 @@
     {
       "id": "slide06-02",
       "title": "苹果接力",
-      "definitionHash": "adc4b363",
+      "definitionHash": "f8ed3680",
       "initialSolvable": true,
       "allReachableSolvable": true,
       "unwinnableStates": 0,
@@ -48,8 +56,16 @@
       "shortestMoves": 4,
       "shortest": 4,
       "worstRemainingMoves": 4,
+      "placementProofs": [
+        {
+          "placement": null,
+          "shortestMoves": 4,
+          "withinBudget": true
+        }
+      ],
       "spatialMoveLimitIgnored": true,
-      "kernel": "slide-v06-2",
+      "obstacleLimitRespected": true,
+      "kernel": "slide-v06-3",
       "moveLimit": 20,
       "referenceMoves": 4,
       "referenceWithinMoveLimit": true,
@@ -68,7 +84,7 @@
     {
       "id": "slide06-03",
       "title": "三步成长",
-      "definitionHash": "017548ea",
+      "definitionHash": "5718ea07",
       "initialSolvable": true,
       "allReachableSolvable": true,
       "unwinnableStates": 0,
@@ -79,8 +95,16 @@
       "shortestMoves": 6,
       "shortest": 6,
       "worstRemainingMoves": 6,
+      "placementProofs": [
+        {
+          "placement": null,
+          "shortestMoves": 6,
+          "withinBudget": true
+        }
+      ],
       "spatialMoveLimitIgnored": true,
-      "kernel": "slide-v06-2",
+      "obstacleLimitRespected": true,
+      "kernel": "slide-v06-3",
       "moveLimit": 20,
       "referenceMoves": 6,
       "referenceWithinMoveLimit": true,
@@ -98,60 +122,95 @@
     },
     {
       "id": "slide06-04",
-      "title": "爱心相遇",
-      "definitionHash": "eb975348",
+      "title": "爱心停车位",
+      "definitionHash": "1f4b2a3b",
       "initialSolvable": true,
       "allReachableSolvable": true,
       "unwinnableStates": 0,
-      "reachableStates": 2975,
-      "states": 2975,
-      "spatialEdges": 26202,
-      "checkedKernelTransitions": 28632,
+      "reachableStates": 3882,
+      "states": 3882,
+      "spatialEdges": 29118,
+      "checkedKernelTransitions": 32364,
       "shortestMoves": 6,
       "shortest": 6,
-      "worstRemainingMoves": 6,
+      "worstRemainingMoves": 7,
+      "placementProofs": [
+        {
+          "placement": {
+            "row": 0,
+            "col": 0
+          },
+          "shortestMoves": 7,
+          "withinBudget": true
+        },
+        {
+          "placement": {
+            "row": 0,
+            "col": 2
+          },
+          "shortestMoves": 6,
+          "withinBudget": true
+        },
+        {
+          "placement": {
+            "row": 2,
+            "col": 2
+          },
+          "shortestMoves": 7,
+          "withinBudget": true
+        }
+      ],
       "spatialMoveLimitIgnored": true,
-      "kernel": "slide-v06-2",
+      "obstacleLimitRespected": true,
+      "kernel": "slide-v06-3",
       "moveLimit": 20,
-      "referenceMoves": 6,
+      "referenceMoves": 7,
       "referenceWithinMoveLimit": true,
       "mergeCount": 4,
-      "score": 1000,
+      "score": 800,
       "scoreThresholdReachable": true,
       "scoreProofs": [
         {
-          "moves": 6,
-          "score": 1000,
+          "moves": 7,
+          "score": 800,
           "stars": 3
         }
       ],
-      "bestChain": 4
+      "bestChain": 2
     },
     {
       "id": "slide06-05",
-      "title": "花园绕一绕",
-      "definitionHash": "7d5fcccd",
+      "title": "横块先让路",
+      "definitionHash": "3f2e262b",
       "initialSolvable": true,
       "allReachableSolvable": true,
       "unwinnableStates": 0,
-      "reachableStates": 24013,
-      "states": 24013,
-      "spatialEdges": 177192,
-      "checkedKernelTransitions": 181152,
-      "shortestMoves": 8,
-      "shortest": 8,
-      "worstRemainingMoves": 8,
+      "reachableStates": 16430,
+      "states": 16430,
+      "spatialEdges": 103204,
+      "checkedKernelTransitions": 106392,
+      "shortestMoves": 12,
+      "shortest": 12,
+      "worstRemainingMoves": 12,
+      "placementProofs": [
+        {
+          "placement": null,
+          "shortestMoves": 12,
+          "withinBudget": true
+        }
+      ],
       "spatialMoveLimitIgnored": true,
-      "kernel": "slide-v06-2",
+      "obstacleLimitRespected": true,
+      "kernel": "slide-v06-3",
       "moveLimit": 20,
-      "referenceMoves": 8,
+      "referenceMoves": 12,
       "referenceWithinMoveLimit": true,
       "mergeCount": 4,
       "score": 1000,
       "scoreThresholdReachable": true,
       "scoreProofs": [
         {
-          "moves": 8,
+          "moves": 12,
           "score": 1000,
           "stars": 3
         }
@@ -160,158 +219,218 @@
     },
     {
       "id": "slide06-06",
-      "title": "蝴蝶借道",
-      "definitionHash": "f78a129d",
+      "title": "花园竖着长",
+      "definitionHash": "f13ef07f",
       "initialSolvable": true,
       "allReachableSolvable": true,
       "unwinnableStates": 0,
-      "reachableStates": 85957,
-      "states": 85957,
-      "spatialEdges": 564816,
-      "checkedKernelTransitions": 574896,
-      "shortestMoves": 11,
-      "shortest": 11,
-      "worstRemainingMoves": 11,
+      "reachableStates": 12530,
+      "states": 12530,
+      "spatialEdges": 67488,
+      "checkedKernelTransitions": 70480,
+      "shortestMoves": 12,
+      "shortest": 12,
+      "worstRemainingMoves": 23,
+      "placementProofs": [
+        {
+          "placement": {
+            "row": 3,
+            "col": 2
+          },
+          "shortestMoves": 13,
+          "withinBudget": true
+        },
+        {
+          "placement": {
+            "row": 0,
+            "col": 2
+          },
+          "shortestMoves": 12,
+          "withinBudget": true
+        }
+      ],
       "spatialMoveLimitIgnored": true,
-      "kernel": "slide-v06-2",
+      "obstacleLimitRespected": true,
+      "kernel": "slide-v06-3",
       "moveLimit": 20,
-      "referenceMoves": 11,
+      "referenceMoves": 13,
       "referenceWithinMoveLimit": true,
-      "mergeCount": 5,
-      "score": 1350,
+      "mergeCount": 4,
+      "score": 1000,
       "scoreThresholdReachable": true,
       "scoreProofs": [
         {
-          "moves": 11,
-          "score": 1350,
+          "moves": 13,
+          "score": 1000,
+          "stars": 3
+        }
+      ],
+      "bestChain": 4
+    },
+    {
+      "id": "slide06-07",
+      "title": "小鸟换个停点",
+      "definitionHash": "e49ec0b9",
+      "initialSolvable": true,
+      "allReachableSolvable": true,
+      "unwinnableStates": 0,
+      "reachableStates": 81864,
+      "states": 81864,
+      "spatialEdges": 872495,
+      "checkedKernelTransitions": 872588,
+      "shortestMoves": 8,
+      "shortest": 8,
+      "worstRemainingMoves": 10,
+      "placementProofs": [
+        {
+          "placement": {
+            "row": 0,
+            "col": 2
+          },
+          "shortestMoves": 8,
+          "withinBudget": true
+        }
+      ],
+      "spatialMoveLimitIgnored": true,
+      "obstacleLimitRespected": true,
+      "kernel": "slide-v06-3",
+      "moveLimit": 20,
+      "referenceMoves": 8,
+      "referenceWithinMoveLimit": true,
+      "mergeCount": 7,
+      "score": 1850,
+      "scoreThresholdReachable": true,
+      "scoreProofs": [
+        {
+          "moves": 8,
+          "score": 1850,
+          "stars": 3
+        }
+      ],
+      "bestChain": 7
+    },
+    {
+      "id": "slide06-08",
+      "title": "大块的转身空间",
+      "definitionHash": "eaa89db6",
+      "initialSolvable": true,
+      "allReachableSolvable": true,
+      "unwinnableStates": 0,
+      "reachableStates": 166651,
+      "states": 166651,
+      "spatialEdges": 1639970,
+      "checkedKernelTransitions": 1645542,
+      "shortestMoves": 8,
+      "shortest": 8,
+      "worstRemainingMoves": 10,
+      "placementProofs": [
+        {
+          "placement": {
+            "row": 3,
+            "col": 1
+          },
+          "shortestMoves": 8,
+          "withinBudget": true
+        }
+      ],
+      "spatialMoveLimitIgnored": true,
+      "obstacleLimitRespected": true,
+      "kernel": "slide-v06-3",
+      "moveLimit": 20,
+      "referenceMoves": 8,
+      "referenceWithinMoveLimit": true,
+      "mergeCount": 4,
+      "score": 900,
+      "scoreThresholdReachable": true,
+      "scoreProofs": [
+        {
+          "moves": 8,
+          "score": 900,
+          "stars": 3
+        }
+      ],
+      "bestChain": 3
+    },
+    {
+      "id": "slide06-09",
+      "title": "双心倒着想",
+      "definitionHash": "1af289e9",
+      "initialSolvable": true,
+      "allReachableSolvable": true,
+      "unwinnableStates": 0,
+      "reachableStates": 184451,
+      "states": 184451,
+      "spatialEdges": 1333659,
+      "checkedKernelTransitions": 1373902,
+      "shortestMoves": 12,
+      "shortest": 12,
+      "worstRemainingMoves": 12,
+      "placementProofs": [
+        {
+          "placement": null,
+          "shortestMoves": 12,
+          "withinBudget": true
+        }
+      ],
+      "spatialMoveLimitIgnored": true,
+      "obstacleLimitRespected": true,
+      "kernel": "slide-v06-3",
+      "moveLimit": 20,
+      "referenceMoves": 12,
+      "referenceWithinMoveLimit": true,
+      "mergeCount": 5,
+      "score": 1450,
+      "scoreThresholdReachable": true,
+      "scoreProofs": [
+        {
+          "moves": 12,
+          "score": 1450,
           "stars": 3
         }
       ],
       "bestChain": 5
     },
     {
-      "id": "slide06-07",
-      "title": "小鸟展翅",
-      "definitionHash": "8abf8136",
+      "id": "slide06-10",
+      "title": "凤凰归巢",
+      "definitionHash": "5962c99d",
       "initialSolvable": true,
       "allReachableSolvable": true,
       "unwinnableStates": 0,
-      "reachableStates": 4994,
-      "states": 4994,
-      "spatialEdges": 45114,
-      "checkedKernelTransitions": 45132,
+      "reachableStates": 436566,
+      "states": 436566,
+      "spatialEdges": 5044848,
+      "checkedKernelTransitions": 5054427,
       "shortestMoves": 7,
       "shortest": 7,
-      "worstRemainingMoves": 7,
+      "worstRemainingMoves": 10,
+      "placementProofs": [
+        {
+          "placement": {
+            "row": 3,
+            "col": 0
+          },
+          "shortestMoves": 7,
+          "withinBudget": true
+        }
+      ],
       "spatialMoveLimitIgnored": true,
-      "kernel": "slide-v06-2",
+      "obstacleLimitRespected": true,
+      "kernel": "slide-v06-3",
       "moveLimit": 20,
       "referenceMoves": 7,
       "referenceWithinMoveLimit": true,
-      "mergeCount": 6,
-      "score": 1600,
+      "mergeCount": 5,
+      "score": 1450,
       "scoreThresholdReachable": true,
       "scoreProofs": [
         {
           "moves": 7,
-          "score": 1600,
+          "score": 1450,
           "stars": 3
         }
       ],
-      "bestChain": 6
-    },
-    {
-      "id": "slide06-08",
-      "title": "星光接力",
-      "definitionHash": "f6788c9e",
-      "initialSolvable": true,
-      "allReachableSolvable": true,
-      "unwinnableStates": 0,
-      "reachableStates": 130861,
-      "states": 130861,
-      "spatialEdges": 756122,
-      "checkedKernelTransitions": 824144,
-      "shortestMoves": 12,
-      "shortest": 12,
-      "worstRemainingMoves": 12,
-      "spatialMoveLimitIgnored": true,
-      "kernel": "slide-v06-2",
-      "moveLimit": 20,
-      "referenceMoves": 12,
-      "referenceWithinMoveLimit": true,
-      "mergeCount": 5,
-      "score": 1100,
-      "scoreThresholdReachable": true,
-      "scoreProofs": [
-        {
-          "moves": 12,
-          "score": 1100,
-          "stars": 3
-        }
-      ],
-      "bestChain": 4
-    },
-    {
-      "id": "slide06-09",
-      "title": "双心相连",
-      "definitionHash": "f85b3b0e",
-      "initialSolvable": true,
-      "allReachableSolvable": true,
-      "unwinnableStates": 0,
-      "reachableStates": 9301,
-      "states": 9301,
-      "spatialEdges": 67854,
-      "checkedKernelTransitions": 67872,
-      "shortestMoves": 8,
-      "shortest": 8,
-      "worstRemainingMoves": 8,
-      "spatialMoveLimitIgnored": true,
-      "kernel": "slide-v06-2",
-      "moveLimit": 20,
-      "referenceMoves": 8,
-      "referenceWithinMoveLimit": true,
-      "mergeCount": 4,
-      "score": 1200,
-      "scoreThresholdReachable": true,
-      "scoreProofs": [
-        {
-          "moves": 8,
-          "score": 1200,
-          "stars": 3
-        }
-      ],
-      "bestChain": 4
-    },
-    {
-      "id": "slide06-10",
-      "title": "凤凰归巢",
-      "definitionHash": "376a6702",
-      "initialSolvable": true,
-      "allReachableSolvable": true,
-      "unwinnableStates": 0,
-      "reachableStates": 229393,
-      "states": 229393,
-      "spatialEdges": 1236720,
-      "checkedKernelTransitions": 1264080,
-      "shortestMoves": 15,
-      "shortest": 15,
-      "worstRemainingMoves": 15,
-      "spatialMoveLimitIgnored": true,
-      "kernel": "slide-v06-2",
-      "moveLimit": 20,
-      "referenceMoves": 15,
-      "referenceWithinMoveLimit": true,
-      "mergeCount": 6,
-      "score": 1750,
-      "scoreThresholdReachable": true,
-      "scoreProofs": [
-        {
-          "moves": 15,
-          "score": 1750,
-          "stars": 3
-        }
-      ],
-      "bestChain": 6
+      "bestChain": 5
     }
   ],
   "ok": true

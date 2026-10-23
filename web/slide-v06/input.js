@@ -22,7 +22,7 @@
     function listen(target,name,fn,options) {
       target.addEventListener(name,fn,options); listeners.push(()=>target.removeEventListener(name,fn,options));
     }
-    const actionFor = current => ({type:'slide',tileId:current.tileId,direction:current.direction});
+    const actionFor = current => current.tileId==='obstacle'?{type:'move-obstacle',direction:current.direction}:({type:'slide',tileId:current.tileId,direction:current.direction});
     function stopFrame(current) { if(current.frame!==null){caf(current.frame);current.frame=null;} }
     function finish(current,extra={}) {
       if(current.ended)return;current.ended=true;stopFrame(current);if(gesture===current)gesture=null;
@@ -47,7 +47,7 @@
       if(destroyed || gesture || isBusy() || event.button!==0 || event.isPrimary===false)return;
       const node=event.target?.closest?.('[data-tile-id]');
       if(!node || (board.contains && !board.contains(node)))return;
-      const state=getState(),tile=state.tiles.find(t=>t.id===node.dataset.tileId);
+      const state=getState(),tile=node.dataset.tileId==='obstacle'&&state.obstacle?.position?{id:'obstacle'}:state.tiles.find(t=>t.id===node.dataset.tileId);
       if(!tile || state.status!=='playing')return;
       onStart({tileId:tile.id,inputMode:'pointer'});view.settle?.();
       node.focus?.({preventScroll:true});
@@ -93,9 +93,9 @@
       if(!direction || event.ctrlKey || event.metaKey || event.altKey || isBusy() || gesture)return;
       const node=target?.closest?.('[data-tile-id]');if(!node || (board.contains && !board.contains(node)))return;
       event.preventDefault?.();if(event.repeat)return;
-      const state=getState();if(state.status!=='playing' || !state.tiles.some(t=>t.id===node.dataset.tileId))return;
+      const state=getState();if(state.status!=='playing' || !(state.tiles.some(t=>t.id===node.dataset.tileId)||node.dataset.tileId==='obstacle'&&state.obstacle?.position))return;
       const tileId=node.dataset.tileId;onStart({tileId,inputMode:'keyboard'});view.settle?.();
-      const action={type:'slide',tileId,direction},check=engine.inspectAction(state,action);
+      const action=actionFor({tileId,direction}),check=engine.inspectAction(state,action);
       if(check.ok)commit(action,{expectedRevision:state.revision,inputMode:'keyboard'});
       else {view.reject?.(tileId,direction,isReducedMotion());onReject({...check,tileId,direction});}
       onEnd({tileId,inputMode:'keyboard',committed:check.ok});

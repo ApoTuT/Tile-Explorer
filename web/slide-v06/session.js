@@ -22,7 +22,7 @@
     }
     start(l,save=true){this.level=l;this.state=E.createState(l);this.history=[];this.epoch++;if(save)this.save();}
     apply(a){const r=E.applyAction(this.state,a);if(r.ok){this.state=r.state;this.history.push(r.transaction);this.epoch++;this.save();}return r;}
-    undo(){if(!this.history.length)return false;this.state=this.history.pop().before;this.epoch++;this.save();return true;}
+    undo(){if(!this.history.length||this.history.at(-1).action.type==='place-obstacle')return false;this.state=this.history.pop().before;this.epoch++;this.save();return true;}
     restart(){this.start(this.level);}
     record(){if(this.state.status!=='won')return;const r=E.result(this.state,this.level),id=this.level.id,hash=E.definitionHash(this.level),old=this.best[id]?.hash===hash?this.best[id]:{};
       this.best[id]={hash,score:Math.max(old.score||0,r.score),stars:Math.max(old.stars||0,r.stars),moves:Math.min(old.moves||Infinity,this.state.successfulMoves)};this.write('best',this.best);}

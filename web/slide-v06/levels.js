@@ -1,6 +1,5 @@
-/* Authored by reverse moves, verified by forward replay. */
-(function(root){
-  const levels=[
+/* Authored layouts; complete spatial proofs and scoring replays. */
+(function(root){const levels=[
   {
     "id": "slide06-01",
     "title": "初次碰面",
@@ -40,7 +39,7 @@
     "parMoves": 1,
     "twoStarScore": 150,
     "threeStarScore": 300,
-    "ruleset": "slide-v06-2",
+    "ruleset": "slide-v06-3",
     "referenceSolution": [
       {
         "type": "slide",
@@ -109,7 +108,7 @@
     "parMoves": 4,
     "twoStarScore": 350,
     "threeStarScore": 500,
-    "ruleset": "slide-v06-2",
+    "ruleset": "slide-v06-3",
     "referenceSolution": [
       {
         "type": "slide",
@@ -215,7 +214,7 @@
     "parMoves": 6,
     "twoStarScore": 650,
     "threeStarScore": 800,
-    "ruleset": "slide-v06-2",
+    "ruleset": "slide-v06-3",
     "referenceSolution": [
       {
         "type": "slide",
@@ -289,8 +288,8 @@
   },
   {
     "id": "slide06-04",
-    "title": "爱心相遇",
-    "subtitle": "20步内，完成两段苹果接力。",
+    "title": "爱心停车位",
+    "subtitle": "先放一块障碍，给两组水果安排停靠。",
     "rows": 3,
     "cols": 3,
     "mask": [
@@ -299,27 +298,15 @@
       "###"
     ],
     "rocks": [],
-    "chainGoals": {
-      "fruit": {
-        "targetTier": 2,
-        "count": 2
-      }
-    },
     "tiles": [
       {
-        "id": "t2",
+        "id": "t1",
         "itemId": "fruit-0",
         "row": 0,
         "col": 1
       },
       {
-        "id": "t1",
-        "itemId": "fruit-1",
-        "row": 0,
-        "col": 2
-      },
-      {
-        "id": "t4",
+        "id": "t2",
         "itemId": "fruit-0",
         "row": 1,
         "col": 0
@@ -331,18 +318,31 @@
         "col": 1
       },
       {
-        "id": "t5",
+        "id": "t4",
         "itemId": "fruit-0",
         "row": 1,
         "col": 2
       },
       {
-        "id": "t7",
+        "id": "t6",
+        "itemId": "fruit-1",
+        "row": 2,
+        "col": 0
+      },
+      {
+        "id": "t5",
         "itemId": "fruit-0",
         "row": 2,
         "col": 1
       }
     ],
+    "chainGoals": {
+      "fruit": {
+        "targetTier": 2,
+        "count": 2
+      }
+    },
+    "footprintByChain": {},
     "pattern": [
       ".#.#.",
       "#####",
@@ -351,11 +351,59 @@
       "..#.."
     ],
     "moveLimit": 20,
-    "parMoves": 6,
-    "twoStarScore": 850,
-    "threeStarScore": 1000,
-    "ruleset": "slide-v06-2",
+    "parMoves": 7,
+    "twoStarScore": 650,
+    "threeStarScore": 800,
+    "ruleset": "slide-v06-3",
+    "obstacle": {
+      "enabled": true,
+      "moveLimit": 0,
+      "placementCells": [
+        {
+          "row": 0,
+          "col": 0
+        },
+        {
+          "row": 0,
+          "col": 2
+        },
+        {
+          "row": 2,
+          "col": 2
+        }
+      ]
+    },
     "referenceSolution": [
+      {
+        "type": "place-obstacle",
+        "row": 0,
+        "col": 0
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "down"
+      },
       {
         "type": "slide",
         "tileId": "t2",
@@ -363,33 +411,43 @@
       },
       {
         "type": "slide",
-        "tileId": "t2",
-        "direction": "down"
-      },
-      {
-        "type": "slide",
-        "tileId": "t4",
+        "tileId": "t6",
         "direction": "right"
-      },
-      {
-        "type": "slide",
-        "tileId": "t5",
-        "direction": "down"
-      },
-      {
-        "type": "slide",
-        "tileId": "t7",
-        "direction": "right"
-      },
-      {
-        "type": "slide",
-        "tileId": "t1",
-        "direction": "down"
       }
     ],
     "scoreProofs": [
       {
         "actions": [
+          {
+            "type": "place-obstacle",
+            "row": 0,
+            "col": 0
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "down"
+          },
           {
             "type": "slide",
             "tileId": "t2",
@@ -397,47 +455,65 @@
           },
           {
             "type": "slide",
-            "tileId": "t2",
-            "direction": "down"
-          },
-          {
-            "type": "slide",
-            "tileId": "t4",
+            "tileId": "t6",
             "direction": "right"
-          },
-          {
-            "type": "slide",
-            "tileId": "t5",
-            "direction": "down"
-          },
-          {
-            "type": "slide",
-            "tileId": "t7",
-            "direction": "right"
-          },
-          {
-            "type": "slide",
-            "tileId": "t1",
-            "direction": "down"
           }
         ],
-        "score": 1000,
+        "score": 800,
         "stars": 3
       }
     ]
   },
   {
     "id": "slide06-05",
-    "title": "花园绕一绕",
-    "subtitle": "20步内，水果和汽车互相让路。",
+    "title": "横块先让路",
+    "subtitle": "横着的车占两格，先留好整条通路。",
     "rows": 3,
-    "cols": 3,
+    "cols": 4,
     "mask": [
-      "###",
-      "###",
-      "###"
+      "####",
+      "####",
+      "####"
     ],
     "rocks": [],
+    "tiles": [
+      {
+        "id": "t1",
+        "itemId": "fruit-0",
+        "row": 0,
+        "col": 0
+      },
+      {
+        "id": "t4",
+        "itemId": "car-0",
+        "row": 0,
+        "col": 1
+      },
+      {
+        "id": "t6",
+        "itemId": "car-1",
+        "row": 1,
+        "col": 0
+      },
+      {
+        "id": "t2",
+        "itemId": "fruit-0",
+        "row": 1,
+        "col": 2
+      },
+      {
+        "id": "t3",
+        "itemId": "fruit-1",
+        "row": 2,
+        "col": 0
+      },
+      {
+        "id": "t5",
+        "itemId": "car-0",
+        "row": 2,
+        "col": 2
+      }
+    ],
     "chainGoals": {
       "fruit": {
         "targetTier": 2,
@@ -448,44 +524,12 @@
         "count": 1
       }
     },
-    "tiles": [
-      {
-        "id": "t2",
-        "itemId": "fruit-0",
-        "row": 0,
-        "col": 0
-      },
-      {
-        "id": "t3",
-        "itemId": "car-0",
-        "row": 0,
-        "col": 2
-      },
-      {
-        "id": "t5",
-        "itemId": "car-0",
-        "row": 1,
-        "col": 0
-      },
-      {
-        "id": "t1",
-        "itemId": "fruit-1",
-        "row": 1,
-        "col": 1
-      },
-      {
-        "id": "t4",
-        "itemId": "car-1",
-        "row": 2,
-        "col": 0
-      },
-      {
-        "id": "t7",
-        "itemId": "fruit-0",
-        "row": 2,
-        "col": 1
+    "footprintByChain": {
+      "car": {
+        "width": 2,
+        "height": 1
       }
-    ],
+    },
     "pattern": [
       ".###.",
       "#####",
@@ -494,14 +538,59 @@
       ".###."
     ],
     "moveLimit": 20,
-    "parMoves": 8,
+    "parMoves": 12,
     "twoStarScore": 850,
     "threeStarScore": 1000,
-    "ruleset": "slide-v06-2",
+    "ruleset": "slide-v06-3",
     "referenceSolution": [
       {
         "type": "slide",
+        "tileId": "t4",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
         "tileId": "t2",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
         "direction": "right"
       },
       {
@@ -511,32 +600,7 @@
       },
       {
         "type": "slide",
-        "tileId": "t1",
-        "direction": "right"
-      },
-      {
-        "type": "slide",
-        "tileId": "t2",
-        "direction": "down"
-      },
-      {
-        "type": "slide",
-        "tileId": "t3",
-        "direction": "left"
-      },
-      {
-        "type": "slide",
-        "tileId": "t5",
-        "direction": "down"
-      },
-      {
-        "type": "slide",
-        "tileId": "t1",
-        "direction": "down"
-      },
-      {
-        "type": "slide",
-        "tileId": "t1",
+        "tileId": "t4",
         "direction": "left"
       }
     ],
@@ -545,7 +609,52 @@
         "actions": [
           {
             "type": "slide",
+            "tileId": "t4",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
             "tileId": "t2",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
             "direction": "right"
           },
           {
@@ -555,32 +664,7 @@
           },
           {
             "type": "slide",
-            "tileId": "t1",
-            "direction": "right"
-          },
-          {
-            "type": "slide",
-            "tileId": "t2",
-            "direction": "down"
-          },
-          {
-            "type": "slide",
-            "tileId": "t3",
-            "direction": "left"
-          },
-          {
-            "type": "slide",
-            "tileId": "t5",
-            "direction": "down"
-          },
-          {
-            "type": "slide",
-            "tileId": "t1",
-            "direction": "down"
-          },
-          {
-            "type": "slide",
-            "tileId": "t1",
+            "tileId": "t4",
             "direction": "left"
           }
         ],
@@ -591,30 +675,21 @@
   },
   {
     "id": "slide06-06",
-    "title": "蝴蝶借道",
-    "subtitle": "20步内，让嫩芽长成大树。",
-    "rows": 3,
+    "title": "花园竖着长",
+    "subtitle": "竖块要整齐碰面，石块也能成为接应点。",
+    "rows": 4,
     "cols": 3,
     "mask": [
+      "###",
       "###",
       "###",
       "###"
     ],
     "rocks": [],
-    "chainGoals": {
-      "fruit": {
-        "targetTier": 2,
-        "count": 1
-      },
-      "plant": {
-        "targetTier": 3,
-        "count": 1
-      }
-    },
     "tiles": [
       {
-        "id": "t4",
-        "itemId": "fruit-0",
+        "id": "t3",
+        "itemId": "fruit-1",
         "row": 0,
         "col": 0
       },
@@ -625,36 +700,46 @@
         "col": 1
       },
       {
-        "id": "t2",
+        "id": "t1",
+        "itemId": "fruit-0",
+        "row": 1,
+        "col": 0
+      },
+      {
+        "id": "t4",
         "itemId": "plant-0",
-        "row": 0,
+        "row": 1,
         "col": 2
       },
       {
-        "id": "t3",
-        "itemId": "fruit-1",
-        "row": 1,
-        "col": 1
-      },
-      {
-        "id": "t7",
+        "id": "t5",
         "itemId": "plant-0",
         "row": 2,
         "col": 0
       },
       {
-        "id": "t1",
-        "itemId": "plant-2",
-        "row": 2,
-        "col": 1
-      },
-      {
-        "id": "t8",
+        "id": "t2",
         "itemId": "fruit-0",
-        "row": 2,
-        "col": 2
+        "row": 3,
+        "col": 1
       }
     ],
+    "chainGoals": {
+      "fruit": {
+        "targetTier": 2,
+        "count": 1
+      },
+      "plant": {
+        "targetTier": 2,
+        "count": 1
+      }
+    },
+    "footprintByChain": {
+      "plant": {
+        "width": 1,
+        "height": 2
+      }
+    },
     "pattern": [
       "##...##",
       "###.###",
@@ -663,216 +748,54 @@
       "##...##"
     ],
     "moveLimit": 20,
-    "parMoves": 11,
-    "twoStarScore": 1200,
-    "threeStarScore": 1350,
-    "ruleset": "slide-v06-2",
+    "parMoves": 13,
+    "twoStarScore": 850,
+    "threeStarScore": 1000,
+    "ruleset": "slide-v06-3",
+    "obstacle": {
+      "enabled": true,
+      "moveLimit": 0,
+      "placementCells": [
+        {
+          "row": 3,
+          "col": 2
+        },
+        {
+          "row": 0,
+          "col": 2
+        }
+      ]
+    },
     "referenceSolution": [
       {
-        "type": "slide",
-        "tileId": "t2",
-        "direction": "down"
-      },
-      {
-        "type": "slide",
-        "tileId": "t6",
-        "direction": "right"
-      },
-      {
-        "type": "slide",
-        "tileId": "t3",
-        "direction": "up"
-      },
-      {
-        "type": "slide",
-        "tileId": "t7",
-        "direction": "up"
-      },
-      {
-        "type": "slide",
-        "tileId": "t7",
-        "direction": "right"
-      },
-      {
-        "type": "slide",
-        "tileId": "t6",
-        "direction": "down"
-      },
-      {
-        "type": "slide",
-        "tileId": "t1",
-        "direction": "up"
-      },
-      {
-        "type": "slide",
-        "tileId": "t2",
-        "direction": "left"
-      },
-      {
-        "type": "slide",
-        "tileId": "t8",
-        "direction": "left"
-      },
-      {
-        "type": "slide",
-        "tileId": "t8",
-        "direction": "up"
+        "type": "place-obstacle",
+        "row": 3,
+        "col": 2
       },
       {
         "type": "slide",
         "tileId": "t4",
-        "direction": "right"
-      }
-    ],
-    "scoreProofs": [
-      {
-        "actions": [
-          {
-            "type": "slide",
-            "tileId": "t2",
-            "direction": "down"
-          },
-          {
-            "type": "slide",
-            "tileId": "t6",
-            "direction": "right"
-          },
-          {
-            "type": "slide",
-            "tileId": "t3",
-            "direction": "up"
-          },
-          {
-            "type": "slide",
-            "tileId": "t7",
-            "direction": "up"
-          },
-          {
-            "type": "slide",
-            "tileId": "t7",
-            "direction": "right"
-          },
-          {
-            "type": "slide",
-            "tileId": "t6",
-            "direction": "down"
-          },
-          {
-            "type": "slide",
-            "tileId": "t1",
-            "direction": "up"
-          },
-          {
-            "type": "slide",
-            "tileId": "t2",
-            "direction": "left"
-          },
-          {
-            "type": "slide",
-            "tileId": "t8",
-            "direction": "left"
-          },
-          {
-            "type": "slide",
-            "tileId": "t8",
-            "direction": "up"
-          },
-          {
-            "type": "slide",
-            "tileId": "t4",
-            "direction": "right"
-          }
-        ],
-        "score": 1350,
-        "stars": 3
-      }
-    ]
-  },
-  {
-    "id": "slide06-07",
-    "title": "小鸟展翅",
-    "subtitle": "20步内，把荔枝逐层合成桃子。",
-    "rows": 3,
-    "cols": 3,
-    "mask": [
-      "###",
-      "###",
-      "###"
-    ],
-    "rocks": [],
-    "chainGoals": {
-      "fruit": {
-        "targetTier": 3,
-        "count": 1
-      }
-    },
-    "tiles": [
-      {
-        "id": "t1",
-        "itemId": "fruit-0",
-        "row": 0,
-        "col": 0
+        "direction": "up"
       },
-      {
-        "id": "t4",
-        "itemId": "fruit-1",
-        "row": 0,
-        "col": 1
-      },
-      {
-        "id": "t2",
-        "itemId": "fruit-0",
-        "row": 0,
-        "col": 2
-      },
-      {
-        "id": "t3",
-        "itemId": "fruit-0",
-        "row": 1,
-        "col": 0
-      },
-      {
-        "id": "t5",
-        "itemId": "fruit-0",
-        "row": 1,
-        "col": 1
-      },
-      {
-        "id": "t6",
-        "itemId": "fruit-0",
-        "row": 2,
-        "col": 0
-      },
-      {
-        "id": "t7",
-        "itemId": "fruit-0",
-        "row": 2,
-        "col": 2
-      }
-    ],
-    "pattern": [
-      "...#...",
-      "..###..",
-      "#######",
-      ".#####.",
-      "..###..",
-      "...#..."
-    ],
-    "moveLimit": 20,
-    "parMoves": 7,
-    "twoStarScore": 1450,
-    "threeStarScore": 1600,
-    "ruleset": "slide-v06-2",
-    "referenceSolution": [
       {
         "type": "slide",
         "tileId": "t2",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
         "direction": "down"
       },
       {
         "type": "slide",
         "tileId": "t3",
-        "direction": "up"
+        "direction": "right"
       },
       {
         "type": "slide",
@@ -882,36 +805,71 @@
       {
         "type": "slide",
         "tileId": "t5",
-        "direction": "down"
+        "direction": "up"
       },
       {
         "type": "slide",
         "tileId": "t6",
-        "direction": "right"
-      },
-      {
-        "type": "slide",
-        "tileId": "t7",
         "direction": "left"
       },
       {
         "type": "slide",
-        "tileId": "t4",
+        "tileId": "t2",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
         "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "up"
       }
     ],
     "scoreProofs": [
       {
         "actions": [
           {
+            "type": "place-obstacle",
+            "row": 3,
+            "col": 2
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "up"
+          },
+          {
             "type": "slide",
             "tileId": "t2",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
             "direction": "down"
           },
           {
             "type": "slide",
             "tileId": "t3",
-            "direction": "up"
+            "direction": "right"
           },
           {
             "type": "slide",
@@ -921,105 +879,305 @@
           {
             "type": "slide",
             "tileId": "t5",
-            "direction": "down"
+            "direction": "up"
           },
           {
             "type": "slide",
             "tileId": "t6",
-            "direction": "right"
-          },
-          {
-            "type": "slide",
-            "tileId": "t7",
             "direction": "left"
           },
           {
             "type": "slide",
-            "tileId": "t4",
+            "tileId": "t2",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
             "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "up"
           }
         ],
-        "score": 1600,
+        "score": 1000,
         "stars": 3
       }
     ]
   },
   {
-    "id": "slide06-08",
-    "title": "星光接力",
-    "subtitle": "20步内，安排三条升级路线。",
+    "id": "slide06-07",
+    "title": "小鸟换个停点",
+    "subtitle": "每次挪动一格，把障碍的机会留给苹果。",
     "rows": 3,
-    "cols": 3,
+    "cols": 4,
     "mask": [
-      "###",
-      "###",
-      "###"
+      "####",
+      "####",
+      "####"
     ],
     "rocks": [],
-    "chainGoals": {
-      "fruit": {
-        "targetTier": 2,
-        "count": 1
-      },
-      "plant": {
-        "targetTier": 2,
-        "count": 1
-      },
-      "car": {
-        "targetTier": 1,
-        "count": 1
-      }
-    },
     "tiles": [
-      {
-        "id": "t4",
-        "itemId": "plant-0",
-        "row": 0,
-        "col": 0
-      },
-      {
-        "id": "t5",
-        "itemId": "car-0",
-        "row": 0,
-        "col": 1
-      },
       {
         "id": "t1",
         "itemId": "fruit-0",
         "row": 0,
-        "col": 2
+        "col": 0
       },
       {
-        "id": "t7",
+        "id": "t2",
+        "itemId": "fruit-0",
+        "row": 0,
+        "col": 1
+      },
+      {
+        "id": "t3",
+        "itemId": "fruit-0",
+        "row": 0,
+        "col": 3
+      },
+      {
+        "id": "t4",
         "itemId": "fruit-0",
         "row": 1,
         "col": 0
       },
       {
-        "id": "t3",
-        "itemId": "plant-1",
+        "id": "t5",
+        "itemId": "fruit-0",
         "row": 1,
         "col": 1
       },
       {
         "id": "t6",
-        "itemId": "car-0",
+        "itemId": "fruit-0",
         "row": 2,
         "col": 0
       },
       {
-        "id": "t2",
-        "itemId": "fruit-1",
+        "id": "t7",
+        "itemId": "fruit-0",
         "row": 2,
         "col": 1
       },
       {
         "id": "t8",
-        "itemId": "plant-0",
+        "itemId": "fruit-0",
         "row": 2,
         "col": 2
       }
     ],
+    "chainGoals": {
+      "fruit": {
+        "targetTier": 3,
+        "count": 1
+      }
+    },
+    "footprintByChain": {},
+    "pattern": [
+      "...#...",
+      "..###..",
+      "#######",
+      ".#####.",
+      "..###..",
+      "...#..."
+    ],
+    "moveLimit": 20,
+    "parMoves": 8,
+    "twoStarScore": 1700,
+    "threeStarScore": 1850,
+    "ruleset": "slide-v06-3",
+    "obstacle": {
+      "enabled": true,
+      "moveLimit": 1,
+      "placementCells": [
+        {
+          "row": 0,
+          "col": 2
+        }
+      ]
+    },
+    "referenceSolution": [
+      {
+        "type": "place-obstacle",
+        "row": 0,
+        "col": 2
+      },
+      {
+        "type": "move-obstacle",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t7",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t8",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "right"
+      }
+    ],
+    "scoreProofs": [
+      {
+        "actions": [
+          {
+            "type": "place-obstacle",
+            "row": 0,
+            "col": 2
+          },
+          {
+            "type": "move-obstacle",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t7",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t8",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "right"
+          }
+        ],
+        "score": 1850,
+        "stars": 3
+      }
+    ],
+    "design": {
+      "withoutObstacleMoves": 8
+    }
+  },
+  {
+    "id": "slide06-08",
+    "title": "大块的转身空间",
+    "subtitle": "四格大块不能挤过窄口，小块先腾出位置。",
+    "rows": 4,
+    "cols": 4,
+    "mask": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "rocks": [],
+    "tiles": [
+      {
+        "id": "t1",
+        "itemId": "fruit-0",
+        "row": 0,
+        "col": 1
+      },
+      {
+        "id": "t5",
+        "itemId": "plant-1",
+        "row": 1,
+        "col": 0
+      },
+      {
+        "id": "t6",
+        "itemId": "plant-2",
+        "row": 2,
+        "col": 0
+      },
+      {
+        "id": "t3",
+        "itemId": "plant-0",
+        "row": 2,
+        "col": 1
+      },
+      {
+        "id": "t2",
+        "itemId": "fruit-0",
+        "row": 2,
+        "col": 2
+      },
+      {
+        "id": "t4",
+        "itemId": "plant-0",
+        "row": 3,
+        "col": 0
+      }
+    ],
+    "chainGoals": {
+      "fruit": {
+        "targetTier": 1,
+        "count": 1
+      },
+      "plant": {
+        "targetTier": 3,
+        "count": 1
+      }
+    },
+    "footprintByChain": {
+      "fruit": {
+        "width": 2,
+        "height": 2
+      }
+    },
     "pattern": [
       "...#...",
       "..###..",
@@ -1030,15 +1188,30 @@
       ".#...#."
     ],
     "moveLimit": 20,
-    "parMoves": 12,
-    "twoStarScore": 950,
-    "threeStarScore": 1100,
-    "ruleset": "slide-v06-2",
+    "parMoves": 8,
+    "twoStarScore": 750,
+    "threeStarScore": 900,
+    "ruleset": "slide-v06-3",
+    "obstacle": {
+      "enabled": true,
+      "moveLimit": 2,
+      "placementCells": [
+        {
+          "row": 3,
+          "col": 1
+        }
+      ]
+    },
     "referenceSolution": [
       {
+        "type": "place-obstacle",
+        "row": 3,
+        "col": 1
+      },
+      {
         "type": "slide",
         "tileId": "t1",
-        "direction": "down"
+        "direction": "right"
       },
       {
         "type": "slide",
@@ -1047,52 +1220,31 @@
       },
       {
         "type": "slide",
-        "tileId": "t3",
-        "direction": "up"
-      },
-      {
-        "type": "slide",
         "tileId": "t1",
-        "direction": "left"
-      },
-      {
-        "type": "slide",
-        "tileId": "t5",
         "direction": "down"
       },
       {
-        "type": "slide",
-        "tileId": "t7",
+        "type": "move-obstacle",
         "direction": "right"
-      },
-      {
-        "type": "slide",
-        "tileId": "t7",
-        "direction": "down"
-      },
-      {
-        "type": "slide",
-        "tileId": "t5",
-        "direction": "left"
-      },
-      {
-        "type": "slide",
-        "tileId": "t5",
-        "direction": "down"
-      },
-      {
-        "type": "slide",
-        "tileId": "t8",
-        "direction": "left"
-      },
-      {
-        "type": "slide",
-        "tileId": "t8",
-        "direction": "up"
       },
       {
         "type": "slide",
         "tileId": "t4",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
         "direction": "right"
       }
     ],
@@ -1100,9 +1252,14 @@
       {
         "actions": [
           {
+            "type": "place-obstacle",
+            "row": 3,
+            "col": 1
+          },
+          {
             "type": "slide",
             "tileId": "t1",
-            "direction": "down"
+            "direction": "right"
           },
           {
             "type": "slide",
@@ -1111,110 +1268,114 @@
           },
           {
             "type": "slide",
-            "tileId": "t3",
-            "direction": "up"
-          },
-          {
-            "type": "slide",
             "tileId": "t1",
-            "direction": "left"
-          },
-          {
-            "type": "slide",
-            "tileId": "t5",
             "direction": "down"
           },
           {
-            "type": "slide",
-            "tileId": "t7",
+            "type": "move-obstacle",
             "direction": "right"
-          },
-          {
-            "type": "slide",
-            "tileId": "t7",
-            "direction": "down"
-          },
-          {
-            "type": "slide",
-            "tileId": "t5",
-            "direction": "left"
-          },
-          {
-            "type": "slide",
-            "tileId": "t5",
-            "direction": "down"
-          },
-          {
-            "type": "slide",
-            "tileId": "t8",
-            "direction": "left"
-          },
-          {
-            "type": "slide",
-            "tileId": "t8",
-            "direction": "up"
           },
           {
             "type": "slide",
             "tileId": "t4",
             "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "right"
           }
         ],
-        "score": 1100,
+        "score": 900,
         "stars": 3
       }
-    ]
+    ],
+    "design": {
+      "withoutObstacleMoves": 9
+    }
   },
   {
     "id": "slide06-09",
-    "title": "双心相连",
-    "subtitle": "20步内，让两颗桃子合成西瓜。",
+    "title": "双心倒着想",
+    "subtitle": "先想桃子在哪儿相遇，再安排横块让路。",
     "rows": 3,
-    "cols": 3,
+    "cols": 4,
     "mask": [
-      "###",
-      "###",
-      "###"
+      "####",
+      "####",
+      "####"
     ],
     "rocks": [],
-    "chainGoals": {
-      "fruit": {
-        "targetTier": 4,
-        "count": 1
-      }
-    },
     "tiles": [
       {
-        "id": "t5",
+        "id": "t1",
         "itemId": "fruit-0",
+        "row": 0,
+        "col": 0
+      },
+      {
+        "id": "t5",
+        "itemId": "fruit-3",
         "row": 0,
         "col": 1
       },
       {
-        "id": "t1",
-        "itemId": "fruit-3",
+        "id": "t6",
+        "itemId": "car-0",
+        "row": 0,
+        "col": 2
+      },
+      {
+        "id": "t3",
+        "itemId": "fruit-1",
         "row": 1,
+        "col": 0
+      },
+      {
+        "id": "t7",
+        "itemId": "car-0",
+        "row": 2,
         "col": 0
       },
       {
         "id": "t4",
-        "itemId": "fruit-1",
-        "row": 1,
-        "col": 1
-      },
-      {
-        "id": "t6",
-        "itemId": "fruit-0",
+        "itemId": "fruit-2",
         "row": 2,
-        "col": 0
+        "col": 2
       },
       {
         "id": "t2",
-        "itemId": "fruit-2",
+        "itemId": "fruit-0",
         "row": 2,
-        "col": 1
+        "col": 3
       }
     ],
+    "chainGoals": {
+      "fruit": {
+        "targetTier": 4,
+        "count": 1
+      },
+      "car": {
+        "targetTier": 1,
+        "count": 1
+      }
+    },
+    "footprintByChain": {
+      "car": {
+        "width": 2,
+        "height": 1
+      }
+    },
     "pattern": [
       ".#...#.",
       "###.###",
@@ -1224,20 +1385,20 @@
       "..#.#.."
     ],
     "moveLimit": 20,
-    "parMoves": 8,
-    "twoStarScore": 1050,
-    "threeStarScore": 1200,
-    "ruleset": "slide-v06-2",
+    "parMoves": 12,
+    "twoStarScore": 1300,
+    "threeStarScore": 1450,
+    "ruleset": "slide-v06-3",
     "referenceSolution": [
       {
         "type": "slide",
         "tileId": "t5",
-        "direction": "left"
+        "direction": "down"
       },
       {
         "type": "slide",
-        "tileId": "t4",
-        "direction": "up"
+        "tileId": "t6",
+        "direction": "down"
       },
       {
         "type": "slide",
@@ -1246,18 +1407,28 @@
       },
       {
         "type": "slide",
-        "tileId": "t1",
+        "tileId": "t3",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
         "direction": "up"
       },
       {
         "type": "slide",
         "tileId": "t6",
-        "direction": "up"
+        "direction": "left"
       },
       {
         "type": "slide",
-        "tileId": "t5",
-        "direction": "right"
+        "tileId": "t6",
+        "direction": "down"
       },
       {
         "type": "slide",
@@ -1268,6 +1439,16 @@
         "type": "slide",
         "tileId": "t1",
         "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "right"
       }
     ],
     "scoreProofs": [
@@ -1276,12 +1457,12 @@
           {
             "type": "slide",
             "tileId": "t5",
-            "direction": "left"
+            "direction": "down"
           },
           {
             "type": "slide",
-            "tileId": "t4",
-            "direction": "up"
+            "tileId": "t6",
+            "direction": "down"
           },
           {
             "type": "slide",
@@ -1290,18 +1471,28 @@
           },
           {
             "type": "slide",
-            "tileId": "t1",
+            "tileId": "t3",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
             "direction": "up"
           },
           {
             "type": "slide",
             "tileId": "t6",
-            "direction": "up"
+            "direction": "left"
           },
           {
             "type": "slide",
-            "tileId": "t5",
-            "direction": "right"
+            "tileId": "t6",
+            "direction": "down"
           },
           {
             "type": "slide",
@@ -1312,9 +1503,19 @@
             "type": "slide",
             "tileId": "t1",
             "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "right"
           }
         ],
-        "score": 1200,
+        "score": 1450,
         "stars": 3
       }
     ]
@@ -1322,25 +1523,16 @@
   {
     "id": "slide06-10",
     "title": "凤凰归巢",
-    "subtitle": "20步内，完成四级成长与跨链接力。",
-    "rows": 3,
-    "cols": 3,
+    "subtitle": "先让种子成长腾出通路，再把两颗大桃子送到一起。",
+    "rows": 4,
+    "cols": 4,
     "mask": [
-      "###",
-      "###",
-      "###"
+      "####",
+      "####",
+      "####",
+      "####"
     ],
     "rocks": [],
-    "chainGoals": {
-      "fruit": {
-        "targetTier": 4,
-        "count": 1
-      },
-      "plant": {
-        "targetTier": 2,
-        "count": 1
-      }
-    },
     "tiles": [
       {
         "id": "t3",
@@ -1349,48 +1541,58 @@
         "col": 0
       },
       {
-        "id": "t4",
-        "itemId": "plant-1",
-        "row": 0,
-        "col": 1
-      },
-      {
         "id": "t7",
-        "itemId": "fruit-0",
+        "itemId": "plant-2",
         "row": 0,
-        "col": 2
-      },
-      {
-        "id": "t5",
-        "itemId": "fruit-1",
-        "row": 1,
-        "col": 0
-      },
-      {
-        "id": "t2",
-        "itemId": "fruit-2",
-        "row": 1,
         "col": 1
-      },
-      {
-        "id": "t9",
-        "itemId": "fruit-0",
-        "row": 2,
-        "col": 0
       },
       {
         "id": "t1",
         "itemId": "fruit-3",
+        "row": 0,
+        "col": 2
+      },
+      {
+        "id": "t4",
+        "itemId": "plant-0",
+        "row": 1,
+        "col": 1
+      },
+      {
+        "id": "t5",
+        "itemId": "plant-0",
         "row": 2,
         "col": 1
       },
       {
-        "id": "t6",
-        "itemId": "plant-0",
+        "id": "t2",
+        "itemId": "fruit-3",
         "row": 2,
         "col": 2
+      },
+      {
+        "id": "t6",
+        "itemId": "plant-0",
+        "row": 3,
+        "col": 1
       }
     ],
+    "chainGoals": {
+      "fruit": {
+        "targetTier": 4,
+        "count": 1
+      },
+      "plant": {
+        "targetTier": 3,
+        "count": 1
+      }
+    },
+    "footprintByChain": {
+      "fruit": {
+        "width": 2,
+        "height": 2
+      }
+    },
     "pattern": [
       "...#...",
       "..###..",
@@ -1401,50 +1603,44 @@
       "##...##"
     ],
     "moveLimit": 20,
-    "parMoves": 15,
-    "twoStarScore": 1600,
-    "threeStarScore": 1750,
-    "ruleset": "slide-v06-2",
+    "parMoves": 7,
+    "twoStarScore": 1300,
+    "threeStarScore": 1450,
+    "ruleset": "slide-v06-3",
+    "obstacle": {
+      "enabled": true,
+      "moveLimit": 3,
+      "placementCells": [
+        {
+          "row": 3,
+          "col": 0
+        }
+      ]
+    },
     "referenceSolution": [
       {
-        "type": "slide",
-        "tileId": "t7",
-        "direction": "down"
+        "type": "place-obstacle",
+        "row": 3,
+        "col": 0
+      },
+      {
+        "type": "move-obstacle",
+        "direction": "up"
       },
       {
         "type": "slide",
-        "tileId": "t4",
-        "direction": "right"
+        "tileId": "t3",
+        "direction": "down"
       },
       {
         "type": "slide",
         "tileId": "t3",
         "direction": "right"
-      },
-      {
-        "type": "slide",
-        "tileId": "t5",
-        "direction": "up"
-      },
-      {
-        "type": "slide",
-        "tileId": "t9",
-        "direction": "up"
       },
       {
         "type": "slide",
         "tileId": "t1",
-        "direction": "left"
-      },
-      {
-        "type": "slide",
-        "tileId": "t2",
         "direction": "down"
-      },
-      {
-        "type": "slide",
-        "tileId": "t7",
-        "direction": "left"
       },
       {
         "type": "slide",
@@ -1453,32 +1649,12 @@
       },
       {
         "type": "slide",
-        "tileId": "t2",
-        "direction": "up"
-      },
-      {
-        "type": "slide",
-        "tileId": "t2",
-        "direction": "left"
-      },
-      {
-        "type": "slide",
-        "tileId": "t3",
-        "direction": "down"
-      },
-      {
-        "type": "slide",
-        "tileId": "t3",
-        "direction": "right"
-      },
-      {
-        "type": "slide",
         "tileId": "t4",
         "direction": "down"
       },
       {
         "type": "slide",
-        "tileId": "t9",
+        "tileId": "t7",
         "direction": "down"
       }
     ],
@@ -1486,44 +1662,28 @@
       {
         "actions": [
           {
-            "type": "slide",
-            "tileId": "t7",
-            "direction": "down"
+            "type": "place-obstacle",
+            "row": 3,
+            "col": 0
+          },
+          {
+            "type": "move-obstacle",
+            "direction": "up"
           },
           {
             "type": "slide",
-            "tileId": "t4",
-            "direction": "right"
+            "tileId": "t3",
+            "direction": "down"
           },
           {
             "type": "slide",
             "tileId": "t3",
             "direction": "right"
-          },
-          {
-            "type": "slide",
-            "tileId": "t5",
-            "direction": "up"
-          },
-          {
-            "type": "slide",
-            "tileId": "t9",
-            "direction": "up"
           },
           {
             "type": "slide",
             "tileId": "t1",
-            "direction": "left"
-          },
-          {
-            "type": "slide",
-            "tileId": "t2",
             "direction": "down"
-          },
-          {
-            "type": "slide",
-            "tileId": "t7",
-            "direction": "left"
           },
           {
             "type": "slide",
@@ -1532,41 +1692,21 @@
           },
           {
             "type": "slide",
-            "tileId": "t2",
-            "direction": "up"
-          },
-          {
-            "type": "slide",
-            "tileId": "t2",
-            "direction": "left"
-          },
-          {
-            "type": "slide",
-            "tileId": "t3",
-            "direction": "down"
-          },
-          {
-            "type": "slide",
-            "tileId": "t3",
-            "direction": "right"
-          },
-          {
-            "type": "slide",
             "tileId": "t4",
             "direction": "down"
           },
           {
             "type": "slide",
-            "tileId": "t9",
+            "tileId": "t7",
             "direction": "down"
           }
         ],
-        "score": 1750,
+        "score": 1450,
         "stars": 3
       }
-    ]
+    ],
+    "design": {
+      "withoutObstacleMoves": 7
+    }
   }
-];
-  root.TileSlideV06={...(root.TileSlideV06||{}),levels};
-  if(typeof module!=="undefined")module.exports=levels;
-})(globalThis);
+];root.TileSlideV06={...(root.TileSlideV06||{}),levels};if(typeof module!=="undefined")module.exports=levels;})(globalThis);

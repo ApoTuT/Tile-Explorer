@@ -74,3 +74,48 @@ test('budget-aware hint distinguishes spent budget from spatial impossibility',(
   const budget=S.findSolution(E.createState(l));assert.equal(budget.status,'out-of-moves');
   const spatial=S.findSolution(E.createState(l),{respectMoveLimit:false});assert.equal(spatial.status,'solved');
 });
+
+test('rectangles sweep their full footprint, upgrade at target, and reject partial contact',()=>{
+  const wide=(tiles)=>fixture(tiles,{rows:3,cols:5,mask:['#####','#####','#####'],chainGoals:{car:{targetTier:2,count:1}},footprintByChain:{car:{width:2,height:1}}});
+  const car=(id,tier,row,col)=>({id,itemId:'car-'+tier,row,col});
+  const l=wide([car('a',0,0,0),car('b',0,0,3),car('c',1,2,3)]),s=E.createState(l);
+  assert.equal(E.tileAt(s,0,1).id,'a');
+  const out=E.applyAction(s,{type:'slide',tileId:'a',direction:'right'});
+  assert.equal(out.events[0].kind,'upgrade');assert.deepEqual(out.events[0].to,{row:0,col:3});assert.deepEqual(out.state.tiles.find(t=>t.id==='b'),car('b',1,0,3));
+  const partial=E.createState(wide([car('a',0,2,0),car('b',0,0,1),car('c',1,2,3)]));
+  const check=E.inspectAction(partial,{type:'slide',tileId:'a',direction:'up'});assert.equal(check.kind,'move');assert.deepEqual(check.to,{row:1,col:0});
+  const overlap=wide([car('a',0,0,0),car('b',0,0,1),car('c',1,2,3)]);assert.equal(E.validateDefinition(overlap).ok,false);
+});
+
+test('simultaneous contact with multiple objects blocks instead of picking a merge target',()=>{
+  const l=fixture([{id:'a',itemId:'car-0',row:2,col:0},{id:'b',itemId:'car-0',row:1,col:1},t('c',0,1,0),t('d',0,0,3)],{chainGoals:{car:{targetTier:1,count:1},fruit:{targetTier:1,count:1}},footprintByChain:{car:{width:2,height:1}}});
+  const s=E.createState(l),out=E.applyAction(s,{type:'slide',tileId:'a',direction:'up'});assert.equal(out.ok,false);assert.strictEqual(out.state,s);
+});
+
+test('obstacle placement is free; per-level quotas and total moves are independent',()=>{
+  for(const quota of [0,1,3]){
+    const l=fixture([t('a',2,0,0),t('b',2,2,2)],{obstacle:{enabled:true,moveLimit:quota,placementCells:[{row:1,col:1}]}});
+    let s=E.createState(l);assert.equal(s.status,'placing');assert.equal(E.inspectAction(s,{type:'slide',tileId:'a',direction:'right'}).ok,false);
+    s=E.applyAction(s,{type:'place-obstacle',row:1,col:1}).state;assert.equal(s.status,'playing');assert.equal(s.successfulMoves,0);
+    const before=E.clone(s);let out=E.applyAction(s,{type:'move-obstacle',direction:'up'});
+    if(!quota){assert.equal(out.ok,false);assert.deepEqual(s,before);continue;}
+    assert.equal(out.ok,true);s=out.state;assert.equal(s.obstacle.movesUsed,1);assert.equal(s.successfulMoves,1);assert.deepEqual(s.obstacle.position,{row:0,col:1});
+    const bad=E.applyAction(s,{type:'move-obstacle',direction:'left'});assert.equal(bad.ok,false);assert.deepEqual(bad.state,s);
+    assert.notEqual(E.canonicalKey(s),E.canonicalKey({...s,obstacle:{...s.obstacle,movesUsed:0}}));
+    if(quota===1)assert.equal(E.applyAction(s,{type:'move-obstacle',direction:'down'}).ok,false);
+  }
+});
+
+test('obstacle undo and refresh restore both budgets without free replacement',()=>{
+  const l=fixture([t('a',2,0,0),t('b',2,2,2)],{obstacle:{enabled:true,moveLimit:3,placementCells:[{row:1,col:1}]}}),store=memory(),game=new Session([l],store);
+  game.apply({type:'place-obstacle',row:1,col:1});assert.equal(game.undo(),false);
+  const placed=E.clone(game.state);game.apply({type:'move-obstacle',direction:'up'});const restored=new Session([l],store);assert.deepEqual(restored.state,game.state);
+  assert.ok(restored.undo());assert.deepEqual(restored.state,placed);assert.equal(restored.undo(),false);restored.restart();assert.equal(restored.state.status,'placing');
+});
+
+test('two by two material remains one material and cannot pass a one-cell opening',()=>{
+  const l=fixture([t('a',0,0,0),t('b',0,2,2)],{rows:4,cols:4,mask:['####','####','####','####'],chainGoals:{fruit:{targetTier:1,count:1}},footprintByChain:{fruit:{width:2,height:2}},rocks:[{row:0,col:3}]});
+  const s=E.createState(l);assert.equal(E.cells(s,s.tiles[0]).length,4);assert.equal(s.tiles.length,2);
+  const out=E.inspectAction(s,{type:'slide',tileId:'a',direction:'right'});assert.equal(out.kind,'move');assert.deepEqual(out.to,{row:0,col:1});
+  const moved=E.applyAction(s,{type:'slide',tileId:'a',direction:'right'}).state;assert.equal(E.inspectAction(moved,{type:'slide',tileId:'a',direction:'right'}).ok,false);
+});

@@ -9,7 +9,9 @@ const state=p=>p.evaluate(()=>window.slideV06.state);
 async function ready(p){await p.waitForFunction(()=>window.slideV06?.state);}
 async function choose(p,i){for(const d of await p.locator('dialog[open]').all())await d.locator('[data-close]').click();await p.locator('#level-button').click();await p.locator('#level-list button').nth(i).click();await ready(p);}
 async function move(p,a,mode='mouse'){
-  const before=await state(p),n=p.locator(`[data-tile-id="${a.tileId}"]`);await n.scrollIntoViewIfNeeded();
+  const before=await state(p);
+  if(a.type==='place-obstacle'){await p.locator(`[data-place-row="${a.row}"][data-place-col="${a.col}"]`).click();assert.equal((await state(p)).successfulMoves,0);await p.locator('#placement-confirm').click();await p.waitForFunction(()=>window.slideV06.state.status==='playing');return;}
+  const n=p.locator(`[data-tile-id="${a.type==='move-obstacle'?'obstacle':a.tileId}"]`);await n.scrollIntoViewIfNeeded();
   if(mode==='keyboard'){await n.focus();await p.keyboard.press('Arrow'+a.direction[0].toUpperCase()+a.direction.slice(1));}
   else{const b=await n.boundingBox(),x=b.x+b.width/2,y=b.y+b.height/2,[dx,dy]={right:[1,0],left:[-1,0],up:[0,-1],down:[0,1]}[a.direction];
     if(mode==='touch'){const cdp=await p.context().newCDPSession(p),point=(x,y)=>[{x,y,id:1,radiusX:4,radiusY:4,force:1}];await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:point(x,y)});await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:point(x+dx*36,y+dy*36)});await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await cdp.detach();}
@@ -94,6 +96,18 @@ async function main(){const browser=await chromium.launch({channel:'msedge',head
     const p=await context.newPage();await p.goto(url);await ready(p);assert.match(await p.title(),/v0.6/);
     await p.locator('#settings-button').click();await p.locator('#motion-toggle').check();await p.locator('#sound-toggle').uncheck();await p.locator('#settings-dialog [data-close]').click();
     await moveBudgetChecks(p);
+    // Placement, quotas, full-piece hit targets, and replay are exercised via UI.
+    await choose(p,3);assert.equal((await state(p)).status,'placing');assert.equal(await p.locator('#placement-confirm').isDisabled(),true);
+    const placement=await p.evaluate(()=>window.slideV06.level.referenceSolution[0]);await move(p,placement);await budget(p,20);
+    assert.equal(await p.locator('#obstacle-arrows').isVisible(),false);assert.equal((await state(p)).obstacle.moveLimit,0);
+    const placed=await state(p);await p.locator('[data-tile-id="obstacle"]').focus();await p.keyboard.press('ArrowUp');assert.deepEqual(await state(p),placed);
+    await p.reload();await ready(p);assert.deepEqual(await state(p),placed);assert.equal(await p.locator('#undo').isDisabled(),true);checks.fixedObstacleAndPlacementReplay=true;
+    await choose(p,6);await move(p,await p.evaluate(()=>window.slideV06.level.referenceSolution[0]));
+    let obstacleAction=await p.evaluate(()=>TileSlideV06.engine.listLegalActions(slideV06.state).find(a=>a.type==='move-obstacle'));
+    for(let i=0;!obstacleAction&&i<8;i++){await move(p,await p.evaluate(()=>TileSlideV06.engine.listLegalActions(slideV06.state).find(a=>a.type==='slide')),'keyboard');obstacleAction=await p.evaluate(()=>TileSlideV06.engine.listLegalActions(slideV06.state).find(a=>a.type==='move-obstacle'));}
+    assert.ok(obstacleAction);const prior=await state(p);await move(p,obstacleAction,'mouse');const after=await state(p);assert.equal(after.obstacle.movesUsed,1);assert.equal(after.successfulMoves,prior.successfulMoves+1);
+    assert.equal(Math.abs(after.obstacle.position.row-prior.obstacle.position.row)+Math.abs(after.obstacle.position.col-prior.obstacle.position.col),1);
+    await p.reload();await ready(p);assert.deepEqual(await state(p),after);await p.locator('#undo').click();assert.deepEqual(await state(p),prior);checks.obstacleSwipeQuotaRefreshUndo=true;
     await choose(p,0);
     await shot(p,'01-desktop');
     for(let i=0;i<10;i++){
@@ -110,12 +124,14 @@ async function main(){const browser=await chromium.launch({channel:'msedge',head
     await choose(p,2);const route=await p.evaluate(()=>window.slideV06.level.referenceSolution),initial=await state(p);
     for(const a of route.slice(0,4))await move(p,a,'mouse');for(let i=0;i<4;i++)await p.locator('#undo').click();assert.deepEqual(await state(p),initial);checks.undoRestoresScores=true;
     await p.locator('#hint').click();assert.match(await p.locator('#hint-copy').textContent(),/两个/);await p.locator('#solve-hint').click();assert.match(await p.locator('#notice').textContent(),/向/);assert.ok(await p.locator('.preview-end').count());checks.recipeAndMoveHint=true;
-    for(const [width,height] of [[320,568],[375,667],[390,844],[768,1024],[1280,900]]){await p.setViewportSize({width,height});await choose(p,9);
+    for(const [width,height] of [[320,568],[375,667],[390,844],[768,1024],[1280,900]]){await p.setViewportSize({width,height});await choose(p,7);
+      await move(p,await p.evaluate(()=>window.slideV06.level.referenceSolution[0]));
       assert.ok(await p.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));assert.ok(await p.locator('.tile').first().evaluate(n=>n.getBoundingClientRect().width>=35));
       assert.ok(await p.locator('#recipe-path').evaluate(n=>n.scrollWidth<=n.clientWidth));await shot(p,'size-'+width);checks['size'+width]=true;}
     await context.close();
     const touch=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true});const tp=await touch.newPage();tp.on('pageerror',e=>errors.push(e.message));await tp.goto(url);await ready(tp);await choose(tp,2);
     for(const a of await tp.evaluate(()=>window.slideV06.level.referenceSolution))await move(tp,a,'touch');assert.equal((await state(tp)).status,'won');checks.nativeTouchSimulation=true;await shot(tp,'03-touch-win');
+    await choose(tp,7);for(const a of await tp.evaluate(()=>window.slideV06.level.referenceSolution))await move(tp,a,'touch');assert.equal((await state(tp)).status,'won');checks.largePieceNativeTouch=true;
     await touch.close();assert.deepEqual(errors,[]);
     fs.writeFileSync(path.join(out,'report.json'),JSON.stringify({url,checks,errors,limitations:['Android/iOS hardware and unfamiliar-player tests not performed']},null,2));
     console.log(JSON.stringify({checks,errors},null,2));

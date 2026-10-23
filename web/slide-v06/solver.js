@@ -13,9 +13,9 @@
       const node=pop(),key=E.canonicalKey(node.state);if(node.path.length>best.get(key))continue;visited++;
       if(node.state.status==='won')return {status:'solved',solution:node.path,visited};
       if(node.state.status==='lost')continue;
-      const next=E.listLegalActions(node.state).map(action=>{const check=E.inspectAction(node.state,action);return {action,check};});
+      const next=E.candidateActions(node.state).map(action=>{const check=E.inspectAction(node.state,action);return {action,check};}).filter(n=>n.check.ok);
       // Favor upgrades, but reopen a board reached in fewer moves: budget matters.
-      next.sort((a,b)=>(a.check.kind==='move'?0:10+a.check.resultTier)-(b.check.kind==='move'?0:10+b.check.resultTier));
+      next.sort((a,b)=>(a.check.resultTier?10+a.check.resultTier:0)-(b.check.resultTier?10+b.check.resultTier:0));
       for(const {action} of next){const state=E.applyAction(node.state,action,{ignoreMoveLimit:!respectMoveLimit,recordTransaction:false}).state,nextKey=E.canonicalKey(state),depth=node.path.length+1;
         if(state.status==='lost')continue;
         if(depth<(best.get(nextKey)??Infinity)){best.set(nextKey,depth);push({state,path:[...node.path,action]});}}
