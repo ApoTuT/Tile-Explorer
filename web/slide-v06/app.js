@@ -46,13 +46,15 @@
   };
   function resize(){cell=Math.min(68,Math.floor(($('board').parentElement.clientWidth-6*(session.state.cols-1))/session.state.cols));
     board.style.setProperty('--cell',cell+'px');board.style.setProperty('--pitch',(cell+6)+'px');board.style.width=(session.state.cols*(cell+6)-6)+'px';board.style.height=(session.state.rows*(cell+6)-6)+'px';}
+  function drawPattern(node,pattern){node.replaceChildren();node.style.gridTemplateColumns=`repeat(${pattern[0].length},1fr)`;node.style.gridTemplateRows=`repeat(${pattern.length},1fr)`;for(const row of pattern)for(const c of row){const n=document.createElement('i');if(c==='#')n.className='on';node.append(n);}}
   function render(){
     const s=session.state,l=session.level,index=levels.indexOf(l),r=E.result(s,l),focus=document.activeElement?.dataset?.tileId;
-    document.body.classList.toggle('reduced',reduced());$('title').textContent=`${index+1}. ${l.title}`;$('subtitle').textContent=l.subtitle;
+    document.body.classList.toggle('reduced',reduced());$('title').textContent=`${index+1}. ${l.title}`;$('subtitle').textContent=l.subtitle;drawPattern($('pattern-shape'),l.pattern||l.mask);
     $('score').textContent=r.score;$('chain').textContent=s.chainCount>1?`${s.chainCount} 连击${s.setupMovesSinceMerge===1?' · 再合一次接上':''}`:'';
-    $('stars').textContent=stars(s.status==='won'?r.stars:s.mergeScore>=l.threeStarScore?3:s.mergeScore>=l.twoStarScore?2:0);
+    $('stars').textContent=stars(s.status==='won'?r.stars:s.status==='lost'?0:s.mergeScore>=l.threeStarScore?3:s.mergeScore>=l.twoStarScore?2:0);
     $('star-target').textContent=`二星 ${l.twoStarScore} · 三星 ${l.threeStarScore}`;
-    $('moves').textContent=s.successfulMoves+' 次滑动';$('undo').disabled=!session.history.length;$('continue').hidden=s.status!=='won';
+    const left=Math.max(0,s.moveLimit-s.successfulMoves);$('moves-left').textContent=left;$('move-budget').classList.toggle('low',left<=3);$('move-limit-copy').textContent=`限 ${s.moveLimit} 步 · 已用 ${s.successfulMoves} 步`;
+    $('moves').textContent=s.successfulMoves+' 次滑动';$('undo').disabled=!session.history.length;$('continue').hidden=s.status==='playing';$('continue').textContent=s.status==='lost'?'查看未通关结算 →':'查看结算 →';$('hint').disabled=s.status!=='playing';
     $('goals').replaceChildren();
     for(const [chain,g] of Object.entries(s.chainGoals)){const it=C.item(chain,g.targetTier),b=document.createElement('button');b.className='goal';b.dataset.chain=chain;
       b.setAttribute('aria-label',`${it.name} ${s.delivered[chain]}/${g.count}，查看合成路径`);b.append(image(it.id));const n=document.createElement('span');n.textContent=s.delivered[chain]+'/'+g.count;b.append(n);
@@ -64,12 +66,14 @@
     if(focus)board.querySelector(`[data-tile-id="${focus}"]`)?.focus({preventScroll:true});
     if(session.failed)say('存储暂不可用，你仍可以继续游戏。');
   }
-  function scheduleWin(){if(session.state.status!=='won'||busy())return;const epoch=session.epoch;winTimer=setTimeout(()=>{if(epoch===session.epoch&&session.state.status==='won'&&!busy())showWin();},reduced()?0:700);}
+  function scheduleResult(){if(session.state.status==='playing'||busy())return;const epoch=session.epoch;winTimer=setTimeout(()=>{if(epoch===session.epoch&&session.state.status!=='playing'&&!busy())showResult();},reduced()?0:700);}
+  function showResult(){if(session.state.status==='won')showWin();else if(session.state.status==='lost')showLoss();}
   function showWin(){cancel();const s=session.state,l=session.level,r=E.result(s,l),last=l===levels.at(-1);$('win-title').textContent=last?'十关之旅，全部完成！':'本关完成！';$('win-stars').textContent=stars(r.stars);$('win-score').textContent=r.score+' 分';
     $('win-detail').textContent=`合成 ${s.mergeScore} + 巧解奖励 ${r.efficiency} · ${s.successfulMoves} 次滑动 · 最长 ${s.bestChain} 连击`;
     $('win-best').textContent=`本关最高 ${session.bestFor(l).score} 分 · 已收集 ${levels.reduce((sum,l)=>sum+session.bestFor(l).stars,0)} / 30 星`;
     $('win-goals').replaceChildren();for(const [chain,g] of Object.entries(l.chainGoals))for(let n=0;n<g.count;n++)$('win-goals').append(image(C.item(chain,g.targetTier).id,C.item(chain,g.targetTier).name));
     $('next').textContent=last?'查看十关集星 →':'下一关 →';$('win-dialog').showModal();}
+  function showLoss(){cancel();const s=session.state;$('loss-detail').textContent=`已用完 ${s.moveLimit} 步，本关目标尚未全部收集。`;$('loss-undo').disabled=!session.history.length;$('loss-dialog').showModal();}
   function idle(){clearTimeout(idleTimer);idleTimer=setTimeout(()=>{if(!busy()&&session.state.status==='playing')say('需要一点灵感？点“提示”查看升级路径和下一步。');},20000);}
   function animate(event,sourceItemId){if(reduced()||!board.animate)return;
     const ghost=document.createElement('div');ghost.className='tile travel-ghost';ghost.style.pointerEvents='none';ghost.style.zIndex=5;setPos(ghost,event.from);ghost.append(image(sourceItemId));board.append(ghost);
@@ -84,45 +88,44 @@
       if(event.kind==='upgrade'){const it=C.items[event.resultId];say(`${it.name}留在这里，再找一${it.chainId==='car'?'辆':'个'}${it.name}继续合成。`);board.querySelector(`[data-tile-id="${selected}"]`)?.focus({preventScroll:true});}
       else say(`${C.items[event.resultId].name}收集成功！`);
     }else say(session.state.chainCount&&session.state.setupMovesSinceMerge===1?'接上一次合成，连击继续。':'先挪个位置，下一次就更顺手。');
-    scheduleWin();
+    if(session.state.status==='lost')say(`本关 ${session.state.moveLimit} 步已用完。撤销上一步可恢复步数，或重新挑战。`);scheduleResult();
   }
-  function undo(){cancel();closeAll();if(session.undo()){render();say('退回上一步，棋盘和积分一起恢复。');}idle();}
-  function start(l){cancel();closeAll();session.start(l);selected=null;activeChain=Object.keys(l.chainGoals)[0];render();idle();say('看一眼上方路径：每一步都需要两个相同图案。');
-    if(!taught.has(l.id)){taught.add(l.id);say(l.id==='slide06-05'?'石块不会动，可以帮助停靠；汽车也有自己的升级路线。':l.id==='slide06-09'?'这次要合成西瓜：两颗桃子才能继续升级。':'看一眼上方路径：每一步都需要两个相同图案。');}}
+  function undo(){cancel();closeAll();if(session.undo()){render();say(`退回上一步，棋盘、积分和步数一起恢复。还剩 ${session.state.moveLimit-session.state.successfulMoves} 步。`);}idle();}
+  function start(l){cancel();closeAll();session.start(l);selected=null;activeChain=Object.keys(l.chainGoals)[0];render();idle();say(`本关限 ${session.state.moveLimit} 步。看一眼上方路径：每一步都需要两个相同图案。`);
+    if(!taught.has(l.id)){taught.add(l.id);if(l.id==='slide06-05')say(`${session.state.moveLimit} 步内，安排升级路线；汽车也有自己的升级路径。`);else if(l.id==='slide06-09')say(`${session.state.moveLimit} 步内合成西瓜：两颗桃子才能继续升级。`);}}
   function levelList(){const total=levels.reduce((s,l)=>s+session.bestFor(l).stars,0);$('collection').textContent=`已收集 ${total} / 30 星 · 总最高分 ${levels.reduce((s,l)=>s+session.bestFor(l).score,0)}`;$('level-list').replaceChildren();
-    for(const [i,l] of levels.entries()){const b=document.createElement('button');b.className='level-card'+(l===session.level?' current':'');const mini=document.createElement('span');mini.className='mini-board';mini.style.gridTemplateColumns=`repeat(${l.cols},1fr)`;mini.style.gridTemplateRows=`repeat(${l.rows},1fr)`;
-      for(const row of l.mask)for(const c of row){const n=document.createElement('i');if(c==='#')n.className='on';mini.append(n);}b.append(mini);
-      const title=document.createElement('span');title.textContent=(i+1)+'. '+l.title;b.append(title);const st=document.createElement('span');st.className='level-stars';st.textContent=stars(session.bestFor(l).stars);b.append(st);const score=document.createElement('small');score.textContent=session.bestFor(l).score+' 分';b.append(score);b.onclick=()=>start(l);$('level-list').append(b);}}
+    for(const [i,l] of levels.entries()){const b=document.createElement('button');b.className='level-card'+(l===session.level?' current':'');const mini=document.createElement('span');mini.className='mini-board';mini.setAttribute('aria-hidden','true');drawPattern(mini,l.pattern||l.mask);b.append(mini);
+      const title=document.createElement('span');title.textContent=(i+1)+'. '+l.title;b.append(title);const st=document.createElement('span');st.className='level-stars';st.textContent=stars(session.bestFor(l).stars);b.append(st);const score=document.createElement('small');score.textContent=session.bestFor(l).score+' 分 · 限 '+l.moveLimit+' 步';b.append(score);b.onclick=()=>start(l);$('level-list').append(b);}}
   function hintRecipe(){const s=session.state,chain=activeChain,g=s.chainGoals[chain],tiles=s.tiles.filter(t=>C.items[t.itemId].chainId===chain),chosen=s.tiles.find(t=>t.id===selected)||tiles.sort((a,b)=>C.items[a.itemId].tier-C.items[b.itemId].tier)[0];
     const it=chosen?C.items[chosen.itemId]:C.item(chain,g.targetTier-1);$('hint-path').replaceChildren();$('hint-path').append(image(it.id,it.name),document.createTextNode(' + '),image(it.id,it.name),document.createTextNode(' → '),image(it.nextItemId,C.items[it.nextItemId].name));
     const partners=tiles.filter(t=>t.itemId===it.id).length;
     $('hint-copy').textContent=`两个${it.name}合成一个${C.items[it.nextItemId].name}。`+(partners<2&&it.tier>0?`先用两个${C.item(chain,it.tier-1).name}生成另一个${it.name}。`:'中间产物会留在被撞的格子；选择合适的方向，再继续下一段。');}
   function cachedRoute(s){
-    const key=E.canonicalKey(s);if(cache.has(key)){const d=cache.get(key),t=s.tiles.find(t=>t.row===d.row&&t.col===d.col&&t.itemId===d.itemId);if(t)return {type:'slide',tileId:t.id,direction:d.direction};}
-    let st=E.createState(session.level);for(const a of session.level.referenceSolution){const t=st.tiles.find(t=>t.id===a.tileId);cache.set(E.canonicalKey(st),{row:t.row,col:t.col,itemId:t.itemId,direction:a.direction});st=E.applyAction(st,a).state;}
-    if(cache.has(key))return cachedRoute(s);return null;
+    const key=E.canonicalKey(s),budget=s.moveLimit-s.successfulMoves;
+    if(!cache.has(key)){let st=E.createState(session.level);for(const [i,a] of session.level.referenceSolution.entries()){const t=st.tiles.find(t=>t.id===a.tileId);cache.set(E.canonicalKey(st),{row:t.row,col:t.col,itemId:t.itemId,direction:a.direction,remainingMoves:session.level.referenceSolution.length-i});st=E.applyAction(st,a).state;}}
+    const d=cache.get(key);if(d&&d.remainingMoves<=budget){const t=s.tiles.find(t=>t.row===d.row&&t.col===d.col&&t.itemId===d.itemId);if(t)return {type:'slide',tileId:t.id,direction:d.direction};}return null;
   }
   input=G.input.bindInput({board,view,getState:()=>session.state,engine:E,isBusy:busy,isReducedMotion:reduced,commit,undo,
     onStart:({tileId})=>{select(tileId);idle();},onReject:check=>{const t=session.state.tiles.find(t=>t.id===check.tileId),other=session.state.tiles.find(t=>t.id===check.targetId);
       if(t&&other&&C.items[t.itemId].chainId===C.items[other.itemId].chainId)say(`${C.items[t.itemId].name}只能和相同图案合成，看看上方升级路径。`);else say('这个方向暂时被挡住了，换个方向或先让路。');}});
-  $('undo').onclick=undo;$('restart').onclick=()=>start(session.level);$('replay').onclick=()=>start(session.level);
+  $('undo').onclick=undo;$('loss-undo').onclick=undo;$('restart').onclick=()=>start(session.level);$('replay').onclick=()=>start(session.level);$('loss-retry').onclick=()=>start(session.level);
   $('next').onclick=()=>{if(session.level===levels.at(-1)){closeAll();levelList();open('level-dialog');}else start(levels[levels.indexOf(session.level)+1]);};
-  $('continue').onclick=showWin;$('level-button').onclick=()=>{levelList();open('level-dialog');};
+  $('continue').onclick=showResult;$('level-button').onclick=()=>{levelList();open('level-dialog');};
   $('settings-button').onclick=()=>{$('sound-toggle').checked=session.settings.soundEnabled;$('motion-toggle').checked=session.settings.reducedMotion;open('settings-dialog');};
   for(const [id,key] of [['sound-toggle','soundEnabled'],['motion-toggle','reducedMotion']])$(id).onchange=()=>{session.settings[key]=$(id).checked;session.write('settings',session.settings);document.body.classList.toggle('reduced',reduced());};
   $('help-button').onclick=()=>open('help-dialog');$('hint').onclick=()=>{hintRecipe();open('hint-dialog');};
   $('solve-hint').onclick=async()=>{if(solving||session.state.status!=='playing')return;solving=true;$('solve-hint').disabled=true;const epoch=session.epoch,token=++hintEpoch,copy=E.clone(session.state);
-    $('hint-copy').textContent='正在寻找一条可通关路线…';let action=cachedRoute(copy),status='solved';
+    $('hint-copy').textContent=`正在寻找剩余 ${copy.moveLimit-copy.successfulMoves} 步内的通关路线…`;let action=cachedRoute(copy),status='solved';
     if(!action){const found=await S.findHint(copy,{maxStates:12000,maxMs:1400,isCancelled:()=>token!==hintEpoch||epoch!==session.epoch});status=found.status;action=found.solution?.[0];}
     if(token!==hintEpoch||epoch!==session.epoch)return;solving=false;$('solve-hint').disabled=false;
     if(action){const t=session.state.tiles.find(t=>t.id===action.tileId),it=C.items[t.itemId],check=E.inspectAction(session.state,action),dir={up:'上',down:'下',left:'左',right:'右'}[action.direction];
       closeAll();select(t.id);view.preview(t.id,action.direction,check);say(`把第${t.row+1}行第${t.col+1}列的${it.name}向${dir}滑。${check.kind==='upgrade'?'新产物留在终点。':check.kind==='deliver'?'这次可以收集目标。':'先为后面的合成安排位置。'}`);
-    }else $('hint-copy').textContent=status==='unsolvable'?'已确认当前局面无法完成，试试撤销调整合成位置。':'暂时没找到路线，可以先查看升级路径，或撤销调整。';
+    }else $('hint-copy').textContent=status==='out-of-moves'||status==='unsolvable'?`剩余 ${copy.moveLimit-copy.successfulMoves} 步内无法完成收集，试试撤销几步重新安排，或重试本关。`:'暂时没找到剩余步数内的路线，可以先查看升级路径，或撤销调整。';
   };
   for(const d of dialogs){d.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>d.close());d.addEventListener('close',()=>{hintEpoch++;solving=false;$('solve-hint').disabled=false;idle();});}
-  window.addEventListener('resize',()=>{cancel();resize();});document.addEventListener('visibilitychange',()=>{cancel();if(!document.hidden)scheduleWin();});
+  window.addEventListener('resize',()=>{cancel();resize();});document.addEventListener('visibilitychange',()=>{cancel();if(!document.hidden)scheduleResult();});
   window.addEventListener('pagehide',cancel);
   // Read-only inspection surface for browser verification; input still commits all moves.
   window.slideV06={get state(){return E.clone(session.state);},get level(){return session.level;},get busy(){return busy();},get result(){return E.result(session.state,session.level);},get storageFailed(){return session.failed;}};
-  render();say('看上方升级路径：两个同级同类才能合成。');idle();scheduleWin();
+  render();say(session.restoreNotice==='updated'?'关卡已升级为步数挑战，已从本关重新开始；旧版成绩与新版分别记录。':session.restoreNotice==='invalid'?'存档未能恢复，已从本关重新开始。':session.state.status==='lost'?`本关 ${session.state.moveLimit} 步已用完。可以撤销上一步或重新挑战。`:`本关限 ${session.state.moveLimit} 步。看上方升级路径：两个同级同类才能合成。`);idle();scheduleResult();
 })();

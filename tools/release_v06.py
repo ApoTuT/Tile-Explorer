@@ -43,7 +43,7 @@ def package():
     commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     assert re.fullmatch(r'[0-9a-f]{40}', commit)
     subprocess.run([sys.executable, 'tools/export_v06.py'], cwd=ROOT, check=True)
-    build = '20261023-v06-' + commit[:8]
+    build = '20261023-v06-steps-' + commit[:8]
     output = WORK / build
     output.mkdir(parents=True, exist_ok=False)
     source = ROOT / '.local/h5-v06'
@@ -54,7 +54,7 @@ def package():
         for file in files:
             tar.add(file, arcname='html/' + file.relative_to(source).as_posix())
     entries = [{'path': f.relative_to(source).as_posix(), 'bytes': f.stat().st_size, 'sha256': digest(f.read_bytes())} for f in files]
-    manifest = {'buildId': build, 'sourceCommit': commit, 'version': '0.6.0', 'ruleset': 'slide-v06-1', 'createdAt': datetime.datetime.now(datetime.timezone.utc).isoformat(), 'files': entries}
+    manifest = {'buildId': build, 'sourceCommit': commit, 'version': '0.6.1', 'ruleset': 'slide-v06-2', 'createdAt': datetime.datetime.now(datetime.timezone.utc).isoformat(), 'files': entries}
     (output / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
     sums = [digest(archive.read_bytes()) + '  tile-explorer.tar.gz'] + [e['sha256'] + '  html/' + e['path'] for e in entries]
     (output / 'SHA256SUMS').write_bytes(('\n'.join(sums) + '\n').encode())
@@ -71,7 +71,7 @@ def main():
         return
     current = json.loads((WORK / 'v06-current.json').read_text())
     build = current['buildId']
-    assert re.fullmatch(r'20261023-v06-[0-9a-f]{8}', build)
+    assert re.fullmatch(r'20261023-v06-steps-[0-9a-f]{8}', build)
     output = Path(current['out'])
     release = '/root/apps/tile-explorer/releases/' + build
     preview = HTML + '/tile-explorer-v06-preview/' + build
@@ -97,7 +97,7 @@ curl --fail --silent --output /dev/null http://127.0.0.1/tile-explorer-v06-previ
         assert len(matches) == 1, 'Expected one stable game route'
         match = matches[0]
         previous = match.group(2).decode()
-        assert previous == '/tile-explorer/releases/20261023-v05-win-9c1b3a91/', 'Production changed; inspect before replacing route'
+        assert previous == '/tile-explorer/releases/20261023-v06-f4bd4695/', 'Production changed; inspect before replacing route'
         candidate = original[:match.start(2)] + target.encode() + original[match.end(2):]
         (output / 'default.conf.before').write_bytes(original)
         (output / 'default.conf.candidate').write_bytes(candidate)

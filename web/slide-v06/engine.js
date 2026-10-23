@@ -2,14 +2,14 @@
 (function(root){
   'use strict';
   const C=typeof module!=='undefined'?require('./content.js'):root.TileSlideV06.content;
-  const RULESET='slide-v06-1',SCORING='score-v06-1';
+  const RULESET='slide-v06-2',SCORING='score-v06-1';
   const directions={up:{row:-1,col:0},down:{row:1,col:0},left:{row:0,col:-1},right:{row:0,col:1}};
   const clone=v=>JSON.parse(JSON.stringify(v));
   const walkable=(s,r,c)=>Number.isInteger(r)&&Number.isInteger(c)&&r>=0&&c>=0&&r<s.rows&&c<s.cols&&s.mask[r][c]==='#';
   const rockAt=(s,r,c)=>s.rocks.some(p=>p.row===r&&p.col===c);
   const tileAt=(s,r,c)=>s.tiles.find(t=>t.row===r&&t.col===c);
   function definitionHash(l){
-    const value=JSON.stringify([RULESET,SCORING,l.id,l.mask,l.rocks,l.tiles,l.chainGoals,l.parMoves,l.twoStarScore,l.threeStarScore,C.items]);
+    const value=JSON.stringify([RULESET,SCORING,l.id,l.mask,l.rocks,l.tiles,l.chainGoals,l.moveLimit,l.parMoves,l.twoStarScore,l.threeStarScore,C.items]);
     let h=2166136261;for(let i=0;i<value.length;i++)h=Math.imul(h^value.charCodeAt(i),16777619);
     return(h>>>0).toString(16).padStart(8,'0');
   }
@@ -31,13 +31,14 @@
       for(const d of Object.values(directions))if(walkable(l,r+d.row,c+d.col)&&!seen.has((r+d.row)+','+(c+d.col)))queue.push([r+d.row,c+d.col]);}
     if(seen.size!==floor.length)errors.push('disconnected-mask');
     if(!Number.isInteger(l.parMoves)||l.parMoves<1||!(l.twoStarScore>0&&l.threeStarScore>l.twoStarScore))errors.push('scoring');
+    if(!Number.isInteger(l.moveLimit)||l.moveLimit<1)errors.push('move-limit');
     return {ok:!errors.length,errors};
   }
   function createState(l){
     const valid=validateDefinition(l);if(!valid.ok)throw Error(valid.errors.join(','));
     return {levelId:l.id,ruleset:RULESET,definitionHash:definitionHash(l),rows:l.rows,cols:l.cols,mask:clone(l.mask),rocks:clone(l.rocks),
       tiles:clone(l.tiles),chainGoals:clone(l.chainGoals),delivered:Object.fromEntries(Object.keys(l.chainGoals).map(k=>[k,0])),
-      successfulMoves:0,revision:0,status:'playing',mergeScore:0,chainCount:0,setupMovesSinceMerge:0,bestChain:0};
+      moveLimit:l.moveLimit,successfulMoves:0,revision:0,status:'playing',mergeScore:0,chainCount:0,setupMovesSinceMerge:0,bestChain:0};
   }
   function inspectAction(s,a){
     const bad=reason=>({ok:false,kind:'blocked',reason});
@@ -60,9 +61,9 @@
     }
   }
   const isWon=s=>!s.tiles.length&&Object.entries(s.chainGoals).every(([k,g])=>s.delivered[k]===g.count);
-  function applyAction(input,a){
+  function applyAction(input,a,{ignoreMoveLimit=false,recordTransaction=true}={}){
     const check=inspectAction(input,a);if(!check.ok)return {...check,state:input,events:[]};
-    const s=clone(input);s.successfulMoves++;s.revision++;
+    const s={...input,tiles:input.tiles.map(t=>({...t})),delivered:{...input.delivered}};s.successfulMoves++;s.revision++;
     let points=0;
     if(check.kind==='move'){
       Object.assign(s.tiles.find(t=>t.id===check.sourceId),check.to);
@@ -74,10 +75,13 @@
       if(check.kind==='upgrade')s.tiles.find(t=>t.id===check.targetId).itemId=check.resultId;
       else s.delivered[check.chainId]++;
     }
-    s.status=isWon(s)?'won':'playing';
+    // Completion on the last available move wins. Offline spatial proofs may ignore
+    // only the budget; collision and upgrade rules remain exactly the same.
+    s.status=isWon(s)?'won':!ignoreMoveLimit&&s.successfulMoves>=s.moveLimit?'lost':'playing';
     const events=[{type:check.kind==='move'?'tile-moved':check.kind==='upgrade'?'tile-upgraded':'merged-and-delivered',...check,points,chainCount:s.chainCount}];
     if(s.status==='won')events.push({type:'level-completed'});
-    return {ok:true,state:s,events,transaction:{action:{type:'slide',tileId:a.tileId,direction:a.direction},before:clone(input),after:clone(s)}};
+    if(s.status==='lost')events.push({type:'moves-exhausted'});
+    return {ok:true,state:s,events,transaction:recordTransaction?{action:{type:'slide',tileId:a.tileId,direction:a.direction},before:clone(input),after:clone(s)}:null};
   }
   function replay(l,actions){let state=createState(l);const transactions=[];
     for(const a of actions){const r=applyAction(state,a);if(!r.ok)throw Error('Invalid replay: '+r.reason);state=r.state;transactions.push(r.transaction);}return {state,transactions};}

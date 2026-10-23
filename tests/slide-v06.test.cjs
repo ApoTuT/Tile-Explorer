@@ -2,7 +2,7 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const E=require('../web/slide-v06/engine.js'),levels=require('../web/slide-v06/levels.js'),Session=require('../web/slide-v06/session.js'),S=require('../web/slide-v06/solver.js');
 const memory=()=>{const m={};return {getItem:k=>m[k]??null,setItem:(k,v)=>{m[k]=v;}};};
-const fixture=(tiles,extra={})=>({id:'test',rows:3,cols:4,mask:['####','####','####'],rocks:[],tiles,chainGoals:{fruit:{targetTier:3,count:1}},parMoves:6,twoStarScore:300,threeStarScore:700,...extra});
+const fixture=(tiles,extra={})=>({id:'test',rows:3,cols:4,mask:['####','####','####'],rocks:[],tiles,chainGoals:{fruit:{targetTier:3,count:1}},moveLimit:20,parMoves:6,twoStarScore:300,threeStarScore:700,...extra});
 const t=(id,tier,row,col)=>({id,itemId:'fruit-'+tier,row,col});
 test('upgrade stays at collision, preserves target ID, delivers only at goal',()=>{
   const l=fixture([t('a',0,0,0),t('b',0,0,2),t('c',1,1,2),t('d',2,2,2)]);let s=E.createState(l);
@@ -43,7 +43,34 @@ test('bounded hints return unknown on budget, cancellation wins',async()=>{
   assert.equal((await S.findHint(E.createState(levels[2]),{isCancelled:()=>true})).status,'cancelled');
 });
 test('looping 300 times restores and undoes full history without free points',()=>{
-  const store=memory(),game=new Session(levels,store),l=fixture([t('a',0,0,0),t('b',0,2,0),t('c',1,2,1),t('d',2,2,2)]);game.levels=[l];game.start(l);
+  const store=memory(),game=new Session(levels,store),l=fixture([t('a',0,0,0),t('b',0,2,0),t('c',1,2,1),t('d',2,2,2)],{moveLimit:1000});game.levels=[l];game.start(l);
   for(let i=0;i<300;i++)assert.ok(game.apply({type:'slide',tileId:'a',direction:i%2?'left':'right'}).ok);
   assert.equal(game.state.mergeScore,0);const recovered=new Session([l],store);assert.equal(recovered.history.length,300);while(recovered.undo()){}assert.equal(recovered.state.successfulMoves,0);
+});
+test('20th move may win, exhausted non-winning move loses, rejects spend nothing',()=>{
+  const l={...levels[0],moveLimit:1},initial=E.createState(l);
+  const win=E.applyAction(initial,l.referenceSolution[0]);assert.equal(win.state.status,'won');
+  const travel=E.listLegalActions(initial).find(a=>E.inspectAction(initial,a).kind==='move');
+  const lose=E.applyAction(initial,travel);assert.equal(lose.state.status,'lost');assert.equal(lose.state.successfulMoves,1);assert.equal(E.result(lose.state,l).stars,0);
+  assert.equal(E.applyAction(lose.state,l.referenceSolution[0]).ok,false);
+  const blocked=E.listLegalActions(initial);assert.ok(blocked.length);assert.equal(initial.successfulMoves,0);
+});
+test('lost refresh, undo, retry and old rules cannot retain invalid moves or award best',()=>{
+  const l={...levels[0],moveLimit:1},store=memory(),game=new Session([l],store),a=E.listLegalActions(game.state).find(a=>E.inspectAction(game.state,a).kind==='move');
+  game.apply(a);assert.equal(game.state.status,'lost');assert.equal(game.bestFor(l).stars,0);
+  const restored=new Session([l],store);assert.equal(restored.state.status,'lost');restored.undo();assert.equal(restored.state.status,'playing');assert.equal(restored.state.successfulMoves,0);
+  restored.apply(a);restored.restart();assert.equal(restored.state.successfulMoves,0);
+  store.setItem('tile-explorer.slide.v06.session.v1',JSON.stringify({levelId:l.id,hash:'old-rule-hash',actions:[a]}));
+  const upgraded=new Session([l],store);assert.equal(upgraded.state.successfulMoves,0);assert.ok(upgraded.restoreNotice);
+});
+test('reported two-apple bird softlock is reproduced, redesigned grid can recover',()=>{
+  const old=fixture([t('a',2,2,0),t('b',2,4,4)],{rows:6,cols:7,mask:['...#...','..###..','#######','.#####.','..###..','...#...']});
+  assert.equal(S.findSolution(E.createState(old),{respectMoveLimit:false,maxStates:1000,maxMs:1000}).status,'unsolvable');
+  const repaired=fixture([t('a',2,1,0),t('b',2,2,2)],{rows:3,cols:3,mask:['###','###','###']});
+  const solved=S.findSolution(E.createState(repaired));assert.equal(solved.status,'solved');assert.equal(E.replay(repaired,solved.solution).state.status,'won');
+});
+test('budget-aware hint distinguishes spent budget from spatial impossibility',()=>{
+  const l=fixture([t('a',2,0,0),t('b',2,2,2)],{rows:3,cols:3,mask:['###','###','###'],moveLimit:1});
+  const budget=S.findSolution(E.createState(l));assert.equal(budget.status,'out-of-moves');
+  const spatial=S.findSolution(E.createState(l),{respectMoveLimit:false});assert.equal(spatial.status,'solved');
 });

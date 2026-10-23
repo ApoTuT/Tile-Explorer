@@ -1,24 +1,26 @@
 /* Reverse-author levels: every split and travel is checked by the real forward kernel. */
 'use strict';
 const fs=require('node:fs'),E=require('../web/slide-v06/engine.js'),C=require('../web/slide-v06/content.js');
+const patterns=[['###','###'],['###','###','###'],['####','####','####','####'],['.#.#.','#####','#####','.###.','..#..'],['.###.','#####','#####','#####','.###.'],['##...##','###.###','.#####.','###.###','##...##'],['...#...','..###..','#######','.#####.','..###..','...#...'],['...#...','..###..','#######','.#####.','..###..','.##.##.','.#...#.'],['.#...#.','###.###','#######','#######','.#####.','..#.#..'],['...#...','..###..','#######','.#####.','..###..','.##.##.','##...##']];
+const square=['###','###','###'];
 const specs=[
-  ['初次碰面','朝荔枝划一下，碰到同类就升级。',['###','###'],[],{fruit:{targetTier:1,count:1}},{fruit:[0,0]}],
-  ['苹果接力','橘子会留下来，再找一颗橘子。',['###','###','###'],[],{fruit:{targetTier:2,count:1}},{fruit:[0,0,1]}],
-  ['三步成长','想一想，新图案应该留在哪里？',['####','####','####','####'],[],{fruit:{targetTier:3,count:1}},{fruit:[0,0,1,2]}],
-  ['爱心相遇','两颗苹果，两段接力。',['.#.#.','#####','#####','.###.','..#..'],[],{fruit:{targetTier:2,count:2}},{fruit:[0,0,1,0,0,1]}],
-  ['花园绕一绕','石块不会动，也能帮你停靠。',['.###.','#####','#####','#####','.###.'],[{row:2,col:2}],{fruit:{targetTier:3,count:1},car:{targetTier:2,count:1}},{fruit:[0,0,1,2],car:[0,0,1]}],
-  ['蝴蝶借道','留住中间形态，让双翼接起来。',['##...##','###.###','.#####.','###.###','##...##'],[{row:1,col:1}],{fruit:{targetTier:3,count:1},plant:{targetTier:3,count:1}},{fruit:[0,0,1,2],plant:[0,0,1,2]}],
-  ['小鸟展翅','从八颗荔枝，慢慢合成一颗桃子。',['...#...','..###..','#######','.#####.','..###..','...#...'],[],{fruit:{targetTier:3,count:1},plant:{targetTier:3,count:1}},{fruit:Array(8).fill(0),plant:[0,0,1,2]}],
-  ['星光接力','三条升级路线，共用一片星光。',['...#...','..###..','#######','.#####.','..###..','.##.##.','.#...#.'],[{row:3,col:3}],{fruit:{targetTier:3,count:1},plant:{targetTier:3,count:1},car:{targetTier:2,count:1}},{fruit:[0,0,1,2],plant:[0,0,1,2],car:[0,0,1]}],
-  ['双心相连','先安排接应，再让桃子相遇。',['.#...#.','###.###','#######','#######','.#####.','..#.#..'],[{row:3,col:3}],{fruit:{targetTier:4,count:1},plant:{targetTier:3,count:1},car:{targetTier:2,count:1}},{fruit:[0,0,1,2,3],plant:[0,0,1,2],car:[0,0,1]}],
-  ['凤凰归巢','双翼与长尾，都藏着下一次成长。',['...#...','..###..','#######','.#####.','..###..','.##.##.','##...##'],[{row:3,col:3}],{fruit:{targetTier:4,count:2},plant:{targetTier:3,count:1}},{fruit:[0,0,1,2,3,0,0,1,2,3],plant:[0,0,1,2]}]
+  ['初次碰面','20步内，让两颗荔枝碰个面。',['###','###'],[],{fruit:{targetTier:1,count:1}},{fruit:[0,0]}],
+  ['苹果接力','20步内，安排两次升级。',square,[],{fruit:{targetTier:2,count:1}},{fruit:[0,0,1]}],
+  ['三步成长','20步内，选好新图案留下的位置。',square,[],{fruit:{targetTier:3,count:1}},{fruit:[0,0,1,2]}],
+  ['爱心相遇','20步内，完成两段苹果接力。',square,[],{fruit:{targetTier:2,count:2}},{fruit:[0,0,1,0,0,1]}],
+  ['花园绕一绕','20步内，水果和汽车互相让路。',square,[],{fruit:{targetTier:2,count:1},car:{targetTier:2,count:1}},{fruit:[0,0,1],car:[0,0,1]}],
+  ['蝴蝶借道','20步内，让嫩芽长成大树。',square,[],{fruit:{targetTier:2,count:1},plant:{targetTier:3,count:1}},{fruit:[0,0,1],plant:[0,0,1,2]}],
+  ['小鸟展翅','20步内，把荔枝逐层合成桃子。',square,[],{fruit:{targetTier:3,count:1}},{fruit:[0,0,0,0,0,0,1]}],
+  ['星光接力','20步内，安排三条升级路线。',square,[],{fruit:{targetTier:2,count:1},plant:{targetTier:2,count:1},car:{targetTier:1,count:1}},{fruit:[0,0,1],plant:[0,0,1],car:[0,0]}],
+  ['双心相连','20步内，让两颗桃子合成西瓜。',square,[],{fruit:{targetTier:4,count:1}},{fruit:[0,0,1,2,3]}],
+  ['凤凰归巢','20步内，完成四级成长与跨链接力。',square,[],{fruit:{targetTier:4,count:1},plant:{targetTier:2,count:1}},{fruit:[0,0,1,2,3],plant:[0,0,1]}]
 ];
 let seed=60623;function random(){seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/2**32;}
 const shuffle=a=>a.map(v=>[random(),v]).sort((a,b)=>a[0]-b[0]).map(v=>v[1]);
 function generate(spec,index){
   const [title,subtitle,mask,rocks,chainGoals,desired]=spec;
   const l={id:'slide06-'+String(index+1).padStart(2,'0'),title,subtitle,rows:mask.length,cols:mask[0].length,mask,rocks,chainGoals,
-    tiles:[],parMoves:1,twoStarScore:1,threeStarScore:2,ruleset:E.RULESET};
+    tiles:[],pattern:patterns[index],moveLimit:20,parMoves:1,twoStarScore:1,threeStarScore:2,ruleset:E.RULESET};
   const floor=[];for(let r=0;r<l.rows;r++)for(let c=0;c<l.cols;c++)if(E.walkable(l,r,c)&&!E.rockAt(l,r,c))floor.push({row:r,col:c});
   for(let attempt=0;attempt<600;attempt++){
     const s={...l,tiles:[],status:'playing'},solution=[];let id=0,failed=false;
@@ -71,6 +73,7 @@ function generate(spec,index){
     if(failed)continue;
     if(Object.entries(desired).some(([chain,tiers])=>JSON.stringify(s.tiles.filter(t=>C.items[t.itemId].chainId===chain).map(t=>C.items[t.itemId].tier).sort())!==JSON.stringify([...tiers].sort())))continue;
     for(let n=0;n<(index?Math.min(index,5):0);n++)reverseTravel();
+    if(solution.length>l.moveLimit)continue;
     l.tiles=E.clone(s.tiles);l.parMoves=solution.length;
     if(!E.validateDefinition(l).ok)throw Error(E.validateDefinition(l).errors);
     const played=E.replay(l,solution).state;if(played.status!=='won')throw Error('Reverse proof failed');
@@ -83,6 +86,16 @@ function generate(spec,index){
   }throw Error('Unable to author '+title);
 }
 const levels=specs.map(generate);
+// Choose challenging starts from the fully proved spatial graph instead of
+// padding a route with travel. Every recommended route is actually shortest.
+const {proveSpatialSafety}=require('./validate_v06_levels.cjs');
+for(const [index,level] of levels.entries())if(index>=2){
+  const proof=proveSpatialSafety(level,{recommendStart:true});
+  if(!proof.allReachableSolvable)throw Error('Unsafe authored layout '+level.id);
+  level.tiles=proof.recommendedTiles;level.referenceSolution=proof.recommendedSolution;level.parMoves=proof.recommendedShortestMoves;
+  const played=E.replay(level,level.referenceSolution).state,score=E.result(played,level).score;
+  level.threeStarScore=score;level.twoStarScore=Math.max(1,score-150);level.scoreProofs=[{actions:level.referenceSolution,score,stars:3}];
+}
 const text='/* Authored by reverse moves, verified by forward replay. */\n(function(root){\n  const levels='+JSON.stringify(levels,null,2)+';\n  root.TileSlideV06={...(root.TileSlideV06||{}),levels};\n  if(typeof module!=="undefined")module.exports=levels;\n})(globalThis);\n';
 fs.writeFileSync('web/slide-v06/levels.js',text);
 console.log(levels.map(l=>({title:l.title,tiles:l.tiles.length,moves:l.parMoves,threeStar:l.threeStarScore})));

@@ -8,7 +8,7 @@
 
 | 版本或阶段 | 状态 | 实现说明 |
 |---|---|---|
-| v0.6：布好局，连着收 | 已实现并部署；十关多阶段合成、路径提示、连击积分、异形棋盘；本地／公网与双平台 CI 通过；PR #4 未合并 | [方案与实现](v0.6.md)、[部署](v0.6-deployment.md)、[验关](v0.6-level-report.json) |
+| v0.6：布好局，连着收 | 十关已重做为 20 步挑战，全部空间局面可解；多阶段合成、路径提示与积分保留；PR #4 | [20步重做](v0.6-steps.md)、[方案与实现](v0.6.md)、[验关](v0.6-level-report.json) |
 | v0.5：一滑到底，碰撞合成 | `slide-v05-2` 与自动通关弹窗已在 `v0.5` 分支实现；预览及公网各 28 项检查通过，已部署 | [v0.5.md](v0.5.md)、[部署记录](v0.5-deployment.md)、[正式验关](v0.5-level-report.json) |
 | v0.4：多图形与前三关打磨 | 已部署在线试玩；本地／公网验收及实施提交双平台 CI 通过；[PR #3](https://github.com/ApoTuT/Tile-Explorer/pull/3) 未合并 | [v0.4.md](v0.4.md)、[发布记录](v0.4-deployment.md) |
 | v0.3：叠合与单格借位 | 本地及浏览器验证通过；[PR #2](https://github.com/ApoTuT/Tile-Explorer/pull/2) 已创建，未合并或发布 | [v0.3.md](v0.3.md) |
