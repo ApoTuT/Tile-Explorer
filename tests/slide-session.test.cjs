@@ -36,7 +36,7 @@ test('300 legal cyclic moves survive save/restore, a merge, and complete undo', 
   const {session, store} = setup();
   session.start(levels[0]);
   for (let index = 0; index < 300; index++) {
-    assert.equal(session.apply(move('s1', index % 2 ? 'left' : 'right')).ok, true);
+    assert.equal(session.apply(move('s1', index % 2 ? 'up' : 'down')).ok, true);
   }
   assert.equal(session.historyLength, 300);
   const reopened = new GameSession({levels, store});
@@ -44,10 +44,9 @@ test('300 legal cyclic moves survive save/restore, a merge, and complete undo', 
   assert.deepEqual(reopened.state, session.state);
   assert.equal(reopened.historyLength, 300);
   assert.equal(reopened.apply(move('s1', 'right')).ok, true);
-  assert.equal(reopened.apply(move('s1', 'right')).ok, true);
   assert.equal(reopened.state.status, 'won');
   const won = await store.loadSession();
-  assert.equal(won.transactions.length, 302);
+  assert.equal(won.transactions.length, 301);
   while (reopened.canUndo) reopened.undo();
   assert.deepEqual(reopened.state, E.createState(levels[0]));
   assert.ok(store.progress()['slide-01']);
@@ -143,6 +142,21 @@ test('bad schemas, illegal action logs, mismatched hashes and corrupted JSON saf
     const {store} = setup({values: new Map([['tile-explorer.slide.v05.session.v1', raw]])});
     assert.equal((await store.loadSession()).reset, true);
   }
+});
+
+test('one-cell v0.5 saves restart instead of replaying under glide rules, retaining preferences', async () => {
+  const values = new Map([
+    ['tile-explorer.slide.v05.session.v1', JSON.stringify({schemaVersion: 1, ruleset: 'slide-v05-1',
+      levelId: levels[0].id, definitionHash: 'da845a3b', actions: [move('s1','right'),move('s1','right')]})],
+    ['tile-explorer.slide.v05.progress.v1', JSON.stringify({'slide-01': 'da845a3b'})],
+    ['tile-explorer.slide.v05.settings.v1', JSON.stringify({soundEnabled:false,reducedMotion:true})]
+  ]);
+  const {store,session} = setup({values});
+  const restored = await session.restore();
+  assert.equal(restored.reset, true); assert.equal(session.historyLength, 0);
+  assert.deepEqual(session.state, E.createState(levels[0]));
+  assert.deepEqual(store.progress(), {});
+  assert.deepEqual(store.settings(), {soundEnabled:false,reducedMotion:true});
 });
 
 test('technical storage limits report memory fallback without truncating the action log', () => {

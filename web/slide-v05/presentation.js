@@ -13,6 +13,15 @@
       const animation = actor.animate(frames, options); animations.add(animation);
       return Promise.resolve(animation.finished).catch(() => {}).finally(() => animations.delete(animation));
     }
+    function makeActor(item, box, className = 'merge-result') {
+      const actor = board.ownerDocument.createElement('div');
+      actor.className = className; actor.setAttribute('aria-hidden', 'true');
+      const img = board.ownerDocument.createElement('img'); img.src = root.TileMergeContent.assetUrl(item.assetId); img.alt = '';
+      actor.append(img);
+      Object.assign(actor.style, {left:box.left+'px',top:box.top+'px',width:box.width+'px',height:box.height+'px'});
+      board.ownerDocument.body.append(actor); actors.add(actor); return actor;
+    }
+    function removeActor(actor) { actor?.remove(); actors.delete(actor); }
     function play(events, {before} = {}) {
       const token = epoch, C = root.TileMergeContent;
       for (const event of events || []) {
@@ -26,11 +35,16 @@
           if (goal?.animate) animate(goal,[{outline:'3px solid #e4ca77'},{outline:'3px solid transparent'}],{duration:180});
           continue;
         }
-        const actor = board.ownerDocument.createElement('div'); actor.className = 'merge-result'; actor.setAttribute('aria-hidden','true');
-        const img = board.ownerDocument.createElement('img'); img.src = C.assetUrl(result.assetId); img.alt=''; actor.append(img);
-        Object.assign(actor.style,{left:box.left+'px',top:box.top+'px',width:box.width+'px',height:box.height+'px'});
-        board.ownerDocument.body.append(actor); actors.add(actor);
+        const from = view.cellBox(event.from.row, event.from.col);
+        const source = makeActor(C.items[event.sourceItemId], from, 'merge-result glide-source');
+        const target = makeActor(C.items[event.sourceItemId], box, 'merge-result glide-target');
+        let actor = null;
         (async () => {
+          await animate(source, [{transform:'translate(0,0)'},{transform:'translate('+(box.left-from.left)+'px,'+(box.top-from.top)+'px)'}],
+            {duration:config.travelMs(event.distance || 1),easing:'cubic-bezier(.15,.75,.25,1)',fill:'forwards'});
+          if (token !== epoch || !actors.has(source)) return;
+          removeActor(source); removeActor(target);
+          actor = makeActor(result, box);
           await animate(actor,[{transform:'scale(.65)',opacity:.2},{transform:'scale(1.08)',opacity:1},{transform:'scale(1)',opacity:1}],{duration:config.growMs,easing:'ease-out',fill:'forwards'});
           if (token !== epoch || !actors.has(actor)) return;
           const dx=destination.left+destination.width/2-box.left-box.width/2,dy=destination.top+destination.height/2-box.top-box.height/2;
@@ -38,7 +52,7 @@
           if (token !== epoch || !actors.has(actor)) return;
           actor.remove(); actors.delete(actor);
           if (goal?.animate) animate(goal,[{transform:'scale(1)'},{transform:'scale(1.05)'},{transform:'scale(1)'}],{duration:180});
-        })().catch(() => { actor.remove(); actors.delete(actor); });
+        })().catch(() => { removeActor(actor); removeActor(source); removeActor(target); });
       }
     }
     return {play,cancel,destroy:cancel};

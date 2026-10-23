@@ -167,7 +167,7 @@
   try {
     updateSettings(); const restored = await session.restore();
     transition = false; render({speak: true}); tutorial.start(session.level);
-    if (restored?.reset) message('关卡已更新，已从这一关重新开始。');
+    if (restored?.reset) message('玩法已更新为一滑到底，这一关重新开始。音效设置已保留。');
   } catch (error) {
     message('游戏暂时没有载入，请刷新再试。');
     console.error(error);

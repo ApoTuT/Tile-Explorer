@@ -48,23 +48,22 @@ function setup(index = 0, saved = null) {
 }
 
 test('first lesson is read-only, yields to input, then learns only real committed moves and merges', async () => {
-  const t = setup(); t.start();
+  const t = setup(); t.setHint(async () => ({status: 'solved', action: levels[0].referenceSolution[0]})); t.start();
   const initial = clone(t.state());
   t.advance(600); await flush();
   assert.equal(t.shown.length, 1);
-  assert.equal(t.shown[0].kind, 'move');
+  assert.equal(t.shown[0].kind, 'merge');
   assert.deepEqual(t.state(), initial);
   assert.deepEqual({...t.tutorial.capabilities}, {});
   t.tutorial.onInput({type: 'gesture-start'});
   t.advance(60000); await flush();
   assert.equal(t.shown.length, 1);
   t.commit(levels[0].referenceSolution[0]);
-  assert.equal(t.tutorial.capabilities.slideEmpty, true);
-  assert.equal(t.tutorial.capabilities.mergePair, undefined);
-  t.commit(levels[0].referenceSolution[1]);
+  assert.equal(t.tutorial.capabilities.slideToEnd, true);
+  assert.equal(t.tutorial.capabilities.slideEmpty, undefined);
   assert.equal(t.tutorial.capabilities.mergePair, true);
   assert.equal(t.state().status, 'won');
-  assert.equal(t.writes.length, 2);
+  assert.equal(t.writes.length, 1);
   t.advance(60000); await flush();
   assert.equal(t.shown.length, 1);
 });
@@ -147,13 +146,13 @@ test('undo preserves learned skills, invalid rule records do not grant them', ()
   const t = setup(); t.start();
   const result = t.commit(levels[0].referenceSolution[0]);
   t.undo(result);
-  assert.equal(t.tutorial.capabilities.slideEmpty, true);
+  assert.equal(t.tutorial.capabilities.slideToEnd, true);
   const valid = setup(0, {ruleset: E.RULESET, capabilities: {slideEmpty: true, mergePair: true, makeRoom: 'true'}});
   valid.start();
   assert.deepEqual({...valid.tutorial.capabilities}, {slideEmpty: true, mergePair: true});
   assert.equal(valid.tutorial.stage(), null);
   const old = setup(0, {ruleset: 'merge-v04-1', capabilities: {slideEmpty: true}});
-  old.start(); assert.equal(old.tutorial.stage(), 'slideEmpty');
+  old.start(); assert.equal(old.tutorial.stage(), 'mergePair');
 });
 
 test('budget-limited, unsolvable, rejected and thrown hints never invent a move', async () => {

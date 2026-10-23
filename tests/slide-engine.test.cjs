@@ -18,12 +18,13 @@ test('integer grid has no wraparound, diagonal or coordinate ambiguity', () => {
   assert.deepEqual(G.neighbor(board, {row: 0, col: 2}, 'down'), {row: 1, col: 2});
 });
 
-test('an ordinary slide changes one tile by one cell with no material or counter delivery', () => {
-  const initial = E.createState(levels[0]), before = E.clone(initial);
-  const result = E.applyAction(initial, slide('s1', 'right'));
+test('one directional action travels across every empty cell to the edge and counts once', () => {
+  const level = E.clone(levels[0]); level.rows = 3;
+  const initial = E.createState(level), before = E.clone(initial);
+  const result = E.applyAction(initial, slide('s1', 'down'));
   assert.equal(result.ok, true);
   assert.deepEqual(result.state.tiles.find(tile => tile.id === 's1'),
-    {id: 's1', itemId: 'strawberry-small', row: 0, col: 1});
+    {id: 's1', itemId: 'strawberry-small', row: 2, col: 0});
   assert.deepEqual(result.state.delivered, {'strawberry-large': 0});
   assert.equal(result.state.successfulMoves, 1);
   assert.equal(result.state.revision, 1);
@@ -31,22 +32,25 @@ test('an ordinary slide changes one tile by one cell with no material or counter
   assert.equal(result.events.length, 1);
   assert.equal(result.events[0].type, 'tile-moved');
   assert.deepEqual(result.events[0].from, {row: 0, col: 0});
-  assert.deepEqual(result.events[0].to, {row: 0, col: 1});
+  assert.deepEqual(result.events[0].to, {row: 2, col: 0});
+  assert.deepEqual(result.events[0].path, [{row: 1, col: 0}, {row: 2, col: 0}]);
+  assert.equal(result.events[0].distance, 2);
   assert.deepEqual(initial, before);
   assert.deepEqual(result.transaction.before, initial);
   assert.deepEqual(result.transaction.after, result.state);
-  assert.deepEqual(result.transaction.action, slide('s1', 'right'));
+  assert.deepEqual(result.transaction.action, slide('s1', 'down'));
 });
 
 test('adjacent matching tiles remain until a deliberate slide; the collision delivers exactly once', () => {
-  const adjacent = E.applyAction(E.createState(levels[0]), slide('s1', 'right')).state;
+  const level = E.clone(levels[0]); level.tiles[1].col = 1;
+  const adjacent = E.createState(level);
   assert.equal(adjacent.tiles.length, 2);
   assert.equal(adjacent.status, 'playing');
-  const collision = E.applyAction(adjacent, {...slide('s1', 'right'), expectedRevision: 1});
+  const collision = E.applyAction(adjacent, {...slide('s1', 'right'), expectedRevision: 0});
   assert.equal(collision.state.status, 'won');
   assert.deepEqual(collision.state.tiles, []);
   assert.deepEqual(collision.state.delivered, {'strawberry-large': 1});
-  assert.equal(collision.state.successfulMoves, 2);
+  assert.equal(collision.state.successfulMoves, 1);
   assert.deepEqual(collision.events.map(event => event.type), ['merged-and-delivered', 'level-completed']);
   const event = collision.events[0];
   assert.equal(event.sourceId, 's1');
@@ -54,7 +58,7 @@ test('adjacent matching tiles remain until a deliberate slide; the collision del
   assert.equal(event.recipeId, 'strawberry-grow');
   assert.equal(event.resultId, 'strawberry-large');
   assert.equal(event.ordinalWithinResult, 1);
-  assert.deepEqual(event.to, {row: 0, col: 2});
+  assert.deepEqual(event.to, {row: 0, col: 1});
   assert.equal(E.applyAction(collision.state, slide('s1', 'right')).reason, 'finished');
   assert.deepEqual(collision.transaction.before, adjacent);
 });
@@ -71,7 +75,7 @@ test('separate result counters and completion require every material to be consu
     events.push(...result.events);
   }
   assert.deepEqual(events.filter(event => event.type === 'merged-and-delivered').map(event => event.resultId),
-    ['tree-grown', 'sports-car', 'strawberry-large']);
+    ['strawberry-large', 'sports-car', 'tree-grown']);
   assert.deepEqual(state.delivered, {'strawberry-large': 1, 'sports-car': 1, 'tree-grown': 1});
   assert.equal(E.totalGoals(state), 3);
   assert.equal(E.isWon(state), true);
@@ -98,7 +102,7 @@ test('edge, different picture, malformed, missing and stale actions do not write
 });
 
 test('full or missing goal rejects matching collision before consumption', () => {
-  const state = E.applyAction(E.createState(levels[0]), slide('s1', 'right')).state;
+  const state = E.createState(levels[0]);
   state.delivered['strawberry-large'] = 1;
   assert.equal(E.applyAction(state, slide('s1', 'right')).reason, 'goal-full');
   delete state.goals['strawberry-large'];
@@ -123,7 +127,7 @@ test('three hundred legal back-and-forth actions replay without the old goal-bas
   assert.equal(E.canonicalKey(back.state), E.canonicalKey(E.createState(levels[0])));
   const completed = E.replay(levels[0], [...actions, ...levels[0].referenceSolution]);
   assert.equal(completed.state.status, 'won');
-  assert.equal(completed.state.successfulMoves, 302);
+  assert.equal(completed.state.successfulMoves, 301);
   assert.deepEqual(completed.history[300].before, back.state);
   assert.throws(() => E.replay(levels[0], [slide('s1', 'up')]), /Invalid replay at 0: edge/);
 });
@@ -177,6 +181,35 @@ test('reference routes must execute and finish through the production rules', ()
   const level = E.clone(levels[0]);
   level.referenceSolution = [slide('s1', 'up')];
   assert.equal(E.validateDefinition(level).ok, false);
-  level.referenceSolution = [slide('s1', 'right')];
+  level.referenceSolution = [];
   assert.deepEqual(E.validateDefinition(level).errors, ['reference-incomplete']);
+});
+
+test('a same picture anywhere on the clear line is merged in one action with the full path', () => {
+  const result = E.applyAction(E.createState(levels[0]), slide('s1', 'right'));
+  assert.equal(result.state.status, 'won');
+  assert.equal(result.state.successfulMoves, 1);
+  assert.deepEqual(result.events[0].path, [{row: 0, col: 1}, {row: 0, col: 2}]);
+  assert.equal(result.events[0].distance, 2);
+});
+
+test('different picture after empty cells stops the tile in front, without crossing or pushing', () => {
+  const level = E.clone(levels[1]); level.rows = 3; level.cols = 5;
+  Object.assign(level.tiles[0], {row: 0, col: 0}); Object.assign(level.tiles[1], {row: 0, col: 3});
+  Object.assign(level.tiles[2], {row: 2, col: 4}); Object.assign(level.tiles[3], {row: 2, col: 3});
+  const initial = E.createState(level), result = E.applyAction(initial, slide('s1', 'right'));
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.events[0].to, {row: 0, col: 2});
+  assert.equal(result.events[0].stoppedBy, 'tile'); assert.equal(result.events[0].blockerId, 'c1');
+  assert.deepEqual(result.state.tiles.find(tile => tile.id === 'c1'), initial.tiles.find(tile => tile.id === 'c1'));
+  assert.equal(E.applyAction(result.state, slide('s1', 'right')).reason, 'different');
+});
+
+test('a gesture merges only the first matching tile and never continues past the collision', () => {
+  const level = E.clone(levels[0]); level.cols = 5; level.goals['strawberry-large'] = 2;
+  level.tiles = [0,2,4,9].map((cell,index)=>({id:'s'+(index+1),itemId:'strawberry-small',row:Math.floor(cell/5),col:cell%5}));
+  const result = E.applyAction(E.createState(level), slide('s1', 'right'));
+  assert.equal(result.state.tiles.length, 2); assert.equal(result.state.delivered['strawberry-large'], 1);
+  assert.deepEqual(result.state.tiles.map(tile=>tile.id), ['s3','s4']);
+  assert.equal(result.events.length, 1); assert.equal(result.state.successfulMoves, 1);
 });

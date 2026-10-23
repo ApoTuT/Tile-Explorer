@@ -24,7 +24,7 @@
       this.record = {ruleset: E.RULESET, capabilities: {}};
       const saved = store?.read('onboarding');
       if (saved?.ruleset === E.RULESET)
-        for (const key of ['slideEmpty', 'mergePair', 'makeRoom'])
+        for (const key of ['slideEmpty', 'slideToEnd', 'mergePair', 'makeRoom'])
           if (saved.capabilities?.[key] === true) this.record.capabilities[key] = true;
       this.level = null;
       this.epoch = 0;
@@ -64,7 +64,6 @@
       const level = this.getLevel() || this.level;
       const id = level?.tutorialId || level?.id;
       if (id === 'slide-01' || id === 'learn-slide') {
-        if (!this.record.capabilities.slideEmpty) return 'slideEmpty';
         return this.record.capabilities.mergePair ? null : 'mergePair';
       }
       if (id === 'slide-02' || id === 'make-room') return this.record.capabilities.makeRoom ? null : 'makeRoom';
@@ -88,9 +87,9 @@
       this.later(delay, () => { void this.suggest({automatic: true, stage}); });
     }
     textFor(kind, stage) {
-      if (kind === 'merge') return '向相同图案滑动，碰一下就合成。';
+      if (kind === 'merge') return '朝同类划一下，一路滑过去合成。';
       if (stage === 'makeRoom') return '挪一挪，给它让路。';
-      return '在方块上划一下，向旁边滑一格。';
+      return '在方块上划一下，滑到边缘或障碍前才停。';
     }
     async suggest({automatic = false, stage = this.stage()} = {}) {
       if (this.destroyed || this.suspended || this.gestureActive || this.getState()?.status !== 'playing' ||
@@ -143,6 +142,9 @@
       const level = this.getLevel() || this.level;
       const second = level?.id === 'slide-02' || level?.tutorialId === 'make-room';
       for (const event of result.events || []) {
+        if (['tile-moved', 'merged-and-delivered'].includes(event.type) && !this.record.capabilities.slideToEnd) {
+          this.record.capabilities.slideToEnd = true; changed = true;
+        }
         if (event.type === 'tile-moved') {
           if (!this.record.capabilities.slideEmpty) { this.record.capabilities.slideEmpty = true; changed = true; }
           if (second) this.roomMoved = true;

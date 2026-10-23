@@ -3,7 +3,7 @@
   'use strict';
   const G = typeof module !== 'undefined' ? require('./grid.js') : root.TileSlideV05.grid;
   const C = typeof module !== 'undefined' ? require('../shared/merge-content.js') : root.TileMergeContent;
-  const RULESET = 'slide-v05-1';
+  const RULESET = 'slide-v05-2';
   const clone = value => JSON.parse(JSON.stringify(value));
   const record = value => value && typeof value === 'object' && !Array.isArray(value);
   const canonical = value => Array.isArray(value) ? value.map(canonical) : record(value) ?
@@ -77,17 +77,32 @@
     if (state.status !== 'playing') return rejected('finished');
     const source = state.tiles.find(tile => tile.id === action.tileId);
     if (!source) return rejected('missing');
-    const from = {row: source.row, col: source.col}, to = G.neighbor(state, source, action.direction);
-    const detail = {sourceId: source.id, sourceItemId: source.itemId, from, to};
-    if (!to) return rejected('edge', detail);
-    const target = G.tileAt(state, to.row, to.col);
-    if (!target) return {ok: true, kind: 'move', ...detail};
-    if (target.itemId !== source.itemId) return rejected('different', {...detail, targetId: target.id});
-    const recipe = recipeFor(source.itemId);
-    if (!recipe) return rejected('recipe', detail);
-    if (!Object.hasOwn(state.goals, recipe.resultId) || !Number.isInteger(state.delivered[recipe.resultId]) ||
-        state.delivered[recipe.resultId] >= state.goals[recipe.resultId]) return rejected('goal-full', detail);
-    return {ok: true, kind: 'merge', ...detail, targetId: target.id, recipeId: recipe.id, resultId: recipe.resultId};
+    const from = {row: source.row, col: source.col}, path = [];
+    const detail = {sourceId: source.id, sourceItemId: source.itemId, from};
+    let position = from;
+    while (true) {
+      const next = G.neighbor(state, position, action.direction);
+      if (!next) {
+        if (!path.length) return rejected('edge', {...detail, to: null, path, distance: 0});
+        return {ok: true, kind: 'move', ...detail, to: position, path, distance: path.length, stoppedBy: 'edge'};
+      }
+      const target = G.tileAt(state, next.row, next.col);
+      if (target && target.itemId !== source.itemId) {
+        if (!path.length) return rejected('different', {...detail, to: next, targetId: target.id, path, distance: 0});
+        return {ok: true, kind: 'move', ...detail, to: position, path, distance: path.length,
+          stoppedBy: 'tile', blockerId: target.id};
+      }
+      path.push(next);
+      if (target) {
+        const recipe = recipeFor(source.itemId);
+        if (!recipe) return rejected('recipe', detail);
+        if (!Object.hasOwn(state.goals, recipe.resultId) || !Number.isInteger(state.delivered[recipe.resultId]) ||
+            state.delivered[recipe.resultId] >= state.goals[recipe.resultId]) return rejected('goal-full', detail);
+        return {ok: true, kind: 'merge', ...detail, to: next, path, distance: path.length,
+          targetId: target.id, recipeId: recipe.id, resultId: recipe.resultId};
+      }
+      position = next;
+    }
   }
   function isWon(state) {
     return !state.tiles.length && Object.keys(state.goals).every(id => state.delivered[id] === state.goals[id]) &&

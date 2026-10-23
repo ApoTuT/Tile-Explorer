@@ -6,7 +6,7 @@ const path = require('node:path');
 const {chromium} = require(process.env.PLAYWRIGHT_MODULE ||
   'C:/Users/Administrator/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
 const base = process.env.V05_URL || 'http://127.0.0.1:8775/slide-v05.html';
-const output = path.resolve('.qa/v05-recovery');
+const output = path.resolve(process.env.V05_QA_OUTPUT || '.qa/v05-recovery');
 fs.mkdirSync(output, {recursive: true});
 const checks = {}, timingsMs = {}, errors = [], limitations = [];
 const ready = page => page.waitForFunction(() => window.slideV05?.state && !window.slideV05.busy, null, {timeout: 15000});
@@ -56,13 +56,12 @@ async function main() {
     checks.threeHundredCyclicMovesAndExactRestore = true;
 
     await key(page, 's1', 'right');
-    await key(page, 's1', 'right');
     assert.equal((await state(page)).status, 'won');
-    assert.equal((await state(page)).successfulMoves, 302);
+    assert.equal((await state(page)).successfulMoves, 301);
     // Undo while the result is still travelling; its visuals cannot outlive the transaction.
     await page.keyboard.press('Control+z'); await ready(page);
     assert.equal((await state(page)).status, 'playing');
-    assert.equal((await state(page)).successfulMoves, 301);
+    assert.equal((await state(page)).successfulMoves, 300);
     assert.equal(await page.locator('.merge-result').count(), 0);
     assert.equal(await page.locator('.collecting').count(), 0);
     checks.undoCancelsCollectingAnimation = true;
@@ -70,15 +69,15 @@ async function main() {
     const won = await state(page);
     await page.reload(); await ready(page);
     assert.deepEqual(await state(page), won);
-    assert.equal(await page.evaluate(() => window.slideV05.historyLength), 302);
+    assert.equal(await page.evaluate(() => window.slideV05.historyLength), 301);
     const undoStart = Date.now();
-    for (let index = 0; index < 302; index++) {
+    for (let index = 0; index < 301; index++) {
       await page.keyboard.press('Control+z'); await ready(page);
     }
-    timingsMs.threeHundredTwoKeyboardUndos = Date.now() - undoStart;
+    timingsMs.threeHundredOneKeyboardUndos = Date.now() - undoStart;
     assert.deepEqual(await state(page), initial);
     assert.equal(await page.evaluate(() => window.slideV05.historyLength), 0);
-    checks.winningSaveRestoresAllThreeHundredTwoUndos = true;
+    checks.winningSaveRestoresAllThreeHundredOneUndos = true;
 
     // A pointer still held over the old board must not commit when a level changes.
     const oldBox = await tile(page, 's1').boundingBox();
@@ -112,7 +111,7 @@ async function main() {
     // A native background tab transition tests the actual document.hidden branch.
     const background = await context.newPage(); await background.goto('about:blank');
     await page.bringToFront();
-    await key(page, 't1', 'down'); await key(page, 't2', 'right');
+    await key(page, 't1', 'down'); await key(page, 'c1', 'down');
     const beforeBackground = await state(page);
     await background.bringToFront();
     let hidden = await page.evaluate(() => document.hidden);
@@ -149,7 +148,7 @@ async function main() {
     await restoreWindow?.();
     await page.bringToFront(); await ready(page);
     assert.deepEqual(await state(page), beforeBackground);
-    await key(page, 'c1', 'down');
+    await key(page, 's1', 'right');
     assert.equal((await state(page)).successfulMoves, beforeBackground.successfulMoves + 1);
     checks.continuesAfterTabLifecycle = true;
 
@@ -192,7 +191,7 @@ async function main() {
 
     assert.equal(errors.length, 0, errors.join('\n'));
     await page.screenshot({path: path.join(output, 'recovered-third.png'), fullPage: true});
-    const report = {date: new Date().toISOString(), base, version: '0.5.0', browser: await browser.version(),
+    const report = {date: new Date().toISOString(), base, version: '0.5.0', ruleset:'slide-v05-2', browser: await browser.version(),
       input: 'real keyboard/pointer; read-only inspection; no session.apply or state mutation',
       checks, timingsMs, errors, limitations};
     fs.writeFileSync(path.join(output, 'report.json'), JSON.stringify(report, null, 2) + '\n');

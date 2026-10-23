@@ -3,7 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const S = require('../web/slide-v05/solver.js');
 const levels = require('../web/slide-v05/levels.js');
-const report = {status: 'actual-kernel-validation', ruleset: 'slide-v05-1',
+const report = {status: 'actual-kernel-validation', ruleset: 'slide-v05-2',
   method: 'BFS over actual engine actions, then reverse reachability from all winning states; cycles retained',
   limits: {maxStates: 100000, maxMs: 30000},
   levels: levels.map(level => S.validateLevel(level, {maxStates: 100000, maxMs: 30000}))};

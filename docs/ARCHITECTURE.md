@@ -9,7 +9,7 @@
 | 任务 | 修改位置 |
 |---|---|
 | 新版入口和资源清单 | `web/slide-v05.html`、`config/slide-v05.json` |
-| 四向一格、碰撞合成规则 | `web/slide-v05/grid.js`、`engine.js` |
+| 单块四向滑到头、碰撞合成规则 | `web/slide-v05/grid.js`、`engine.js` |
 | 三关数据与参考解 | `web/slide-v05/levels.js` |
 | 有环状态图、验关与提示 | `web/slide-v05/solver.js`、`tools/validate_v05_levels.cjs` |
 | 状态、撤销、持久化回放 | `web/slide-v05/session.js`、`storage.js` |
@@ -19,7 +19,7 @@
 | 清单驱动的静态导出 | `tile_explorer/export.py`、`tools/export_v05.py`；旧 `export_v03.py` 复用相同实现 |
 | 浏览器复测 | `tools/playtest_v05.cjs`、`tools/playtest_v05_recovery.cjs` |
 
-`GameSession` 独占稳定状态与历史，另有单调递增的会话 revision；规则动作只包含方块 ID 和方向。每个成功操作产生一个完整事务，成品交付与棋盘消耗同时提交。输入、指引和表现都不能直接改写规则状态。取消、撤销、弹窗、切关或页面生命周期变化会使旧手势与异步提示失效。动画可被下一次操作取消，不锁整段收集过程。
+`GameSession` 独占稳定状态与历史，另有单调递增的会话 revision；规则动作只包含方块 ID 和方向。`slide-v05-2` 沿该方向扫描到边界、异类前或第一张同类，返回完整路径、距离与终点。每段成功滑行产生一个完整事务，成品交付与棋盘消耗同时提交。输入、指引和表现共用这条路径，不能另算终点。取消、撤销、弹窗、切关或页面生命周期变化会使旧手势与异步提示失效。动画可被下一次操作取消，不锁整段收集过程。
 
 v0.5 状态图存在往返循环，验关先完整枚举，再从胜利状态逆向标记；不能通过“有合法操作”判断可解。三关的正式内核报告见 [v0.5-level-report.json](technical/v0.5-level-report.json)。提示搜索分时间片让出主线程，超预算返回未验证，不误判死局。
 

@@ -7,7 +7,7 @@ const levels = require('../web/slide-v05/levels.js');
 const slide = (tileId, direction) => ({type: 'slide', tileId, direction});
 
 test('actual kernel exhaustively proves every reachable state of all three levels can finish', () => {
-  const states = [16, 121, 9937], edges = [70, 644, 79200], shortest = [2, 4, 6];
+  const states = [7, 117, 9841], edges = [24, 620, 78192], shortest = [1, 3, 5];
   for (const [index, level] of levels.entries()) {
     const report = S.validateLevel(level);
     assert.equal(report.proof, 'actual-kernel-state-graph');
@@ -28,7 +28,7 @@ test('a legal movement cycle is retained, not prematurely called a dead end', ()
   assert.equal(E.canonicalKey(initial), E.canonicalKey(cycle));
   const result = S.findSolution(cycle);
   assert.equal(result.status, 'solved');
-  assert.equal(result.solution.length, 2);
+  assert.equal(result.solution.length, 1);
 });
 
 test('complete search identifies an unfinishable cyclic region even though actions remain legal', () => {
@@ -64,9 +64,9 @@ test('third-level direction choice remains solvable with the documented differen
   const down = S.findSolution(E.applyAction(initial, slide('t1', 'down')).state);
   const right = S.findSolution(E.applyAction(initial, slide('t1', 'right')).state);
   assert.equal(down.status, 'solved');
-  assert.equal(down.solution.length + 1, 6);
+  assert.equal(down.solution.length + 1, 5);
   assert.equal(right.status, 'solved');
-  assert.equal(right.solution.length + 1, 8);
+  assert.equal(right.solution.length + 1, 6);
 });
 
 test('runtime hints are sliced, read only, cancelable and explicit about budget exhaustion', async () => {
@@ -82,7 +82,7 @@ test('runtime hints are sliced, read only, cancelable and explicit about budget 
   setTimeout(() => { yielded = true; }, 0);
   const hint = await S.findHint(state, {sliceMs: 1, maxMs: 3000});
   assert.equal(hint.status, 'solved');
-  assert.equal(hint.solution.length, 6);
+  assert.equal(hint.solution.length, 5);
   assert.equal(E.inspectAction(state, hint.action).ok, true);
   assert.equal(yielded, true);
   assert.deepEqual(state, before);

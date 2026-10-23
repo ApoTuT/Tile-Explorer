@@ -1,8 +1,8 @@
 {
-  "date": "2026-10-23T02:46:32.167Z",
+  "date": "2026-10-23T06:27:29.778Z",
   "base": "http://127.0.0.1:8776/",
   "version": "0.5.0",
-  "ruleset": "slide-v05-1",
+  "ruleset": "slide-v05-2",
   "browser": "155.0.4283.62",
   "viewports": [
     "320x568",
@@ -14,23 +14,26 @@
   "checks": {
     "dialogPausesAndResumesGuide": true,
     "reverseCancels": true,
-    "longSwipeOneCell": true,
-    "adjacencyDoesNotMerge": true,
+    "fullPathAndEndpointPreview": true,
+    "shortSwipeGlidesAcrossGap": true,
     "releaseResampled": true,
     "undoWholeTransaction": true,
+    "shortAndLongShareEndpoint": true,
     "otherItemBlocks": true,
     "boundaryBlocks": true,
+    "adjacencyDoesNotMerge": true,
     "stableNodes": true,
     "refreshRestores": true,
     "alternativeSecondRoute": true,
-    "eightStepAlternative": true,
+    "sixGlideAlternative": true,
     "fullThirdUndo": true,
     "hintReadOnly": true,
     "fiveViewports": true,
     "settingsPersist": true,
     "nativeTouchAllThree": true,
     "storageAudioFallbackKeyboard": true,
-    "legacyIsolated": true
+    "legacyIsolated": true,
+    "oneCellSaveRestartsWithPreferences": true
   },
   "errors": [],
   "requests": [

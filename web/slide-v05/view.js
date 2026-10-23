@@ -54,12 +54,16 @@
     }
     render(state, level = this.level) {
       if (!this.level || this.level.id !== level.id) this.setLevel(level);
+      const previous = new Map((this.state?.tiles || []).map(tile => [tile.id, tile]));
       this.clearPreview(); this.state = state; this.board.dataset.status = state.status;
       this.board.dataset.revision = state.revision ?? '';
       const live = new Set(state.tiles.map(tile => tile.id));
       for (const [id, node] of this.tiles) if (!live.has(id)) { node.remove(); this.tiles.delete(id); }
       for (const tile of state.tiles) {
         const node = this.tiles.get(tile.id) || this.createTile(tile);
+        const before = previous.get(tile.id);
+        const distance = before ? Math.abs(before.row - tile.row) + Math.abs(before.col - tile.col) : 0;
+        node.style.setProperty('--slide-ms', config.travelMs(distance) + 'ms');
         node.dataset.row = tile.row; node.dataset.col = tile.col;
         attr(node, 'aria-label', copy.labels.tileAria(C.items[tile.itemId].name, tile.row, tile.col));
         node.disabled = state.status !== 'playing';
@@ -119,14 +123,15 @@
         node.classList.remove('is-preview', 'merge-target');
         set(node, {'--drag-x': '0px', '--drag-y': '0px'});
       }
-      for (const cell of this.cells) cell.node.classList.remove('preview-target', 'preview-merge');
+      for (const cell of this.cells) cell.node.classList.remove('preview-target', 'preview-merge', 'preview-route');
     }
     preview(id, direction, check, progress = 0) {
       this.clearPreview(); const source = this.tiles.get(id), v = vectors[direction]; if (!source || !v) return;
       source.classList.add('is-preview'); const m = this.metrics();
-      const distance = check?.ok ? Math.min(.72, Math.max(0, progress)) * m.pitch : Math.min(config.blockedPx, Math.max(0, progress) * m.pitch);
+      const distance = check?.ok ? Math.min(.45, Math.max(0, progress)) * m.pitch : Math.min(config.blockedPx, Math.max(0, progress) * m.pitch);
       set(source, {'--drag-x': v[0] * distance + 'px', '--drag-y': v[1] * distance + 'px'});
       if (check?.ok && check.to) {
+        for (const step of check.path || []) this.cells.find(cell => cell.row === step.row && cell.col === step.col)?.node.classList.add('preview-route');
         this.cells.find(cell => cell.row === check.to.row && cell.col === check.to.col)?.node.classList.add(check.kind === 'merge' ? 'preview-merge' : 'preview-target');
         if (check.targetId) this.tiles.get(check.targetId)?.classList.add('merge-target');
       }
@@ -143,22 +148,28 @@
       this.clearGuide(); const action = hint?.action || hint;
       const tile = this.state?.tiles.find(t => t.id === action?.tileId), vector = vectors[action?.direction];
       if (!tile || !vector) return;
+      const check = root.TileSlideV05.engine.inspectAction(this.state, action);
+      if (!check.ok) return;
       const m = this.metrics(), x = m.padding + tile.col * m.pitch, y = m.padding + tile.row * m.pitch;
+      const travelX = (check.to.col - tile.col) * m.pitch, travelY = (check.to.row - tile.row) * m.pitch;
+      for (const step of check.path) this.cells.find(cell => cell.row === step.row && cell.col === step.col)?.node.classList.add('guide-route');
+      this.cells.find(cell => cell.row === check.to.row && cell.col === check.to.col)?.node.classList.add('guide-stop');
       const ghost = this.doc.createElement('div'); ghost.className = 'guide-ghost'; ghost.setAttribute('aria-hidden', 'true');
       ghost.append(this.image(C.items[tile.itemId])); Object.assign(ghost.style, {left:x+'px',top:y+'px',width:m.cell+'px',height:m.cell+'px'});
       const arrow = this.doc.createElement('span'); arrow.className = 'guide-arrow'; arrow.setAttribute('aria-hidden','true');
       arrow.textContent = {up:'↑',down:'↓',left:'←',right:'→'}[action.direction];
-      Object.assign(arrow.style,{left:x+m.cell/2+vector[0]*m.pitch*.48+'px',top:y+m.cell/2+vector[1]*m.pitch*.48+'px'});
+      Object.assign(arrow.style,{left:x+m.cell/2+travelX*.7+'px',top:y+m.cell/2+travelY*.7+'px'});
       const label = this.doc.createElement('span'); label.className = 'guide-label';
       label.textContent = options.text || hint.text || (hint.kind === 'merge' ? copy.hints.merge : copy.hints.move);
       this.board.append(ghost,arrow,label); this.guideNodes = [ghost,arrow,label]; this.board.classList.add('has-guide');
       if (!this.isReducedMotion() && !options.reducedMotion && typeof ghost.animate === 'function') {
-        this.guideAnimation = ghost.animate([{transform:'translate(0,0)',opacity:0},{transform:'translate(0,0)',opacity:.65,offset:.18},{transform:'translate('+vector[0]*m.pitch*.55+'px,'+vector[1]*m.pitch*.55+'px)',opacity:.65,offset:.78},{transform:'translate('+vector[0]*m.pitch*.55+'px,'+vector[1]*m.pitch*.55+'px)',opacity:0}],{duration:config.tutorialDemoMs,iterations:2,easing:'ease-in-out'});
+        this.guideAnimation = ghost.animate([{transform:'translate(0,0)',opacity:0},{transform:'translate(0,0)',opacity:.65,offset:.18},{transform:'translate('+travelX+'px,'+travelY+'px)',opacity:.65,offset:.78},{transform:'translate('+travelX+'px,'+travelY+'px)',opacity:0}],{duration:config.tutorialDemoMs,iterations:2,easing:'ease-in-out'});
         this.guideAnimation.finished.catch(() => {});
       }
     }
     clearGuide() {
       this.guideAnimation?.cancel(); this.guideAnimation = null;
+      for (const cell of this.cells) cell.node.classList.remove('guide-route', 'guide-stop');
       for (const node of this.guideNodes) node.remove(); this.guideNodes = []; this.board.classList.remove('has-guide');
     }
     destroy() { this.clearGuide(); this.clearPreview(); this.cancelFeedback(); }
