@@ -1,12 +1,13 @@
 {
-  "date": "2026-10-23T06:23:15.808Z",
-  "base": "http://127.0.0.1:8775/slide-v05.html",
+  "date": "2026-10-23T06:56:57.770Z",
+  "base": "http://127.0.0.1:8777/slide-v05.html",
   "version": "0.5.0",
   "ruleset": "slide-v05-2",
   "browser": "155.0.4283.62",
   "input": "real keyboard/pointer; read-only inspection; no session.apply or state mutation",
   "checks": {
     "threeHundredCyclicMovesAndExactRestore": true,
+    "undoCancelsPendingWinModal": true,
     "undoCancelsCollectingAnimation": true,
     "winningSaveRestoresAllThreeHundredOneUndos": true,
     "switchingLevelCancelsHeldPointerAndOldGuide": true,
@@ -16,9 +17,9 @@
     "oldProductionAndPreviewSessionIsolation": true
   },
   "timingsMs": {
-    "threeHundredKeyboardMoves": 2700,
-    "restoreThreeHundredMoves": 70,
-    "threeHundredOneKeyboardUndos": 1368
+    "threeHundredKeyboardMoves": 2636,
+    "restoreThreeHundredMoves": 81,
+    "threeHundredOneKeyboardUndos": 1356
   },
   "errors": [],
   "limitations": [

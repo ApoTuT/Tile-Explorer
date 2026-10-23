@@ -9,7 +9,7 @@ const base = process.env.V05_URL || 'http://127.0.0.1:8775/slide-v05.html';
 const output = path.resolve(process.env.V05_QA_OUTPUT || '.qa/v05-recovery');
 fs.mkdirSync(output, {recursive: true});
 const checks = {}, timingsMs = {}, errors = [], limitations = [];
-const ready = page => page.waitForFunction(() => window.slideV05?.state && !window.slideV05.busy, null, {timeout: 15000});
+const ready = page => page.waitForFunction(() => window.slideV05?.state && (!window.slideV05.busy || document.querySelector('#win-dialog').open), null, {timeout: 15000});
 const state = page => page.evaluate(() => window.slideV05.state);
 const tile = (page, id) => page.locator('[data-tile-id="' + id + '"]');
 const sleepFrame = page => page.evaluate(() => new Promise(resolve => requestAnimationFrame(resolve)));
@@ -64,12 +64,17 @@ async function main() {
     assert.equal((await state(page)).successfulMoves, 300);
     assert.equal(await page.locator('.merge-result').count(), 0);
     assert.equal(await page.locator('.collecting').count(), 0);
+    await page.waitForTimeout(850);
+    assert.equal(await page.locator('#win-dialog').isVisible(), false);
+    checks.undoCancelsPendingWinModal = true;
     checks.undoCancelsCollectingAnimation = true;
     await key(page, 's1', 'right');
     const won = await state(page);
     await page.reload(); await ready(page);
     assert.deepEqual(await state(page), won);
     assert.equal(await page.evaluate(() => window.slideV05.historyLength), 301);
+    await page.locator('#win-dialog').waitFor({state: 'visible'});
+    await page.keyboard.press('Escape'); await ready(page);
     const undoStart = Date.now();
     for (let index = 0; index < 301; index++) {
       await page.keyboard.press('Control+z'); await ready(page);

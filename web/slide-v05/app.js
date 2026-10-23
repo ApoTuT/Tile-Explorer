@@ -11,8 +11,9 @@
   const media = matchMedia('(prefers-reduced-motion: reduce)');
   let settings = store.settings(), runToken = 0, transition = true, frame = null, tutorial;
   let requested = null, dialogTrigger = null, pendingLevel = null, lastEvents = [], resolveHandoff = null;
+  let winTimer = null, shownWin = null;
   const reduced = () => media.matches || settings.reducedMotion;
-  const dialogs = ['level-dialog', 'help-dialog', 'settings-dialog'].map($);
+  const dialogs = ['level-dialog', 'help-dialog', 'settings-dialog', 'win-dialog'].map($);
   const modalOpen = () => dialogs.some(dialog => dialog.open);
   const busy = () => transition || modalOpen() || document.hidden || !session.state;
   const stateForInput = () => session.state && {...session.state, revision: session.revision};
@@ -38,6 +39,7 @@
 
   function invalidate() {
     runToken++;
+    clearTimeout(winTimer); winTimer = null;
     if (frame !== null) cancelAnimationFrame(frame);
     resolveHandoff?.(); resolveHandoff = null;
     frame = null; transition = false; input.cancel(); tutorial.suspend(); stopEffects(); view.cancelFeedback(); view.clearPreview(); view.clearGuide(); view.settle();
@@ -51,12 +53,40 @@
     $('step-count').textContent = String(state.successfulMoves);
     $('undo-button').disabled = !session.canUndo;
     $('win-panel').hidden = state.status !== 'won';
-    $('next-button').textContent = index === M.levels.length - 1 ? '再选一关' : '下一关';
-    const text = state.status === 'won' ? '收齐啦！空位越来越多，下一关再试试。' : session.level.subtitle;
+    const final = index === M.levels.length - 1;
+    $('next-button').textContent = final ? '再玩一次' : '下一关 →';
+    $('continue-button').textContent = final ? '查看完成' : '继续 →';
+    $('win-copy').textContent = final ? '三关都完成了，再来一轮吧。' : '下一关，再发现一个小惊喜。';
+    $('win-dialog-title').textContent = final ? '三关全部完成！' : '第 ' + (index + 1) + ' 关，完成！';
+    $('win-dialog-copy').textContent = final ? '草莓、跑车和大树，都收齐啦。' : '目标收齐啦，下一关有新的小发现。';
+    $('win-stats').textContent = '用了 ' + state.successfulMoves + ' 次滑动 · 本关目标全部收齐';
+    $('win-rewards').replaceChildren(...(session.level.goalOrder || Object.keys(state.goals)).map(id => {
+      const img = document.createElement('img'); img.src = C.assetUrl(C.items[id].assetId); img.alt = C.items[id].name;
+      return img;
+    }));
+    const text = state.status === 'won' ? (final ? '三关收齐啦！可以再玩一次。' : '收齐啦！下一关再试试。') : session.level.subtitle;
     message(text);
     if (speak) announce(state.status === 'won' ? '本关目标全部完成。' : '第 ' + (index + 1) + ' 关，' + session.level.title);
     $('save-note').hidden = !store.failed;
     $('save-note').textContent = '本次进度保存在内存中，刷新可能丢失本关进度。';
+    scheduleWin();
+  }
+  function winStamp() { return session.level.id + ':' + session.revision; }
+  function scheduleWin() {
+    if (session.state.status !== 'won') { shownWin = null; return; }
+    if (winTimer !== null || shownWin === winStamp() || modalOpen() || document.hidden) return;
+    const stamp = winStamp();
+    // Let the last merge reach the goal tray before showing the result.
+    winTimer = setTimeout(() => {
+      winTimer = null;
+      if (session.state.status === 'won' && stamp === winStamp() && !modalOpen() && !document.hidden) openWin();
+    }, reduced() ? 0 : M.config.winDelayMs);
+  }
+  function openWin() {
+    if (session.state.status !== 'won' || modalOpen()) return;
+    shownWin = winStamp();
+    openDialog($('win-dialog'), $('continue-button'));
+    $('next-button').focus({preventScroll: true});
   }
   function start(level) {
     if (!level) return;
@@ -80,7 +110,7 @@
     if (merge) { audio.play('merge-soft', {priority: 2}); announce(C.items[merge.resultId].name + '已收集。'); }
     if (session.state.status === 'won') {
       announce('本关目标全部完成。');
-      if (context.inputMode === 'keyboard') $('next-button').focus({preventScroll: true});
+      if (context.inputMode === 'keyboard') $('continue-button').focus({preventScroll: true});
     } else if (context.inputMode === 'keyboard' && !session.state.tiles.some(tile => tile.id === action.tileId)) {
       view.focusTile(session.state.tiles[0]?.id);
     }
@@ -118,7 +148,7 @@
   for (const dialog of dialogs) {
     dialog.addEventListener('close', () => {
       invalidate(); render(); dialogTrigger?.focus({preventScroll: true}); dialogTrigger = null;
-      if (pendingLevel) { const level = pendingLevel; pendingLevel = null; start(level); return; }
+      if (pendingLevel) { const level = pendingLevel; pendingLevel = null; start(level); view.focusTile(); return; }
       if (requested) {
         const action = requested; requested = null;
         if (action === 'replay') tutorial.replay(); else void tutorial.requestHint();
@@ -129,9 +159,12 @@
   $('level-button').addEventListener('click', openLevels);
   $('undo-button').addEventListener('click', undo);
   $('restart-button').addEventListener('click', () => start(session.level));
+  $('continue-button').addEventListener('click', openWin);
   $('next-button').addEventListener('click', () => {
-    const next = M.levels[M.levels.indexOf(session.level) + 1]; if (next) start(next); else openLevels();
+    pendingLevel = M.levels[M.levels.indexOf(session.level) + 1] || M.levels[0];
+    $('win-dialog').close();
   });
+  $('replay-button').addEventListener('click', () => { pendingLevel = session.level; $('win-dialog').close(); });
   $('help-button').addEventListener('click', () => openDialog($('help-dialog'), $('help-button')));
   $('settings-button').addEventListener('click', () => openDialog($('settings-dialog'), $('settings-button')));
   $('hint-button').addEventListener('click', () => { requested = 'hint'; $('help-dialog').close(); });

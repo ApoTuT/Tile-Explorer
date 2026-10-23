@@ -6,7 +6,7 @@ const base = process.env.V05_URL || 'http://127.0.0.1:8775/slide-v05.html';
 const output = path.resolve(process.env.V05_QA_OUTPUT || '.qa/v05');
 fs.mkdirSync(output, {recursive: true});
 const checks = {}, errors = [], requests = new Set();
-const ready = page => page.waitForFunction(() => window.slideV05?.state && !window.slideV05.busy, null, {timeout: 15000});
+const ready = page => page.waitForFunction(() => window.slideV05?.state && (!window.slideV05.busy || document.querySelector('#win-dialog').open), null, {timeout: 15000});
 const state = page => page.evaluate(() => window.slideV05.state);
 const node = (page, id) => page.locator('[data-tile-id="' + id + '"]');
 const delta = {right: [1,0], left: [-1,0], up: [0,-1], down: [0,1]};
@@ -37,9 +37,15 @@ async function swipe(page, id, direction, {touch = false, distance = 65, release
   await ready(page);
 }
 async function choose(page,index) {
+  if ((await state(page)).status === 'won') await dismissWin(page);
   await page.locator('#level-button').click();
   await page.locator('#level-list button').nth(index).click();
   await page.waitForFunction(id=>window.slideV05?.state?.levelId===id&&!document.querySelector('#level-dialog').open,'slide-0'+(index+1));
+  await ready(page);
+}
+async function dismissWin(page) {
+  await page.locator('#win-dialog').waitFor({state:'visible'});
+  await page.locator('#win-dialog [data-close-dialog]').click();
   await ready(page);
 }
 async function keyboard(page,id,direction) {
@@ -76,6 +82,26 @@ async function main() {
     await swipe(page,'s1','right',{distance:30,releaseOnly:true});
     const short=await state(page);assert.equal(short.status,'won');assert.equal(short.successfulMoves,1);
     assert.equal(await page.evaluate(()=>window.slideV05.lastEvents[0].distance),2);checks.shortSwipeGlidesAcrossGap=true;checks.releaseResampled=true;
+    await page.locator('#win-dialog').waitFor({state:'visible'});
+    assert.match(await page.locator('#win-dialog-title').textContent(),/第 1 关/);
+    assert.equal(await page.locator('#next-button').textContent(),'下一关 →');
+    assert.equal(await page.evaluate(()=>document.activeElement.id),'next-button');
+    assert.equal(await page.locator('.merge-result').count(),0);
+    await page.keyboard.press('Control+z');assert.deepEqual(await state(page),short);
+    for(let i=0;i<6;i++){await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement===document.body||document.querySelector('#win-dialog').contains(document.activeElement)),true);}
+    checks.automaticWinModalAndBackgroundInputBlocked=true;
+    for(const [width,height] of [[320,568],[375,667],[390,844],[768,1024],[1440,900]]) {
+      await page.setViewportSize({width,height});
+      const box=await page.locator('#win-dialog').boundingBox();assert.ok(box.x>=0&&box.y>=0&&box.x+box.width<=width&&box.y+box.height<=height);
+      assert.ok((await page.locator('#next-button').boundingBox()).height>=44);
+      if(width===320||width===1440)await shot(page,'win-'+width);
+    }checks.winModalFiveViewports=true;
+    await page.keyboard.press('Escape');await ready(page);await page.waitForTimeout(850);
+    assert.equal(await page.locator('#win-dialog').isVisible(),false);checks.winDismissStaysDismissed=true;
+    await page.locator('#continue-button').click();await page.locator('#win-dialog').waitFor({state:'visible'});
+    await page.reload();await ready(page);await page.locator('#win-dialog').waitFor({state:'visible'});
+    assert.deepEqual(await state(page),short);checks.winningRefreshRestoresModal=true;
+    await dismissWin(page);
     await page.locator('#undo-button').click();await ready(page);assert.deepEqual(await state(page),initial);checks.undoWholeTransaction=true;
     await swipe(page,'s1','right',{distance:220});assert.deepEqual(await state(page),short);checks.shortAndLongShareEndpoint=true;
     await page.locator('#next-button').click();await ready(page);
@@ -93,6 +119,7 @@ async function main() {
     const thirdPartial=await state(page);await page.reload();await ready(page);assert.deepEqual(await state(page),thirdPartial);
     await route(page,[['c1','down'],['s1','right'],['t1','down'],['t1','left']]);
     assert.equal((await state(page)).status,'won');assert.equal((await state(page)).successfulMoves,6);checks.sixGlideAlternative=true;
+    await dismissWin(page);
     for(let i=0;i<6;i++){await page.locator('#undo-button').click();await ready(page);}assert.equal((await state(page)).successfulMoves,0);checks.fullThirdUndo=true;
     await page.locator('#help-button').click();const helpState=await state(page);await page.locator('#hint-button').click();await ready(page);await page.locator('.guide-ghost').waitFor({state:'visible',timeout:5000});assert.deepEqual(await state(page),helpState);checks.hintReadOnly=true;
     for(const [width,height] of [[320,568],[375,667],[390,844],[768,1024],[1440,900]]) {
@@ -113,6 +140,13 @@ async function main() {
     await mobile.waitForTimeout(350);await mobile.locator('#next-button').click();await ready(mobile);
     await shot(mobile,'03-mobile');
     await route(mobile,[['t1','down'],['c1','down'],['s1','right'],['c1','left'],['t1','left']],{touch:true});assert.equal((await state(mobile)).status,'won');checks.nativeTouchAllThree=true;
+    await mobile.locator('#win-dialog').waitFor({state:'visible'});await shot(mobile,'win-final-mobile');
+    assert.equal(await mobile.locator('#win-dialog-title').textContent(),'三关全部完成！');assert.equal(await mobile.locator('#win-rewards img').count(),3);
+    assert.equal(await mobile.locator('#next-button').textContent(),'再玩一次');
+    await mobile.locator('#replay-button').click();await ready(mobile);assert.equal((await state(mobile)).levelId,'slide-03');assert.equal((await state(mobile)).successfulMoves,0);
+    await mobile.waitForTimeout(850);assert.equal(await mobile.locator('#win-dialog').isVisible(),false);checks.winReplayClearsModal=true;
+    await route(mobile,[['t1','down'],['c1','down'],['s1','right'],['c1','left'],['t1','left']],{touch:true});
+    await mobile.locator('#next-button').click();await ready(mobile);assert.equal((await state(mobile)).levelId,'slide-01');assert.equal((await state(mobile)).successfulMoves,0);checks.finalWinStartsNewRound=true;
     const fallbackContext=await browser.newContext({viewport:{width:390,height:844}});observe(fallbackContext);
     await fallbackContext.addInitScript(()=>{Object.defineProperty(window,'localStorage',{get(){throw Error('denied');}});window.AudioContext=undefined;window.webkitAudioContext=undefined;});
     const fallback=await fallbackContext.newPage();await fallback.goto(base);await ready(fallback);
