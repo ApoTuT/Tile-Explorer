@@ -1,9 +1,9 @@
 {
-  "buildId": "20261023-v05-829274c4",
-  "sourceCommit": "829274c4877f3ead02b1b4619f1d354848684e1d",
+  "buildId": "20261023-v05-glide-ec043a51",
+  "sourceCommit": "ec043a516e6e806cd5c4e6aacd056fdaf6caa585",
   "version": "0.5.0",
-  "ruleset": "slide-v05-1",
-  "createdAt": "2026-10-23T02:54:37.018674+00:00",
+  "ruleset": "slide-v05-2",
+  "createdAt": "2026-10-23T06:37:04.442746+00:00",
   "files": [
     {
       "path": "assets/audio/v02/strawberry.wav",
@@ -52,8 +52,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 7725,
-      "sha256": "89d8b7a7594da5ffaa212fe5023993b562813c056238787d1826ec85edae93a0"
+      "bytes": 7752,
+      "sha256": "2638179dbae1ca137cadb29f905ff07527b3d57e2d219ed257bcba88fbdb7fa6"
     },
     {
       "path": "shared/merge-content.js",
@@ -62,18 +62,18 @@
     },
     {
       "path": "slide-v05/app.js",
-      "bytes": 11370,
-      "sha256": "0b7dcb748ff09da08e7a7bb4a003b203db1d7b37bb377a6cd72581b764c2ba05"
+      "bytes": 11403,
+      "sha256": "698a3149914df9b459da7cf1e719ecae91d80d82c82e791fc9fcb86b6e6251bd"
     },
     {
       "path": "slide-v05/copy.js",
-      "bytes": 1679,
-      "sha256": "884856862405c9b14197c1fad272fee73d3637a6ab3f85a2051938eebe45816b"
+      "bytes": 1703,
+      "sha256": "297bc12ef565eab0e3944d4dc49d733b893afba44fcc6fde24d7e8e9d22bacb3"
     },
     {
       "path": "slide-v05/engine.js",
-      "bytes": 9541,
-      "sha256": "25decaf5819f2a9f9cb7186b3eaca3a367e2e44a28ca8ff56e484a38a7ef784c"
+      "bytes": 10113,
+      "sha256": "d4e8f6d4c3f45f8820470527ca035f730d72f59387346a77a9f4bace5ffacf6b"
     },
     {
       "path": "slide-v05/grid.js",
@@ -87,13 +87,13 @@
     },
     {
       "path": "slide-v05/levels.js",
-      "bytes": 1742,
-      "sha256": "e6837a365f5908733d8cc99efa99091b3cc6840eb850f3d6d682392b9dc4b4f9"
+      "bytes": 1660,
+      "sha256": "693c892ff8109f1a6821f8cab594dd5732d30931094028c0d525cfc36b6c60b1"
     },
     {
       "path": "slide-v05/presentation.js",
-      "bytes": 3344,
-      "sha256": "d684ee0583bf5534b926c1ea8e9f967b6c94c46145ff39ae1105c50894b7a8b1"
+      "bytes": 4248,
+      "sha256": "de534a9fed57eba92edfe5cb17936be711a93f9bb5b17401f5b2cb945bf1273f"
     },
     {
       "path": "slide-v05/session.js",
@@ -102,8 +102,8 @@
     },
     {
       "path": "slide-v05/settings.js",
-      "bytes": 515,
-      "sha256": "59c1c53c41206f62a6682ef580fd5d50a40fb5b4a2c0662a751c6138d528027a"
+      "bytes": 590,
+      "sha256": "2b9986fc9eedc365a3c8c9f27c0b3458e544793afaf1372a9ef171306b0ae151"
     },
     {
       "path": "slide-v05/solver.js",
@@ -117,18 +117,18 @@
     },
     {
       "path": "slide-v05/style.css",
-      "bytes": 13361,
-      "sha256": "406c46f0653e01297903ef8c10847a759365abe929010135f96ce40142a2961c"
+      "bytes": 13748,
+      "sha256": "09b0b3baba91bf2051652c3ac6e9cf9d230cbad91b5f4f17c3c4f192ea68cb0c"
     },
     {
       "path": "slide-v05/tutorial.js",
-      "bytes": 8345,
-      "sha256": "58fa9c535f2f2d1f92eb6eb50b8a134d2ec2bac3a21e88548e1a6172328c94f0"
+      "bytes": 8495,
+      "sha256": "17d51f638d0bbc314cf8bd2b573bc93d8fdd29e3f5902c302b0d477d70ff5e08"
     },
     {
       "path": "slide-v05/view.js",
-      "bytes": 10994,
-      "sha256": "7c077ededb81b665f909898a2d923f21d8ef060464c80a718cabb44ec0fdfdcf"
+      "bytes": 11982,
+      "sha256": "af7f7a5acc6414903b303797c2b582974d62ce3a4f1bf957fbec1e93925728f0"
     }
   ]
 }

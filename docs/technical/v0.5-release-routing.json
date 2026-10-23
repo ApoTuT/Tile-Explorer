@@ -1,12 +1,18 @@
 {
-  "url": "http://106.12.167.253/tile-explorer/releases/20261023-v05-829274c4/",
-  "title": "滑出新花样 · v0.5",
-  "storagePrefix": "tile-explorer.slide.v05.",
+  "stableEntry": "http://106.12.167.253/tile-explorer/",
+  "url": "http://106.12.167.253/tile-explorer/releases/20261023-v05-glide-ec043a51/",
+  "redirectStatus": 302,
+  "cacheControl": "no-store",
   "version": "0.5.0",
+  "ruleset": "slide-v05-2",
+  "buildId": "20261023-v05-glide-ec043a51",
+  "sourceCommit": "ec043a516e6e806cd5c4e6aacd056fdaf6caa585",
+  "filesVerified": 25,
+  "allPublicSHA256Match": true,
+  "mainSiteStatus": 200,
   "oldRelease": {
-    "url": "http://106.12.167.253/tile-explorer/releases/20261022-v04-4b282549/",
+    "url": "http://106.12.167.253/tile-explorer/releases/20261023-v05-829274c4/",
     "status": 200,
-    "title": "叠出新花样 · v0.4",
-    "version": "0.4.0"
+    "ruleset": "slide-v05-1"
   }
 }
