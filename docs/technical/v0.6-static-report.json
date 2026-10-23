@@ -1,0 +1,69 @@
+{
+  "url": "http://127.0.0.1:8788/",
+  "checks": {
+    "level1": {
+      "moves": 1,
+      "score": 300,
+      "bestChain": 1
+    },
+    "level2": {
+      "moves": 4,
+      "score": 500,
+      "bestChain": 2
+    },
+    "refreshMidUpgrade": true,
+    "level3": {
+      "moves": 7,
+      "score": 800,
+      "bestChain": 3
+    },
+    "level4": {
+      "moves": 9,
+      "score": 1000,
+      "bestChain": 4
+    },
+    "level5": {
+      "moves": 12,
+      "score": 1350,
+      "bestChain": 5
+    },
+    "level6": {
+      "moves": 15,
+      "score": 1700,
+      "bestChain": 6
+    },
+    "level7": {
+      "moves": 31,
+      "score": 2600,
+      "bestChain": 9
+    },
+    "level8": {
+      "moves": 18,
+      "score": 2250,
+      "bestChain": 8
+    },
+    "level9": {
+      "moves": 20,
+      "score": 2650,
+      "bestChain": 9
+    },
+    "level10": {
+      "moves": 24,
+      "score": 3400,
+      "bestChain": 11
+    },
+    "thirtyStars": true,
+    "undoRestoresScores": true,
+    "recipeAndMoveHint": true,
+    "size320": true,
+    "size375": true,
+    "size390": true,
+    "size768": true,
+    "size1280": true,
+    "nativeTouchSimulation": true
+  },
+  "errors": [],
+  "limitations": [
+    "Android/iOS hardware and unfamiliar-player tests not performed"
+  ]
+}
