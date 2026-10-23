@@ -1,8 +1,31 @@
 # 项目结构与维护入口
 
-更新日期：2026-10-22。
+更新日期：2026-10-23。
 
-项目保留两个独立玩法：原九关旅行模式使用 Python 规则服务；当前 v0.4“叠出新花样”三关使用浏览器纯 JavaScript 内核，可导出为独立静态 H5。两者复用启动器和音效管理器，不混用规则、历史或完成记录。新模式沿用 web/merge-v03/、merge-v03.html、config/merge-v03.json 与 tools/export_v03.py 的内部命名，没有复制或重命名整套运行代码。
+项目保留三个玩法：原九关旅行模式使用 Python 规则服务；v0.4“叠出新花样”和 v0.5“滑出新花样”各有独立的浏览器纯 JavaScript 内核，可分别导出静态 H5。它们复用启动器、音效管理器；两个合成模式还复用素材／配方注册表，不混用规则、历史或完成记录。
+
+## v0.5 从哪里开始
+
+| 任务 | 修改位置 |
+|---|---|
+| 新版入口和资源清单 | `web/slide-v05.html`、`config/slide-v05.json` |
+| 四向一格、碰撞合成规则 | `web/slide-v05/grid.js`、`engine.js` |
+| 三关数据与参考解 | `web/slide-v05/levels.js` |
+| 有环状态图、验关与提示 | `web/slide-v05/solver.js`、`tools/validate_v05_levels.cjs` |
+| 状态、撤销、持久化回放 | `web/slide-v05/session.js`、`storage.js` |
+| 输入、节点、效果、非阻塞指引 | `web/slide-v05/input.js`、`view.js`、`presentation.js`、`tutorial.js` |
+| 生命周期与界面连接 | `web/slide-v05/app.js` |
+| 共享素材／配方 | `web/shared/merge-content.js`；旧 `merge-v03/content.js` 保留兼容出口 |
+| 清单驱动的静态导出 | `tile_explorer/export.py`、`tools/export_v05.py`；旧 `export_v03.py` 复用相同实现 |
+| 浏览器复测 | `tools/playtest_v05.cjs`、`tools/playtest_v05_recovery.cjs` |
+
+`GameSession` 独占稳定状态与历史，另有单调递增的会话 revision；规则动作只包含方块 ID 和方向。每个成功操作产生一个完整事务，成品交付与棋盘消耗同时提交。输入、指引和表现都不能直接改写规则状态。取消、撤销、弹窗、切关或页面生命周期变化会使旧手势与异步提示失效。动画可被下一次操作取消，不锁整段收集过程。
+
+v0.5 状态图存在往返循环，验关先完整枚举，再从胜利状态逆向标记；不能通过“有合法操作”判断可解。三关的正式内核报告见 [v0.5-level-report.json](technical/v0.5-level-report.json)。提示搜索分时间片让出主线程，超预算返回未验证，不误判死局。
+
+v0.5 的正式存档前缀是 `tile-explorer.slide.v05.`，预览为 `tile-explorer.slide.v05.preview.`。进行中记录保存完整成功动作并用真实内核回放，允许合法往返；存储失败继续使用内存状态。只迁移旧版验证过的音效和减少动态偏好。
+
+以下保留 v0.4 的结构说明。它沿用 `web/merge-v03/`、`merge-v03.html`、`config/merge-v03.json` 的内部命名；共享注册表抽取后，v0.4 静态包从 25 个文件变为 26 个。
 
 ## 从哪里开始
 

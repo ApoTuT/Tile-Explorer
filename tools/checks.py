@@ -33,8 +33,11 @@ def main() -> int:
         run("All JavaScript tests",
             [node, "--test", "--test-isolation=none", *test_files])
         run("Exhaustive merge level validation", [node, "tools/validate_v03_levels.cjs"])
+        run("Exhaustive slide level validation", [node, "tools/validate_v05_levels.cjs"])
         run("Standalone H5 export",
             [sys.executable, "tools/export_v03.py", "--output", ".local/h5-v04"])
+        run("Standalone v0.5 H5 export",
+            [sys.executable, "tools/export_v05.py", "--output", ".local/h5-v05"])
         run("Whitespace check", ["git", "diff", "--check"])
     except (OSError, subprocess.CalledProcessError, RuntimeError) as error:
         print(f"\nChecks failed: {error}", file=sys.stderr)

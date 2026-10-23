@@ -4,6 +4,7 @@
   "scripts": [
     "merge-v03/settings.js",
     "merge-v03/geometry.js",
+    "shared/merge-content.js",
     "merge-v03/content.js",
     "merge-v03/copy.js",
     "merge-v03/engine.js",

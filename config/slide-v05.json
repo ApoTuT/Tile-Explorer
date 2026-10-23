@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "entry": "slide-v05.html",
+  "scripts": [
+    "shared/merge-content.js",
+    "slide-v05/grid.js",
+    "slide-v05/settings.js",
+    "slide-v05/copy.js",
+    "slide-v05/engine.js",
+    "slide-v05/levels.js",
+    "slide-v05/solver.js",
+    "audio-manager.js",
+    "slide-v05/session.js",
+    "slide-v05/storage.js",
+    "slide-v05/view.js",
+    "slide-v05/input.js",
+    "slide-v05/presentation.js",
+    "slide-v05/tutorial.js",
+    "slide-v05/app.js"
+  ],
+  "styles": ["slide-v05/style.css"],
+  "assets": [
+    "assets/merge-v04/strawberry-small.svg",
+    "assets/merge-v04/strawberry-large.svg",
+    "assets/merge-v04/car-small.svg",
+    "assets/merge-v04/sports-car.svg",
+    "assets/merge-v04/tree-small.svg",
+    "assets/merge-v04/tree-grown.svg",
+    "assets/merge-v04/manifest.json",
+    "assets/audio/v02/strawberry.wav"
+  ]
+}

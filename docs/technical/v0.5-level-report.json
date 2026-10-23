@@ -1,0 +1,72 @@
+{
+  "status": "actual-kernel-validation",
+  "ruleset": "slide-v05-1",
+  "method": "BFS over actual engine actions, then reverse reachability from all winning states; cycles retained",
+  "limits": {
+    "maxStates": 100000,
+    "maxMs": 30000
+  },
+  "levels": [
+    {
+      "levelId": "slide-01",
+      "ruleset": "slide-v05-1",
+      "definitionHash": "da845a3b",
+      "proof": "actual-kernel-state-graph",
+      "complete": true,
+      "reachableStates": 16,
+      "actionEdges": 70,
+      "elapsedMs": 1.55,
+      "canonicalState": "rule and definition identity; row-major itemId; full goals and delivered; identical entities interchangeable",
+      "ok": true,
+      "status": "verified",
+      "winningStates": 1,
+      "initialSolvable": true,
+      "allReachableSolvable": true,
+      "shortestMoves": 2,
+      "unwinnableStates": 0,
+      "counterexample": null,
+      "errors": []
+    },
+    {
+      "levelId": "slide-02",
+      "ruleset": "slide-v05-1",
+      "definitionHash": "3f33150e",
+      "proof": "actual-kernel-state-graph",
+      "complete": true,
+      "reachableStates": 121,
+      "actionEdges": 644,
+      "elapsedMs": 12,
+      "canonicalState": "rule and definition identity; row-major itemId; full goals and delivered; identical entities interchangeable",
+      "ok": true,
+      "status": "verified",
+      "winningStates": 1,
+      "initialSolvable": true,
+      "allReachableSolvable": true,
+      "shortestMoves": 4,
+      "unwinnableStates": 0,
+      "counterexample": null,
+      "errors": []
+    },
+    {
+      "levelId": "slide-03",
+      "ruleset": "slide-v05-1",
+      "definitionHash": "3501443b",
+      "proof": "actual-kernel-state-graph",
+      "complete": true,
+      "reachableStates": 9937,
+      "actionEdges": 79200,
+      "elapsedMs": 1195.16,
+      "canonicalState": "rule and definition identity; row-major itemId; full goals and delivered; identical entities interchangeable",
+      "ok": true,
+      "status": "verified",
+      "winningStates": 1,
+      "initialSolvable": true,
+      "allReachableSolvable": true,
+      "shortestMoves": 6,
+      "unwinnableStates": 0,
+      "counterexample": null,
+      "errors": []
+    }
+  ],
+  "ok": true
+}

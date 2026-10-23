@@ -10,6 +10,7 @@ from pathlib import Path, PurePosixPath
 ROOT = Path(__file__).resolve().parents[1]
 WEB_ROOT = ROOT / "web"
 MERGE_MANIFEST = ROOT / "config" / "merge-v03.json"
+SLIDE_MANIFEST = ROOT / "config" / "slide-v05.json"
 
 
 def local_web_path(name: str, web_root: Path = WEB_ROOT) -> Path:
@@ -71,10 +72,20 @@ def validate_manifest(data: dict, *, web_root: Path = WEB_ROOT,
     return bundle
 
 
-def load_merge_manifest(path: Path = MERGE_MANIFEST, *, web_root: Path = WEB_ROOT,
-                        require_files: bool = False) -> WebBundle:
+def load_web_manifest(path: Path, *, web_root: Path = WEB_ROOT,
+                      require_files: bool = False) -> WebBundle:
     data = json.loads(Path(path).read_text(encoding="utf-8"))
     return validate_manifest(data, web_root=web_root, require_files=require_files)
+
+
+def load_merge_manifest(path: Path = MERGE_MANIFEST, *, web_root: Path = WEB_ROOT,
+                        require_files: bool = False) -> WebBundle:
+    return load_web_manifest(path, web_root=web_root, require_files=require_files)
+
+
+def load_slide_manifest(*, web_root: Path = WEB_ROOT,
+                        require_files: bool = False) -> WebBundle:
+    return load_web_manifest(SLIDE_MANIFEST, web_root=web_root, require_files=require_files)
 
 
 class _EntryResources(HTMLParser):

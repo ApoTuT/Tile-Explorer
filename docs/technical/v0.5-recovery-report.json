@@ -1,0 +1,26 @@
+{
+  "date": "2026-10-23T02:42:36.448Z",
+  "base": "http://127.0.0.1:8775/slide-v05.html",
+  "version": "0.5.0",
+  "browser": "155.0.4283.62",
+  "input": "real keyboard/pointer; read-only inspection; no session.apply or state mutation",
+  "checks": {
+    "threeHundredCyclicMovesAndExactRestore": true,
+    "undoCancelsCollectingAnimation": true,
+    "winningSaveRestoresAllThreeHundredTwoUndos": true,
+    "switchingLevelCancelsHeldPointerAndOldGuide": true,
+    "asyncHintCannotLeakAcrossLevels": true,
+    "nativePageHiddenCancelsEffects": "unverified",
+    "continuesAfterTabLifecycle": true,
+    "oldProductionAndPreviewSessionIsolation": true
+  },
+  "timingsMs": {
+    "threeHundredKeyboardMoves": 2532,
+    "restoreThreeHundredMoves": 63,
+    "threeHundredTwoKeyboardUndos": 1154
+  },
+  "errors": [],
+  "limitations": [
+    "Headless Edge kept document.hidden=false after tab/lifecycle changes; native hidden branch is not confirmed."
+  ]
+}
