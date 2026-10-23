@@ -1,9 +1,9 @@
 {
-  "buildId": "20261023-v05-glide-ec043a51",
-  "sourceCommit": "ec043a516e6e806cd5c4e6aacd056fdaf6caa585",
+  "buildId": "20261023-v05-win-9c1b3a91",
+  "sourceCommit": "9c1b3a916622dc195e026d5f55a60afdaea654fb",
   "version": "0.5.0",
   "ruleset": "slide-v05-2",
-  "createdAt": "2026-10-23T06:37:04.442746+00:00",
+  "createdAt": "2026-10-23T06:58:35.914144+00:00",
   "files": [
     {
       "path": "assets/audio/v02/strawberry.wav",
@@ -52,8 +52,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 7752,
-      "sha256": "2638179dbae1ca137cadb29f905ff07527b3d57e2d219ed257bcba88fbdb7fa6"
+      "bytes": 8589,
+      "sha256": "290ee2fc3e6da13b520419403f5d7fe05060fb3cc2ac3d9b67cfc44e1e600571"
     },
     {
       "path": "shared/merge-content.js",
@@ -62,8 +62,8 @@
     },
     {
       "path": "slide-v05/app.js",
-      "bytes": 11403,
-      "sha256": "698a3149914df9b459da7cf1e719ecae91d80d82c82e791fc9fcb86b6e6251bd"
+      "bytes": 13427,
+      "sha256": "5f01cd33ad697c7d8ad7aeac59a0a7eabce95e553f628dbed30e42fc577dfc4b"
     },
     {
       "path": "slide-v05/copy.js",
@@ -102,8 +102,8 @@
     },
     {
       "path": "slide-v05/settings.js",
-      "bytes": 590,
-      "sha256": "2b9986fc9eedc365a3c8c9f27c0b3458e544793afaf1372a9ef171306b0ae151"
+      "bytes": 611,
+      "sha256": "a99d948ba9aefe190c3319f1e90d89f0bf4d1a45e25fa35271710739b31bc93f"
     },
     {
       "path": "slide-v05/solver.js",
@@ -117,8 +117,8 @@
     },
     {
       "path": "slide-v05/style.css",
-      "bytes": 13748,
-      "sha256": "09b0b3baba91bf2051652c3ac6e9cf9d230cbad91b5f4f17c3c4f192ea68cb0c"
+      "bytes": 14902,
+      "sha256": "ec25eb3977a42ce2a7b621c7d0e98c4b6ab38b021af56375b403a3908d31322d"
     },
     {
       "path": "slide-v05/tutorial.js",

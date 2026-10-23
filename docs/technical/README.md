@@ -8,7 +8,7 @@
 
 | 版本或阶段 | 状态 | 实现说明 |
 |---|---|---|
-| v0.5：一滑到底，碰撞合成 | `slide-v05-2` 已在 `v0.5` 分支实现；本地、预览及公网验证通过，已部署 | [v0.5.md](v0.5.md)、[部署记录](v0.5-deployment.md)、[正式验关](v0.5-level-report.json) |
+| v0.5：一滑到底，碰撞合成 | `slide-v05-2` 与自动通关弹窗已在 `v0.5` 分支实现；预览及公网各 28 项检查通过，已部署 | [v0.5.md](v0.5.md)、[部署记录](v0.5-deployment.md)、[正式验关](v0.5-level-report.json) |
 | v0.4：多图形与前三关打磨 | 已部署在线试玩；本地／公网验收及实施提交双平台 CI 通过；[PR #3](https://github.com/ApoTuT/Tile-Explorer/pull/3) 未合并 | [v0.4.md](v0.4.md)、[发布记录](v0.4-deployment.md) |
 | v0.3：叠合与单格借位 | 本地及浏览器验证通过；[PR #2](https://github.com/ApoTuT/Tile-Explorer/pull/2) 已创建，未合并或发布 | [v0.3.md](v0.3.md) |
 | v0.2：候选槽小剧场 | 已实现，本地验证通过，待 PR 审阅与发布 | [v0.2.md](v0.2.md) |

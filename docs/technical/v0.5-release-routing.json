@@ -1,18 +1,18 @@
 {
   "stableEntry": "http://106.12.167.253/tile-explorer/",
-  "url": "http://106.12.167.253/tile-explorer/releases/20261023-v05-glide-ec043a51/",
+  "url": "http://106.12.167.253/tile-explorer/releases/20261023-v05-win-9c1b3a91/",
   "redirectStatus": 302,
   "cacheControl": "no-store",
   "version": "0.5.0",
   "ruleset": "slide-v05-2",
-  "buildId": "20261023-v05-glide-ec043a51",
-  "sourceCommit": "ec043a516e6e806cd5c4e6aacd056fdaf6caa585",
+  "buildId": "20261023-v05-win-9c1b3a91",
+  "sourceCommit": "9c1b3a916622dc195e026d5f55a60afdaea654fb",
   "filesVerified": 25,
   "allPublicSHA256Match": true,
   "mainSiteStatus": 200,
   "oldRelease": {
-    "url": "http://106.12.167.253/tile-explorer/releases/20261023-v05-829274c4/",
+    "url": "http://106.12.167.253/tile-explorer/releases/20261023-v05-glide-ec043a51/",
     "status": 200,
-    "ruleset": "slide-v05-1"
+    "ruleset": "slide-v05-2"
   }
 }
