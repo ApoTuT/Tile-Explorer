@@ -3,6 +3,7 @@
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
 const url=process.env.V06_URL||'http://127.0.0.1:8787/slide-v06.html',out=process.env.V06_QA_OUTPUT||'.qa/v06-browser';
+const storagePrefix='tile-explorer.slide.v06.'+(new URL(url).pathname.includes('preview')?'preview.':'');
 fs.mkdirSync(out,{recursive:true});const checks={},errors=[];
 const state=p=>p.evaluate(()=>window.slideV06.state);
 async function ready(p){await p.waitForFunction(()=>window.slideV06?.state);}
@@ -40,14 +41,14 @@ async function moveBudgetChecks(p){
   await choose(p,0);const initial=await state(p);assert.equal(initial.moveLimit,20);await budget(p,20);
   // An obsolete action log must restart safely instead of replaying under new rules.
   // Storage is the fixture boundary; every subsequent game action uses native input.
-  await p.evaluate(()=>{const l=window.slideV06.level,prefix='tile-explorer.slide.v06.';
+  await p.evaluate(prefix=>{const l=window.slideV06.level;
     localStorage.setItem(prefix+'session.v1',JSON.stringify({levelId:l.id,hash:'pre-budget-v06',actions:l.referenceSolution}));
-    localStorage.setItem(prefix+'best.v1',JSON.stringify({[l.id]:{hash:'pre-budget-v06',score:99999,stars:3,moves:1}}));});
+    localStorage.setItem(prefix+'best.v1',JSON.stringify({[l.id]:{hash:'pre-budget-v06',score:99999,stars:3,moves:1}}));},storagePrefix);
   await p.reload();await ready(p);assert.deepEqual(await state(p),initial);await budget(p,20);
   assert.match(await p.locator('#notice').textContent(),/关卡已升级.*重新开始/);
   await p.locator('#level-button').click();assert.match(await p.locator('#collection').textContent(),/0 \/ 30/);
   await p.locator('#level-dialog [data-close]').click();checks.obsoleteSaveSafelyRestarts=true;
-  const oldBest=await p.evaluate(()=>localStorage.getItem('tile-explorer.slide.v06.best.v1'));
+  const oldBest=await p.evaluate(key=>localStorage.getItem(key),storagePrefix+'best.v1');
   await p.locator('#help-button').click();await blockedBackground(p,'#help-dialog');
   await p.locator('#help-dialog [data-close]').click();checks.playingModalBlocksBoardInput=true;
   // A swipe against an edge consumes no step.
@@ -60,7 +61,7 @@ async function moveBudgetChecks(p){
   await p.locator('#loss-dialog').waitFor({state:'visible'});const lost=await state(p);
   assert.equal(lost.status,'lost');assert.equal(lost.successfulMoves,20);
   assert.equal(await p.evaluate(()=>window.slideV06.result.stars),0);
-  assert.equal(await p.evaluate(()=>localStorage.getItem('tile-explorer.slide.v06.best.v1')),oldBest);
+  assert.equal(await p.evaluate(key=>localStorage.getItem(key),storagePrefix+'best.v1'),oldBest);
   await blockedBackground(p,'#loss-dialog');checks.lossModalBlocksBoardInput=true;
   await shot(p,'budget-exhausted');
   await p.reload();await ready(p);await p.locator('#loss-dialog').waitFor({state:'visible'});
