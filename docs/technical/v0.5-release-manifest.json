@@ -1,0 +1,134 @@
+{
+  "buildId": "20261023-v05-829274c4",
+  "sourceCommit": "829274c4877f3ead02b1b4619f1d354848684e1d",
+  "version": "0.5.0",
+  "ruleset": "slide-v05-1",
+  "createdAt": "2026-10-23T02:54:37.018674+00:00",
+  "files": [
+    {
+      "path": "assets/audio/v02/strawberry.wav",
+      "bytes": 6218,
+      "sha256": "126e8b850553a1da04a3c49bc50b8196330dffdbd49debf7220f4c42cbc3fb6b"
+    },
+    {
+      "path": "assets/merge-v04/car-small.svg",
+      "bytes": 1522,
+      "sha256": "798731caa0c8f3040349704427bc5938d2a8701202a79c5c37a2d75b3e7a087c"
+    },
+    {
+      "path": "assets/merge-v04/manifest.json",
+      "bytes": 622,
+      "sha256": "619dcebd2f298063898c2358a1689a6cd7ff67620c4756f5775e2d03fabd2559"
+    },
+    {
+      "path": "assets/merge-v04/sports-car.svg",
+      "bytes": 1724,
+      "sha256": "c6f477516736b2db50c31934666874e17b930d44b2fbbd5fc9f8db11c089abb7"
+    },
+    {
+      "path": "assets/merge-v04/strawberry-large.svg",
+      "bytes": 1934,
+      "sha256": "d11bbd13212d888ef42e29152ba7a9dab2f1e50435509fc9b5c4adf52ae52b09"
+    },
+    {
+      "path": "assets/merge-v04/strawberry-small.svg",
+      "bytes": 1759,
+      "sha256": "ab25bc73f71eebef8ae76b59d2991f71bf61d7a71c9514cb60a592f938fb291e"
+    },
+    {
+      "path": "assets/merge-v04/tree-grown.svg",
+      "bytes": 1489,
+      "sha256": "5bd7380fed703cfc7260c832047394cb6472c03dcfa77bb3ba403bf05a2acf73"
+    },
+    {
+      "path": "assets/merge-v04/tree-small.svg",
+      "bytes": 1211,
+      "sha256": "b27ea94afc459444a16e8ea1172e44667ea57f2b969b4024d7acd4af9f738d04"
+    },
+    {
+      "path": "audio-manager.js",
+      "bytes": 10051,
+      "sha256": "490b19b90d6fd0cda56132aec1173ace77cbe1d5f179eafa5f1f48771dd80cb2"
+    },
+    {
+      "path": "index.html",
+      "bytes": 7725,
+      "sha256": "89d8b7a7594da5ffaa212fe5023993b562813c056238787d1826ec85edae93a0"
+    },
+    {
+      "path": "shared/merge-content.js",
+      "bytes": 5571,
+      "sha256": "11b0f18d393454d4920112cfcf73f601f9febf8701a52f8ef88f9c5ff1d141be"
+    },
+    {
+      "path": "slide-v05/app.js",
+      "bytes": 11370,
+      "sha256": "0b7dcb748ff09da08e7a7bb4a003b203db1d7b37bb377a6cd72581b764c2ba05"
+    },
+    {
+      "path": "slide-v05/copy.js",
+      "bytes": 1679,
+      "sha256": "884856862405c9b14197c1fad272fee73d3637a6ab3f85a2051938eebe45816b"
+    },
+    {
+      "path": "slide-v05/engine.js",
+      "bytes": 9541,
+      "sha256": "25decaf5819f2a9f9cb7186b3eaca3a367e2e44a28ca8ff56e484a38a7ef784c"
+    },
+    {
+      "path": "slide-v05/grid.js",
+      "bytes": 1353,
+      "sha256": "9268e7fc30d4fb618dfea8dad602c8fdb86bd668bb648127a72d705dfe4cc6e3"
+    },
+    {
+      "path": "slide-v05/input.js",
+      "bytes": 7504,
+      "sha256": "39778be065c1c7cab3a8f516f6e61786a298b05502a90f74b0e3c7b23ea8ec7c"
+    },
+    {
+      "path": "slide-v05/levels.js",
+      "bytes": 1742,
+      "sha256": "e6837a365f5908733d8cc99efa99091b3cc6840eb850f3d6d682392b9dc4b4f9"
+    },
+    {
+      "path": "slide-v05/presentation.js",
+      "bytes": 3344,
+      "sha256": "d684ee0583bf5534b926c1ea8e9f967b6c94c46145ff39ae1105c50894b7a8b1"
+    },
+    {
+      "path": "slide-v05/session.js",
+      "bytes": 2719,
+      "sha256": "f8d2d04f879db5b59f42c354d48ee2b40e99abdd00564c460756a026434419f7"
+    },
+    {
+      "path": "slide-v05/settings.js",
+      "bytes": 515,
+      "sha256": "59c1c53c41206f62a6682ef580fd5d50a40fb5b4a2c0662a751c6138d528027a"
+    },
+    {
+      "path": "slide-v05/solver.js",
+      "bytes": 8084,
+      "sha256": "7032e4ab06fe34a6e782e111739e998d296ec7a016c87f445f2730ea8cb7a26c"
+    },
+    {
+      "path": "slide-v05/storage.js",
+      "bytes": 6500,
+      "sha256": "952a7a446bb708ed278624da113e0600835d247670482eba983580ff830151dd"
+    },
+    {
+      "path": "slide-v05/style.css",
+      "bytes": 13361,
+      "sha256": "406c46f0653e01297903ef8c10847a759365abe929010135f96ce40142a2961c"
+    },
+    {
+      "path": "slide-v05/tutorial.js",
+      "bytes": 8345,
+      "sha256": "58fa9c535f2f2d1f92eb6eb50b8a134d2ec2bac3a21e88548e1a6172328c94f0"
+    },
+    {
+      "path": "slide-v05/view.js",
+      "bytes": 10994,
+      "sha256": "7c077ededb81b665f909898a2d923f21d8ef060464c80a718cabb44ec0fdfdcf"
+    }
+  ]
+}

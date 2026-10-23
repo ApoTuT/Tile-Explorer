@@ -8,7 +8,7 @@
 
 | 版本或阶段 | 状态 | 实现说明 |
 |---|---|---|
-| v0.5：滑动让路，碰撞合成 | `v0.5` 分支已实现并通过本地检查；未部署 | [v0.5.md](v0.5.md)、[正式验关](v0.5-level-report.json)、[初始布局研究](v0.5-layout-study.json) |
+| v0.5：滑动让路，碰撞合成 | `v0.5` 分支已实现，本地、预览与公网验证通过，已部署 | [v0.5.md](v0.5.md)、[部署记录](v0.5-deployment.md)、[正式验关](v0.5-level-report.json) |
 | v0.4：多图形与前三关打磨 | 已部署在线试玩；本地／公网验收及实施提交双平台 CI 通过；[PR #3](https://github.com/ApoTuT/Tile-Explorer/pull/3) 未合并 | [v0.4.md](v0.4.md)、[发布记录](v0.4-deployment.md) |
 | v0.3：叠合与单格借位 | 本地及浏览器验证通过；[PR #2](https://github.com/ApoTuT/Tile-Explorer/pull/2) 已创建，未合并或发布 | [v0.3.md](v0.3.md) |
 | v0.2：候选槽小剧场 | 已实现，本地验证通过，待 PR 审阅与发布 | [v0.2.md](v0.2.md) |
@@ -17,6 +17,8 @@
 | 开发阶段 0.2：三城九关与工具语义 | 历史阶段，纳入正式 v0.1 | [dev-0.2.md](dev-0.2.md) |
 
 正式版本从 Git 标签 `v0.1` 开始。早期开发阶段 0.2、0.3 没有独立发布快照，不等同正式 v0.2、v0.3。现有迭代日志没有开发阶段 0.1 的独立完整条目，因此不推测补写其技术历史。版本约定见 [VERSION_CONTROL.md](../VERSION_CONTROL.md)。
+
+当前稳定入口为 [v0.5 滑出新花样](http://106.12.167.253/tile-explorer/)。下文保留各代实施时的记录；v0.4 仍可从其 [不可变版本目录](http://106.12.167.253/tile-explorer/releases/20261022-v04-4b282549/) 访问。
 
 ## 文档分工
 
@@ -38,6 +40,6 @@
 5. 只记录实际执行的验证及其结果，未执行、无法复现或设备不可用的项目明确标注。历史记录应说明来源，不把旧结果当作本次复测。
 6. 验证后更新为“已验证”；正式发布时再补充真实提交、标签和日期，并同步 README 与本索引。
 
-当前 v0.4 已实现“叠出新花样”三关、多图形配方、通用目标与暂放位、游戏界面和非阻塞操作指引，已部署至 [在线试玩](http://106.12.167.253/tile-explorer/)。本地通过 57 项 Python、127 项 JavaScript 检查，三关 3／6／30 个合法可达状态全部可继续通关。主模式、静态 H5 和公网的五尺寸、鼠标、触摸模拟和键盘检查结果分别记录在 [v0.4-browser-report.json](v0.4-browser-report.json)、[v0.4-static-report.json](v0.4-static-report.json)、[v0.4-public-report.json](v0.4-public-report.json)，验关结果见 [v0.4-level-report.json](v0.4-level-report.json)。源码实施提交 4b282549 已通过 [Linux／Windows CI](https://github.com/ApoTuT/Tile-Explorer/actions/runs/39806403450)，[PR #3](https://github.com/ApoTuT/Tile-Explorer/pull/3) 尚未合并，发布路径与回退见 [部署记录](v0.4-deployment.md)。Android/iOS 实机和陌生玩家试玩未完成，也未扩为 50 关。
+v0.4 当时已实现“叠出新花样”三关、多图形配方、通用目标与暂放位、游戏界面和非阻塞操作指引，已部署至 [在线试玩](http://106.12.167.253/tile-explorer/)。本地通过 57 项 Python、127 项 JavaScript 检查，三关 3／6／30 个合法可达状态全部可继续通关。主模式、静态 H5 和公网的五尺寸、鼠标、触摸模拟和键盘检查结果分别记录在 [v0.4-browser-report.json](v0.4-browser-report.json)、[v0.4-static-report.json](v0.4-static-report.json)、[v0.4-public-report.json](v0.4-public-report.json)，验关结果见 [v0.4-level-report.json](v0.4-level-report.json)。源码实施提交 4b282549 已通过 [Linux／Windows CI](https://github.com/ApoTuT/Tile-Explorer/actions/runs/39806403450)，[PR #3](https://github.com/ApoTuT/Tile-Explorer/pull/3) 尚未合并，发布路径与回退见 [部署记录](v0.4-deployment.md)。Android/iOS 实机和陌生玩家试玩未完成，也未扩为 50 关。
 
 v0.2、v0.3 的实际结果保留在对应技术文档；正式发布基线仍为 `v0.1`。历史阶段的原验证记录与本轮验证分开记录。

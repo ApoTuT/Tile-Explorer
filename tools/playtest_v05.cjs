@@ -112,7 +112,7 @@ async function main() {
     const fallback=await fallbackContext.newPage();await fallback.goto(base);await ready(fallback);
     await keyboard(fallback,'s1','right');await keyboard(fallback,'s1','right');assert.equal((await state(fallback)).status,'won');assert.equal(await fallback.locator('#save-note').isVisible(),true);checks.storageAudioFallbackKeyboard=true;
     const legacyContext=await browser.newContext();observe(legacyContext);
-    await legacyContext.addInitScript(()=>{if(!location.protocol.startsWith('http'))return;localStorage.setItem('tile-explorer.merge.v04.session.v1','{"levelId":"merge-03"}');localStorage.setItem('tile-explorer.merge.v04.settings.v1','{"soundEnabled":false,"reduceMotion":true}');});
+    await legacyContext.addInitScript(()=>{if(!location.protocol.startsWith('http'))return;localStorage.setItem('tile-explorer.merge.v04.session.v1','{"levelId":"merge-03"}');const scope=location.pathname.includes('preview')?'preview.':'';localStorage.setItem('tile-explorer.merge.v04.'+scope+'settings.v1','{"soundEnabled":false,"reduceMotion":true}');});
     const legacy=await legacyContext.newPage();await legacy.goto(base);await ready(legacy);
     assert.equal((await state(legacy)).levelId,'slide-01');assert.equal(await legacy.evaluate(()=>window.slideV05.reducedMotion),true);
     assert.equal(await legacy.evaluate(()=>JSON.parse(localStorage.getItem('tile-explorer.merge.v04.session.v1')).levelId),'merge-03');checks.legacyIsolated=true;
