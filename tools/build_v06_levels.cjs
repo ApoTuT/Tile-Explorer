@@ -86,4 +86,3 @@ const levels=specs.map(generate);
 const text='/* Authored by reverse moves, verified by forward replay. */\n(function(root){\n  const levels='+JSON.stringify(levels,null,2)+';\n  root.TileSlideV06={...(root.TileSlideV06||{}),levels};\n  if(typeof module!=="undefined")module.exports=levels;\n})(globalThis);\n';
 fs.writeFileSync('web/slide-v06/levels.js',text);
 console.log(levels.map(l=>({title:l.title,tiles:l.tiles.length,moves:l.parMoves,threeStar:l.threeStarScore})));
-

@@ -11,4 +11,3 @@
   root.TileSlideV06 = Object.assign(root.TileSlideV06 || {}, {config});
   if (typeof module !== 'undefined') module.exports = config;
 })(globalThis);
-

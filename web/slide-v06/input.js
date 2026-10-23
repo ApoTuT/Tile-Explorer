@@ -108,4 +108,3 @@
   root.TileSlideV06=Object.assign(root.TileSlideV06||{},{input:api});
   if(typeof module!=='undefined')module.exports=api;
 })(globalThis);
-
