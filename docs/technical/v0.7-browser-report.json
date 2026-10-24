@@ -1,0 +1,142 @@
+{
+  "url": "http://127.0.0.1:8777/slide-v07.html",
+  "checks": {
+    "progressInitiallyLocked": true,
+    "level1": {
+      "variant": "default",
+      "moves": 1
+    },
+    "level2": {
+      "variant": "default",
+      "moves": 4
+    },
+    "level3": {
+      "variant": "default",
+      "moves": 6
+    },
+    "level4": {
+      "variant": "default",
+      "moves": 7
+    },
+    "level5": {
+      "variant": "default",
+      "moves": 12
+    },
+    "level6": {
+      "variant": "default",
+      "moves": 13
+    },
+    "level7": {
+      "variant": "default",
+      "moves": 8
+    },
+    "level8": {
+      "variant": "default",
+      "moves": 8
+    },
+    "level9": {
+      "variant": "default",
+      "moves": 12
+    },
+    "level10": {
+      "variant": "default",
+      "moves": 7
+    },
+    "level11": {
+      "variant": "default",
+      "moves": 9
+    },
+    "level12": {
+      "variant": "default",
+      "moves": 9
+    },
+    "level13": {
+      "variant": "default",
+      "moves": 8
+    },
+    "level14": {
+      "variant": "default",
+      "moves": 11
+    },
+    "level15": {
+      "variant": "v1",
+      "moves": 7
+    },
+    "level16": {
+      "variant": "v1",
+      "moves": 8
+    },
+    "level17": {
+      "variant": "v1",
+      "moves": 12
+    },
+    "level18": {
+      "variant": "v1",
+      "moves": 7
+    },
+    "level19": {
+      "variant": "v1",
+      "moves": 11
+    },
+    "level20": {
+      "variant": "default",
+      "moves": 4
+    },
+    "level21": {
+      "variant": "default",
+      "moves": 8
+    },
+    "level22": {
+      "variant": "default",
+      "moves": 10
+    },
+    "level23": {
+      "variant": "v1",
+      "moves": 9
+    },
+    "level24": {
+      "variant": "v2",
+      "moves": 12
+    },
+    "level25": {
+      "variant": "default",
+      "moves": 3
+    },
+    "level26": {
+      "variant": "default",
+      "moves": 8
+    },
+    "level27": {
+      "variant": "default",
+      "moves": 9
+    },
+    "level28": {
+      "variant": "v1",
+      "moves": 10
+    },
+    "level29": {
+      "variant": "default",
+      "moves": 12
+    },
+    "level30": {
+      "variant": "v1",
+      "moves": 11
+    },
+    "allThirtyNativeInput": true,
+    "ninetyStars": true,
+    "terrainUndoRefreshAndFrozenVariants": true,
+    "budgetLossAndUndo": true,
+    "referenceHint": true,
+    "workerHintResponsive": true,
+    "size320": true,
+    "size375": true,
+    "size390": true,
+    "size768": true,
+    "size1280": true,
+    "nativeTouchSimulation": true
+  },
+  "errors": [],
+  "limitations": [
+    "Android/iOS hardware and unfamiliar-player tests not performed"
+  ]
+}

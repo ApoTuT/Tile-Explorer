@@ -24,6 +24,7 @@ STATIC_FILES = {
     **{"/" + name: name for name in load_merge_manifest().files},
     **{"/" + name: name for name in load_slide_manifest().files},
     **{"/" + name: name for name in load_web_manifest(ROOT / "config/slide-v06.json").files},
+    **{"/" + name: name for name in load_web_manifest(ROOT / "config/slide-v07.json").files},
     "/": "index.html", "/index.html": "index.html", "/app.js": "app.js", "/style.css": "style.css",
     "/tray-content.js": "tray-content.js", "/tray-director.js": "tray-director.js",
     "/audio-manager.js": "audio-manager.js",

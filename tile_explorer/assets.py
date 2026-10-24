@@ -67,7 +67,7 @@ def validate_manifest(data: dict, *, web_root: Path = WEB_ROOT,
         raise ValueError("Bundle scripts must be JavaScript files")
     if any(not name.endswith(".css") for name in bundle.styles):
         raise ValueError("Bundle styles must be CSS files")
-    if any(Path(name).suffix not in {".svg", ".png", ".json", ".wav"} for name in bundle.assets):
+    if any(Path(name).suffix not in {".svg", ".png", ".json", ".wav", ".js"} for name in bundle.assets):
         raise ValueError("Unsupported bundle asset type")
     return bundle
 

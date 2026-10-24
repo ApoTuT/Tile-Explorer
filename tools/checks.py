@@ -35,12 +35,15 @@ def main() -> int:
         run("Exhaustive merge level validation", [node, "tools/validate_v03_levels.cjs"])
         run("Exhaustive slide level validation", [node, "tools/validate_v05_levels.cjs"])
         run("v0.6 solution and score proofs", [node, "tools/validate_v06_levels.cjs"])
+        run("v0.7 complete spatial, variant and score proofs", [node, "--max-old-space-size=6000", "tools/validate_v07_levels.cjs"])
         run("Standalone H5 export",
             [sys.executable, "tools/export_v03.py", "--output", ".local/h5-v04"])
         run("Standalone v0.5 H5 export",
             [sys.executable, "tools/export_v05.py", "--output", ".local/h5-v05"])
         run("Standalone v0.6 H5 export",
             [sys.executable, "tools/export_v06.py", "--output", ".local/h5-v06"])
+        run("Standalone v0.7 H5 export",
+            [sys.executable, "tools/export_v07.py", "--output", ".local/h5-v07"])
         run("Whitespace check", ["git", "diff", "--check"])
     except (OSError, subprocess.CalledProcessError, RuntimeError) as error:
         print(f"\nChecks failed: {error}", file=sys.stderr)
