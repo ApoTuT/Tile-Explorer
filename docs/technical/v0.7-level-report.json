@@ -1,0 +1,2732 @@
+{
+  "ruleset": "slide-v07-1",
+  "scoring": "score-v07-1",
+  "method": "Complete spatial graph per variant and opening placement; all transitions use the shipped kernel with only the total move budget ignored. Explicit delivery, effects and terrain state. Reverse BFS proves zero spatial dead ends. Budget and stars verified by actual replays.",
+  "levels": [
+    {
+      "id": "slide07-01",
+      "title": "初次碰面",
+      "variants": [
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "default",
+          "definitionHash": "86c054bb",
+          "states": 7,
+          "edges": 20,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 1,
+          "placements": [
+            {
+              "placement": null,
+              "shortestMoves": 1,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "down"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 1,
+          "score": 300,
+          "stars": 3,
+          "merges": 1,
+          "used": {
+            "bomb": false,
+            "brake": false,
+            "portal": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "slide07-02",
+      "title": "苹果接力",
+      "variants": [
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "default",
+          "definitionHash": "8b63a11e",
+          "states": 259,
+          "edges": 1614,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 4,
+          "placements": [
+            {
+              "placement": null,
+              "shortestMoves": 4,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "right"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 4,
+          "score": 500,
+          "stars": 3,
+          "merges": 2,
+          "used": {
+            "bomb": false,
+            "brake": false,
+            "portal": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "slide07-03",
+      "title": "三步成长",
+      "variants": [
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "default",
+          "definitionHash": "83a0fcd9",
+          "states": 1741,
+          "edges": 12414,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 6,
+          "placements": [
+            {
+              "placement": null,
+              "shortestMoves": 6,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "down"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 6,
+          "score": 800,
+          "stars": 3,
+          "merges": 3,
+          "used": {
+            "bomb": false,
+            "brake": false,
+            "portal": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "slide07-04",
+      "title": "爱心停车位",
+      "variants": [
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "default",
+          "definitionHash": "2a5a2045",
+          "states": 3882,
+          "edges": 29118,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 7,
+          "placements": [
+            {
+              "placement": {
+                "row": 0,
+                "col": 0
+              },
+              "shortestMoves": 7,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "place-obstacle",
+                  "row": 0,
+                  "col": 0
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "right"
+                }
+              ]
+            },
+            {
+              "placement": {
+                "row": 0,
+                "col": 2
+              },
+              "shortestMoves": 6,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "place-obstacle",
+                  "row": 0,
+                  "col": 2
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "down"
+                }
+              ]
+            },
+            {
+              "placement": {
+                "row": 2,
+                "col": 2
+              },
+              "shortestMoves": 7,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "place-obstacle",
+                  "row": 2,
+                  "col": 2
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "down"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 7,
+          "score": 800,
+          "stars": 3,
+          "merges": 4,
+          "used": {
+            "bomb": false,
+            "brake": false,
+            "portal": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "slide07-05",
+      "title": "横块先让路",
+      "variants": [
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "default",
+          "definitionHash": "11eab6c9",
+          "states": 16430,
+          "edges": 103204,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 12,
+          "placements": [
+            {
+              "placement": null,
+              "shortestMoves": 12,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "left"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 12,
+          "score": 1000,
+          "stars": 3,
+          "merges": 4,
+          "used": {
+            "bomb": false,
+            "brake": false,
+            "portal": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "slide07-06",
+      "title": "花园竖着长",
+      "variants": [
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "default",
+          "definitionHash": "a1870b91",
+          "states": 12530,
+          "edges": 67488,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 13,
+          "placements": [
+            {
+              "placement": {
+                "row": 3,
+                "col": 2
+              },
+              "shortestMoves": 13,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "place-obstacle",
+                  "row": 3,
+                  "col": 2
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "up"
+                }
+              ]
+            },
+            {
+              "placement": {
+                "row": 0,
+                "col": 2
+              },
+              "shortestMoves": 12,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "place-obstacle",
+                  "row": 0,
+                  "col": 2
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "right"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 13,
+          "score": 1000,
+          "stars": 3,
+          "merges": 4,
+          "used": {
+            "bomb": false,
+            "brake": false,
+            "portal": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "slide07-07",
+      "title": "小鸟换个停点",
+      "variants": [
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "default",
+          "definitionHash": "b71c2d23",
+          "states": 81864,
+          "edges": 872495,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 8,
+          "placements": [
+            {
+              "placement": {
+                "row": 0,
+                "col": 2
+              },
+              "shortestMoves": 8,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "place-obstacle",
+                  "row": 0,
+                  "col": 2
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t8",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "down"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 8,
+          "score": 1850,
+          "stars": 3,
+          "merges": 7,
+          "used": {
+            "bomb": false,
+            "brake": false,
+            "portal": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "slide07-08",
+      "title": "大块的落脚处",
+      "variants": [
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "default",
+          "definitionHash": "3322e078",
+          "states": 166651,
+          "edges": 1639970,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 8,
+          "placements": [
+            {
+              "placement": {
+                "row": 3,
+                "col": 1
+              },
+              "shortestMoves": 8,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "place-obstacle",
+                  "row": 3,
+                  "col": 1
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "down"
+                },
+                {
+                  "type": "move-obstacle",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "right"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 8,
+          "score": 900,
+          "stars": 3,
+          "merges": 4,
+          "used": {
+            "bomb": false,
+            "brake": false,
+            "portal": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "slide07-09",
+      "title": "双心倒着想",
+      "variants": [
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "default",
+          "definitionHash": "06427e27",
+          "states": 184451,
+          "edges": 1333659,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 12,
+          "placements": [
+            {
+              "placement": null,
+              "shortestMoves": 12,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "right"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 12,
+          "score": 1450,
+          "stars": 3,
+          "merges": 5,
+          "used": {
+            "bomb": false,
+            "brake": false,
+            "portal": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "slide07-10",
+      "title": "凤凰归巢",
+      "variants": [
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "default",
+          "definitionHash": "d2d5629b",
+          "states": 436566,
+          "edges": 5044848,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 7,
+          "placements": [
+            {
+              "placement": {
+                "row": 3,
+                "col": 0
+              },
+              "shortestMoves": 7,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "place-obstacle",
+                  "row": 3,
+                  "col": 0
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t7",
+                  "direction": "down"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 7,
+          "score": 1450,
+          "stars": 3,
+          "merges": 5,
+          "used": {
+            "bomb": false,
+            "brake": false,
+            "portal": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "slide07-11",
+      "title": "双线会车",
+      "variants": [
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "default",
+          "definitionHash": "7613b2bd",
+          "states": 169805,
+          "edges": 1630907,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 9,
+          "placements": [
+            {
+              "placement": {
+                "row": 2,
+                "col": 0
+              },
+              "shortestMoves": 9,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "place-obstacle",
+                  "row": 2,
+                  "col": 0
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "up"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 9,
+          "score": 1300,
+          "stars": 3,
+          "merges": 4,
+          "used": {
+            "bomb": false,
+            "brake": false,
+            "portal": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "slide07-12",
+      "title": "借一段树荫",
+      "variants": [
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "default",
+          "definitionHash": "7d790095",
+          "states": 39006,
+          "edges": 246387,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 9,
+          "placements": [
+            {
+              "placement": {
+                "row": 0,
+                "col": 3
+              },
+              "shortestMoves": 9,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "place-obstacle",
+                  "row": 0,
+                  "col": 3
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t7",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "right"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 9,
+          "score": 1200,
+          "stars": 3,
+          "merges": 5,
+          "used": {
+            "bomb": false,
+            "brake": false,
+            "portal": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "slide07-13",
+      "title": "三路会合",
+      "variants": [
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "default",
+          "definitionHash": "7dcc1dc0",
+          "states": 921,
+          "edges": 5712,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 8,
+          "placements": [
+            {
+              "placement": null,
+              "shortestMoves": 8,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "down"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 8,
+          "score": 800,
+          "stars": 3,
+          "merges": 3,
+          "used": {
+            "bomb": false,
+            "brake": false,
+            "portal": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "slide07-14",
+      "title": "最后一个停点",
+      "variants": [
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "default",
+          "definitionHash": "28aaa51b",
+          "states": 152302,
+          "edges": 1202952,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 11,
+          "placements": [
+            {
+              "placement": {
+                "row": 0,
+                "col": 1
+              },
+              "shortestMoves": 11,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "place-obstacle",
+                  "row": 0,
+                  "col": 1
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "up"
+                },
+                {
+                  "type": "move-obstacle",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t7",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "down"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 11,
+          "score": 1500,
+          "stars": 3,
+          "merges": 5,
+          "used": {
+            "bomb": false,
+            "brake": false,
+            "portal": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "slide07-15",
+      "title": "砰，路开了",
+      "variants": [
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "v1",
+          "definitionHash": "476f015f",
+          "states": 4056,
+          "edges": 29710,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 4,
+          "placements": [
+            {
+              "placement": null,
+              "shortestMoves": 4,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "left"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 7,
+          "score": 550,
+          "stars": 3,
+          "merges": 2,
+          "used": {
+            "bomb": true,
+            "brake": false,
+            "portal": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "slide07-16",
+      "title": "五个苹果的惊喜",
+      "variants": [
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "v1",
+          "definitionHash": "ef6fa22d",
+          "states": 35032,
+          "edges": 286147,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 6,
+          "placements": [
+            {
+              "placement": null,
+              "shortestMoves": 6,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t7",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "right"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 8,
+          "score": 1100,
+          "stars": 3,
+          "merges": 4,
+          "used": {
+            "bomb": true,
+            "brake": false,
+            "portal": false
+          }
+        },
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "v2",
+          "definitionHash": "70bebe98",
+          "states": 35032,
+          "edges": 286147,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 6,
+          "placements": [
+            {
+              "placement": null,
+              "shortestMoves": 6,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t7",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "right"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 6,
+          "score": 1250,
+          "stars": 3,
+          "merges": 4,
+          "used": {
+            "bomb": true,
+            "brake": false,
+            "portal": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "slide07-17",
+      "title": "先让车，再开路",
+      "variants": [
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "v1",
+          "definitionHash": "fb3b268c",
+          "states": 8936,
+          "edges": 54238,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 9,
+          "placements": [
+            {
+              "placement": {
+                "row": 3,
+                "col": 3
+              },
+              "shortestMoves": 9,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "place-obstacle",
+                  "row": 3,
+                  "col": 3
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "down"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 12,
+          "score": 700,
+          "stars": 3,
+          "merges": 3,
+          "used": {
+            "bomb": true,
+            "brake": false,
+            "portal": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "slide07-18",
+      "title": "中间产物也能开路",
+      "variants": [
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "v1",
+          "definitionHash": "71b72437",
+          "states": 2310,
+          "edges": 14510,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 7,
+          "placements": [
+            {
+              "placement": null,
+              "shortestMoves": 7,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "left"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 7,
+          "score": 1300,
+          "stars": 3,
+          "merges": 4,
+          "used": {
+            "bomb": true,
+            "brake": false,
+            "portal": false
+          }
+        },
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "v2",
+          "definitionHash": "0ff42c8a",
+          "states": 2763,
+          "edges": 17029,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 7,
+          "placements": [
+            {
+              "placement": null,
+              "shortestMoves": 7,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "left"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 7,
+          "score": 1300,
+          "stars": 3,
+          "merges": 4,
+          "used": {
+            "bomb": true,
+            "brake": false,
+            "portal": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "slide07-19",
+      "title": "爆破花园",
+      "variants": [
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "v1",
+          "definitionHash": "d6b1dda8",
+          "states": 238828,
+          "edges": 2196958,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 8,
+          "placements": [
+            {
+              "placement": null,
+              "shortestMoves": 8,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "left"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 11,
+          "score": 1300,
+          "stars": 3,
+          "merges": 4,
+          "used": {
+            "bomb": true,
+            "brake": false,
+            "portal": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "slide07-20",
+      "title": "花台停一停",
+      "variants": [
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "default",
+          "definitionHash": "dbfe5fa9",
+          "states": 46,
+          "edges": 198,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 2,
+          "placements": [
+            {
+              "placement": null,
+              "shortestMoves": 2,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "left"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 4,
+          "score": 400,
+          "stars": 3,
+          "merges": 1,
+          "used": {
+            "bomb": false,
+            "brake": true,
+            "portal": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "slide07-21",
+      "title": "停点留给谁",
+      "variants": [
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "default",
+          "definitionHash": "785df274",
+          "states": 35826,
+          "edges": 318570,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 7,
+          "placements": [
+            {
+              "placement": {
+                "row": 2,
+                "col": 2
+              },
+              "shortestMoves": 7,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "place-obstacle",
+                  "row": 2,
+                  "col": 2
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "right"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 8,
+          "score": 1250,
+          "stars": 3,
+          "merges": 4,
+          "used": {
+            "bomb": false,
+            "brake": true,
+            "portal": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "slide07-22",
+      "title": "长车专用站",
+      "variants": [
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "default",
+          "definitionHash": "7bb0e49d",
+          "states": 2988,
+          "edges": 14980,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 8,
+          "placements": [
+            {
+              "placement": {
+                "row": 2,
+                "col": 2
+              },
+              "shortestMoves": 8,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "place-obstacle",
+                  "row": 2,
+                  "col": 2
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "left"
+                },
+                {
+                  "type": "move-obstacle",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "down"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 10,
+          "score": 700,
+          "stars": 3,
+          "merges": 3,
+          "used": {
+            "bomb": false,
+            "brake": true,
+            "portal": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "slide07-23",
+      "title": "先停稳，再爆破",
+      "variants": [
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "v1",
+          "definitionHash": "c22403c0",
+          "states": 91695,
+          "edges": 909978,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 6,
+          "placements": [
+            {
+              "placement": null,
+              "shortestMoves": 6,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t7",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t7",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "down"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 9,
+          "score": 1250,
+          "stars": 3,
+          "merges": 4,
+          "used": {
+            "bomb": true,
+            "brake": true,
+            "portal": false
+          }
+        },
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "v2",
+          "definitionHash": "414cac57",
+          "states": 91695,
+          "edges": 909978,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 6,
+          "placements": [
+            {
+              "placement": null,
+              "shortestMoves": 6,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t7",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t7",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "down"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 7,
+          "score": 1100,
+          "stars": 3,
+          "merges": 4,
+          "used": {
+            "bomb": true,
+            "brake": true,
+            "portal": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "slide07-24",
+      "title": "花园调度员",
+      "variants": [
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "v1",
+          "definitionHash": "e978d277",
+          "states": 61188,
+          "edges": 414832,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 6,
+          "placements": [
+            {
+              "placement": null,
+              "shortestMoves": 6,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t7",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "down"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 12,
+          "score": 1250,
+          "stars": 3,
+          "merges": 5,
+          "used": {
+            "bomb": true,
+            "brake": true,
+            "portal": false
+          }
+        },
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "v2",
+          "definitionHash": "9cfdb776",
+          "states": 72612,
+          "edges": 473990,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 6,
+          "placements": [
+            {
+              "placement": null,
+              "shortestMoves": 6,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t7",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "down"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 12,
+          "score": 1300,
+          "stars": 3,
+          "merges": 5,
+          "used": {
+            "bomb": true,
+            "brake": true,
+            "portal": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "slide07-25",
+      "title": "从另一边见面",
+      "variants": [
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "default",
+          "definitionHash": "26c69f37",
+          "states": 38,
+          "edges": 159,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 1,
+          "placements": [
+            {
+              "placement": null,
+              "shortestMoves": 1,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "right"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 3,
+          "score": 400,
+          "stars": 3,
+          "merges": 1,
+          "used": {
+            "bomb": false,
+            "brake": false,
+            "portal": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "slide07-26",
+      "title": "给出口让个位",
+      "variants": [
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "default",
+          "definitionHash": "6fa2067b",
+          "states": 98285,
+          "edges": 852671,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 7,
+          "placements": [
+            {
+              "placement": {
+                "row": 0,
+                "col": 0
+              },
+              "shortestMoves": 7,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "place-obstacle",
+                  "row": 0,
+                  "col": 0
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "right"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 8,
+          "score": 800,
+          "stars": 3,
+          "merges": 3,
+          "used": {
+            "bomb": false,
+            "brake": false,
+            "portal": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "slide07-27",
+      "title": "长车穿门",
+      "variants": [
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "default",
+          "definitionHash": "39f453ca",
+          "states": 6034,
+          "edges": 35764,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 8,
+          "placements": [
+            {
+              "placement": null,
+              "shortestMoves": 8,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "left"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 9,
+          "score": 700,
+          "stars": 3,
+          "merges": 3,
+          "used": {
+            "bomb": false,
+            "brake": false,
+            "portal": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "slide07-28",
+      "title": "炸开入口",
+      "variants": [
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "v1",
+          "definitionHash": "a9533da2",
+          "states": 175005,
+          "edges": 1368195,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 9,
+          "placements": [
+            {
+              "placement": null,
+              "shortestMoves": 9,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "down"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 10,
+          "score": 1150,
+          "stars": 3,
+          "merges": 4,
+          "used": {
+            "bomb": true,
+            "brake": false,
+            "portal": true
+          }
+        },
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "v2",
+          "definitionHash": "c5345b07",
+          "states": 173589,
+          "edges": 1357867,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 8,
+          "placements": [
+            {
+              "placement": null,
+              "shortestMoves": 8,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "down"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 9,
+          "score": 1150,
+          "stars": 3,
+          "merges": 4,
+          "used": {
+            "bomb": true,
+            "brake": false,
+            "portal": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "slide07-29",
+      "title": "穿门之后停哪里",
+      "variants": [
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "default",
+          "definitionHash": "d35bfdfd",
+          "states": 202492,
+          "edges": 1530755,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 9,
+          "placements": [
+            {
+              "placement": {
+                "row": 2,
+                "col": 0
+              },
+              "shortestMoves": 9,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "place-obstacle",
+                  "row": 2,
+                  "col": 0
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t1",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t5",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "up"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "right"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 12,
+          "score": 800,
+          "stars": 3,
+          "merges": 3,
+          "used": {
+            "bomb": false,
+            "brake": true,
+            "portal": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "slide07-30",
+      "title": "三十关，新花样",
+      "variants": [
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "v1",
+          "definitionHash": "f64a9e1b",
+          "states": 14152,
+          "edges": 82000,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 4,
+          "placements": [
+            {
+              "placement": null,
+              "shortestMoves": 4,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "right"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 11,
+          "score": 1000,
+          "stars": 3,
+          "merges": 4,
+          "used": {
+            "bomb": true,
+            "brake": true,
+            "portal": true
+          }
+        },
+        {
+          "ruleset": "slide-v07-1",
+          "variantId": "v2",
+          "definitionHash": "be6746c4",
+          "states": 14152,
+          "edges": 82000,
+          "allReachableSolvable": true,
+          "unwinnableStates": 0,
+          "shortestMoves": 4,
+          "placements": [
+            {
+              "placement": null,
+              "shortestMoves": 4,
+              "withinBudget": true,
+              "referenceSolution": [
+                {
+                  "type": "slide",
+                  "tileId": "t2",
+                  "direction": "left"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t3",
+                  "direction": "right"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t6",
+                  "direction": "down"
+                },
+                {
+                  "type": "slide",
+                  "tileId": "t4",
+                  "direction": "right"
+                }
+              ]
+            }
+          ],
+          "referenceMoves": 11,
+          "score": 1000,
+          "stars": 3,
+          "merges": 4,
+          "used": {
+            "bomb": true,
+            "brake": true,
+            "portal": true
+          }
+        }
+      ]
+    }
+  ],
+  "ok": true
+}
