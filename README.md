@@ -2,7 +2,7 @@
 
 v0.7 已实现 **30 关、6 章、90 星**，第 15/20/25 关依次加入爆破卡、一次性停靠花台和成对传送门。保留三条多级合成链、20 步、大小块、障碍挪动、免费撤销和提示；通关解锁下一关，随机爆破位置固定随存档恢复。
 
-运行启动器后打开 [v0.7](http://127.0.0.1:8765/slide-v07.html)，或从首页进入。静态导出：`python tools/export_v07.py --output .local/h5-v07`，共 23 个文件。30 关的 36 个变体已完整枚举 2,633,169 个空间局面，空间死局为零；全部参考解在 20 步内完成并达到三星。216 项 JavaScript、62 项 Python 测试通过。真实浏览器与静态 H5 验收记录、实际实施调整见 [v0.7 实现记录](docs/technical/v0.7-implementation.md)。尚未部署公网，真机与陌生玩家试玩待执行。
+运行启动器后打开 [v0.7](http://127.0.0.1:8765/slide-v07.html)，或从首页进入。静态导出：`python tools/export_v07.py --output .local/h5-v07`，共 23 个文件。30 关的 36 个变体已完整枚举 2,633,169 个空间局面，空间死局为零；全部参考解在 20 步内完成并达到三星。216 项 JavaScript、62 项 Python 测试通过。真实浏览器与静态 H5 验收记录、实际实施调整见 [v0.7 实现记录](docs/technical/v0.7-implementation.md)。已发布至 [公网试玩](http://106.12.167.253/tile-explorer/)，23 个文件校验一致，Linux/Windows CI 均通过；[发布与回退记录](docs/technical/v0.7-deployment.md)。真机与陌生玩家试玩待执行。
 
 # 滑出新花样 / Tile Explorer · v0.6
 
