@@ -1,0 +1,26 @@
+"""Original vector icons for the twelve v0.6 growth stages; no external assets."""
+from pathlib import Path
+import json
+
+ROOT = Path(__file__).resolve().parents[1]
+out = ROOT / 'web/assets/slide-v06'
+out.mkdir(parents=True, exist_ok=True)
+shapes = {
+    'fruit-0': '<path d="M46 29Q37 15 30 21" fill="none" stroke="#6c9b56" stroke-width="5"/><path d="M49 27Q65 13 76 26Q62 33 49 27" fill="#8fba67"/><circle cx="46" cy="57" r="28" fill="#d96c79"/><path d="M25 49l6-7m9-8 5 4m12-2 5 5m5 10 5 3M23 62l7 4m9-15 5 4m11-7 5 4m-24 19 5 3m13-12 5 4m2 10 6-4" stroke="#f7b1ac" stroke-width="4" stroke-linecap="round"/>',
+    'fruit-1': '<path d="M50 29Q61 12 77 24Q64 37 50 29" fill="#77ac5e"/><path d="M49 32l-2-13" stroke="#7d7149" stroke-width="5" stroke-linecap="round"/><path d="M49 31C16 22 11 53 21 73C31 94 73 91 82 68C94 39 71 22 49 31" fill="#f5a343"/><path d="M27 45q-6 14-1 22" stroke="#ffd18a" stroke-width="5" fill="none" stroke-linecap="round"/>',
+    'fruit-2': '<path d="M50 31Q44 16 52 13" stroke="#8b684a" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M54 24Q66 9 81 19Q72 34 54 24" fill="#78ad5c"/><path d="M50 34C21 16 7 43 20 70C28 91 43 87 50 83C60 91 76 85 83 66C94 35 69 21 50 34" fill="#df6664"/><path d="M28 43q-7 8-4 18" stroke="#ffb0a2" stroke-width="5" fill="none" stroke-linecap="round"/>',
+    'fruit-3': '<path d="M49 29Q57 12 79 21Q67 37 49 29" fill="#86b463"/><path d="M49 30C21 16 8 42 22 65L49 88L78 64C96 37 76 17 49 30" fill="#f09498"/><path d="M50 37Q57 59 49 78" stroke="#d96d7a" stroke-width="3" fill="none"/><path d="M28 39q-6 6-4 16" stroke="#ffc6b1" stroke-width="5" fill="none" stroke-linecap="round"/>',
+    'fruit-4': '<ellipse cx="50" cy="55" rx="36" ry="30" fill="#74aa6c"/><path d="M31 30Q17 55 32 81M47 26Q37 56 48 85M64 28Q58 57 65 82M78 36Q76 55 80 70" fill="none" stroke="#438158" stroke-width="6"/><path d="M49 25Q57 13 47 13Q40 15 45 19" stroke="#548951" stroke-width="4" fill="none"/><path d="M18 54Q20 37 32 34" fill="none" stroke="#add695" stroke-width="4" stroke-linecap="round"/>',
+    'plant-0': '<ellipse cx="51" cy="77" rx="33" ry="7" fill="#d9c59b"/><path d="M30 58Q35 21 65 24Q81 56 61 72Q39 82 30 58" fill="#a77d51"/><path d="M59 32Q40 51 43 65" stroke="#dec093" stroke-width="5" fill="none" stroke-linecap="round"/>',
+    'plant-1': '<ellipse cx="50" cy="79" rx="32" ry="7" fill="#d9c59b"/><path d="M50 74V40" stroke="#6a9c5f" stroke-width="6" stroke-linecap="round"/><path d="M49 51Q20 57 20 30Q45 23 49 51" fill="#8cbf70"/><path d="M51 41Q50 14 79 18Q84 42 51 41" fill="#72aa65"/>',
+    'plant-2': '<ellipse cx="50" cy="84" rx="31" ry="6" fill="#d9c59b"/><path d="M50 81V40m0 21L34 46m16 7 14-16" fill="none" stroke="#98744c" stroke-width="7" stroke-linecap="round"/><path d="M47 47Q13 55 16 30Q19 13 41 21Q53 3 69 18Q91 18 85 40Q80 57 59 49" fill="#77ad69"/><path d="M26 29q7-7 14-3" stroke="#abd38d" stroke-width="4" fill="none" stroke-linecap="round"/>',
+    'plant-3': '<ellipse cx="50" cy="87" rx="37" ry="6" fill="#d9c59b"/><path d="M44 83l3-43h9l3 43Z" fill="#96724a"/><path d="M50 62L30 42m23 12 17-18" stroke="#96724a" stroke-width="6"/><path d="M24 61C0 54 10 31 25 30C18 8 45 4 54 17C77 0 92 19 81 35C107 53 80 71 65 61Q45 75 24 61" fill="#69a567"/><path d="M23 38q-1-13 13-13" stroke="#a9d18b" stroke-width="5" fill="none" stroke-linecap="round"/>',
+    'car-0': '<path d="M21 43l10-20h34l16 22 8 6v20H11V51Z" fill="#79aac9"/><path d="M34 29h14v16H26Zm20 0h9l11 16H54Z" fill="#d8eef0"/><path d="M14 53h72v13H14Z" fill="#6397bc"/><circle cx="29" cy="71" r="10" fill="#5a6370"/><circle cx="72" cy="71" r="10" fill="#5a6370"/><circle cx="29" cy="71" r="4" fill="#d3d9d6"/><circle cx="72" cy="71" r="4" fill="#d3d9d6"/><path d="M14 54h9m55 0h8" stroke="#fff0be" stroke-width="5"/>',
+    'car-1': '<path d="M10 50l19-8 14-18h23l17 24 8 7-2 17H10Z" fill="#e29363"/><path d="M47 29h15l13 17H34Z" fill="#d4e7e9"/><path d="M11 58h78v9H11Z" fill="#c47b51"/><circle cx="29" cy="71" r="11" fill="#545f6a"/><circle cx="74" cy="71" r="11" fill="#545f6a"/><circle cx="29" cy="71" r="5" fill="#e8dfbf"/><circle cx="74" cy="71" r="5" fill="#e8dfbf"/><path d="M12 51h13m54 1h10" stroke="#fff3c7" stroke-width="5"/>',
+    'car-2': '<path d="M9 52l24-12 14-13h20l15 18 11 7-3 19H8Z" fill="#dcbd58"/><path d="M49 32h15l11 13H38Z" fill="#6896ab"/><path d="M11 59h78" stroke="#bd9842" stroke-width="7"/><path d="M78 40V24m-8 0h22" stroke="#bda25e" stroke-width="5"/><circle cx="28" cy="70" r="12" fill="#535e68"/><circle cx="75" cy="70" r="12" fill="#535e68"/><circle cx="28" cy="70" r="5" fill="#f4dc92"/><circle cx="75" cy="70" r="5" fill="#f4dc92"/><path d="M13 51h14m54 0h9" stroke="#fff5cf" stroke-width="4"/>'
+}
+for name, shape in shapes.items():
+    (out / (name + '.svg')).write_text('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">' + shape + '</svg>\n', encoding='utf-8')
+manifest = {'version': 1, 'entry': 'slide-v06.html', 'scripts': ['slide-v06/' + n + '.js' for n in ['content', 'engine', 'levels', 'solver', 'settings', 'input', 'session', 'app']], 'styles': ['slide-v06/style.css'], 'assets': ['assets/slide-v06/' + n + '.svg' for n in shapes]}
+(ROOT / 'config/slide-v06.json').write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
+print('Generated 12 original SVG icons and bundle manifest')

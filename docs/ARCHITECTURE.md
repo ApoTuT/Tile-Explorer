@@ -2,6 +2,12 @@
 
 更新日期：2026-10-23。
 
+## v0.6 接入点
+
+`web/slide-v06.html` 与 `config/slide-v06.json` 是独立入口和资源清单。`web/slide-v06/content.js` 定义三条多级链；`engine.js` 同时提交地形、碰撞升级、最终交付和计分；`session.js` 保存完整动作与撤销事务；`solver.js` 提供可取消的有界搜索；`app.js` 连接 DOM 视图、合成路径、预览、教学、动画与对话框。输入识别从 v0.5 复用，存档与旧版隔离。
+
+`tools/build_v06_levels.cjs` 用真实内核反向制作十关，`validate_v06_levels.cjs` 正向回放通关和三星证据，前三关另完整枚举可达状态。`tools/export_v06.py` 复用共享清单导出 22 文件静态包；`playtest_v06.cjs` 以浏览器实际输入验收；`release_v06.py` 打包、上传独立预览、切换精确 Nginx 路由并在失败时回退。详见 [v0.6 文档](technical/v0.6.md)。
+
 项目保留三个玩法：原九关旅行模式使用 Python 规则服务；v0.4“叠出新花样”和 v0.5“滑出新花样”各有独立的浏览器纯 JavaScript 内核，可分别导出静态 H5。它们复用启动器、音效管理器；两个合成模式还复用素材／配方注册表，不混用规则、历史或完成记录。
 
 ## v0.5 从哪里开始

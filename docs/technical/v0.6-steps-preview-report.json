@@ -1,0 +1,78 @@
+{
+  "url": "http://106.12.167.253/tile-explorer-v06-preview/20261023-v06-steps-d0718426/",
+  "checks": {
+    "obsoleteSaveSafelyRestarts": true,
+    "playingModalBlocksBoardInput": true,
+    "blockedMoveCostsNoStep": true,
+    "lossModalBlocksBoardInput": true,
+    "exhaustedSaveRestoresModal": true,
+    "lossUndoRestoresOneMove": true,
+    "lossRetryResetsBudget": true,
+    "moveBudgetExhaustionAwardsNoStars": true,
+    "exactFinalMoveWins": true,
+    "level1": {
+      "moves": 1,
+      "score": 300,
+      "bestChain": 1
+    },
+    "level2": {
+      "moves": 4,
+      "score": 500,
+      "bestChain": 2
+    },
+    "refreshMidUpgrade": true,
+    "level3": {
+      "moves": 6,
+      "score": 800,
+      "bestChain": 3
+    },
+    "level4": {
+      "moves": 6,
+      "score": 1000,
+      "bestChain": 4
+    },
+    "level5": {
+      "moves": 8,
+      "score": 1000,
+      "bestChain": 4
+    },
+    "level6": {
+      "moves": 11,
+      "score": 1350,
+      "bestChain": 5
+    },
+    "level7": {
+      "moves": 7,
+      "score": 1600,
+      "bestChain": 6
+    },
+    "level8": {
+      "moves": 12,
+      "score": 1100,
+      "bestChain": 4
+    },
+    "level9": {
+      "moves": 8,
+      "score": 1200,
+      "bestChain": 4
+    },
+    "level10": {
+      "moves": 15,
+      "score": 1750,
+      "bestChain": 6
+    },
+    "thirtyStars": true,
+    "undoRestoresScores": true,
+    "recipeAndMoveHint": true,
+    "size320": true,
+    "size375": true,
+    "size390": true,
+    "size768": true,
+    "size1280": true,
+    "nativeTouchSimulation": true
+  },
+  "errors": [],
+  "limitations": [
+    "Android/iOS hardware and unfamiliar-player tests not performed"
+  ]
+}
