@@ -1,0 +1,15 @@
+{
+  "url": "http://106.12.167.253/tile-explorer/",
+  "resolvedUrl": "http://106.12.167.253/tile-explorer/releases/20261025-v07r2-aad98197/",
+  "checks": {
+    "publicRedirectAndRuleset": true,
+    "mainLevelPlayable": true,
+    "demo15": true,
+    "demo20": true,
+    "demo25": true,
+    "demo30": true,
+    "reducedMotionAndTripleCombo": true,
+    "mainProgressPreserved": true
+  },
+  "errors": []
+}

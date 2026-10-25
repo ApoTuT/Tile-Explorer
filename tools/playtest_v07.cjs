@@ -9,12 +9,14 @@ async function close(p){for(const d of await p.locator('dialog[open]').all())awa
 async function choose(p,index){await close(p);await p.locator('#level-button').click();await p.locator('#level-list .level-card').nth(index).click();}
 async function shot(p,name,fullPage=true){await p.screenshot({path:path.join(out,name+'.png'),fullPage});}
 async function move(p,a,mode='mouse',previewName){const before=await state(p);
+  // Full-page capture temporarily resizes the viewport and cancels a held drag.
+  // Capture only the viewport until pointerup; full-page shots are safe afterward.
   if(a.type==='place-obstacle'){await p.locator(`[data-place-row="${a.row}"][data-place-col="${a.col}"]`).click();await p.locator('#placement-confirm').click();assert.equal((await state(p)).successfulMoves,0);return;}
   const n=p.locator(`[data-tile-id="${a.type==='move-obstacle'?'obstacle':a.tileId}"]`);await n.scrollIntoViewIfNeeded();
   if(mode==='keyboard'){await n.focus();await p.keyboard.press('Arrow'+a.direction[0].toUpperCase()+a.direction.slice(1));}
   else{const b=await n.boundingBox(),x=b.x+b.width/2,y=b.y+b.height/2,[dx,dy]={right:[1,0],left:[-1,0],up:[0,-1],down:[0,1]}[a.direction];
     if(mode==='touch'){const cdp=await p.context().newCDPSession(p),point=(x,y)=>[{x,y,id:1,radiusX:4,radiusY:4,force:1}];await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:point(x,y)});await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:point(x+dx*36,y+dy*36)});await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await cdp.detach();}
-    else{await p.mouse.move(x,y);await p.mouse.down();await p.mouse.move(x+dx*36,y+dy*36,{steps:3});if(previewName){await p.locator('.preview-end').waitFor();await shot(p,previewName);}await p.mouse.up();}}
+    else{await p.mouse.move(x,y);await p.mouse.down();await p.mouse.move(x+dx*36,y+dy*36,{steps:3});if(previewName){await p.locator('.preview-end').waitFor();await shot(p,previewName,false);}await p.mouse.up();}}
   try{await p.waitForFunction(n=>window.slideV07.state.successfulMoves===n,before.successfulMoves+1);}catch(e){console.error(JSON.stringify({level:before.levelId,action:a,state:await state(p)}));await shot(p,'failure');throw e;}
 }
 async function main(){const browser=await chromium.launch({channel:'msedge',headless:true});
