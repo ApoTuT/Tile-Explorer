@@ -71,3 +71,53 @@ test('thirty published layouts and every variant reference actually win within b
   for(const [i,l] of levels.entries()){assert.equal(l.id,'slide07-'+String(i+1).padStart(2,'0'));for(const v of l.variants){const r=E.resolveLevel(l,v.id),played=E.replay(r,r.referenceSolution);assert.equal(played.state.status,'won');assert.ok(played.state.successfulMoves<=20);assert.equal(E.result(played.state,r).stars,3);}
     if(i<14)assert.equal(l.features.crates.length+l.features.brakes.length+l.features.portals.length,0);if(i<19)assert.equal(l.features.brakes.length,0);if(i<24)assert.equal(l.features.portals.length,0);}
 });
+
+test('powder chains open a whole wall, but cannot jump diagonals or relay through plain crates',()=>{
+  const l=fixture([tile('a',2,0,0,'bomb'),tile('b',2,0,1)],{rows:4,mask:Array(4).fill('####'),features:{crates:[{id:'first',row:0,col:2,powder:true},{id:'relay',row:1,col:2,powder:true},{id:'last',row:2,col:2,powder:true},{id:'diagonal',row:3,col:3,powder:true}]}}),s=E.createState(l),r=slide(s,'a','right');
+  assert.deepEqual(r.events[0].removedCrateIds,['first','relay','last']);assert.deepEqual(r.state.features.crates.map(c=>c.id),['diagonal']);assert.equal(s.features.crates.length,4);
+  s.features.crates[1].powder=false;assert.deepEqual(E.chainCrates(s,[{row:0,col:2}]),['first']);
+});
+
+test('turning uses the current position for merge alignment and keeps the garden reusable',()=>{
+  const l=fixture([tile('a',2,0,0),tile('b',2,2,2)],{features:{brakes:[{id:'turn',row:0,col:2,width:1,height:1,charges:1,direction:'down'}]}}),s=E.createState(l),check=E.inspectAction(s,{type:'slide',tileId:'a',direction:'right'}),r=slide(s,'a','right');
+  assert.equal(check.kind,'deliver');assert.equal(r.state.status,'won');assert.equal(r.state.successfulMoves,1);assert.equal(r.state.features.brakes[0].charges,1);assert.equal(r.events.filter(e=>e.type==='flower-turned').length,1);assert.deepEqual(check.to,{row:2,col:2});
+});
+
+test('each garden and gate fires at most once per gesture, bounding cyclic trajectories',()=>{
+  const brakes=[[0,1,'down'],[1,1,'left'],[1,0,'up'],[0,0,'right']].map(([row,col,direction],i)=>({id:'turn'+i,row,col,width:1,height:1,charges:1,direction}));
+  const l=fixture([tile('a',2,0,0),tile('b',2,2,3)],{features:{brakes}}),r=slide(E.createState(l),'a','right');
+  assert.equal(r.events[0].turns.length,4);assert.ok(r.events[0].path.length<15);assert.deepEqual(r.events[0].to,{row:0,col:3});
+});
+
+test('reusable relay preserves direction, can merge remotely, and spends one move',()=>{
+  const l=fixture([tile('a',2,0,0),tile('b',2,2,3)],{moveLimit:1,features:{portals:[portal(undefined,undefined,{reusable:true})]}}),r=slide(E.createState(l),'a','right');
+  assert.equal(r.state.status,'won');assert.equal(r.state.successfulMoves,1);assert.equal(r.state.features.portals[0].charges,1);assert.equal(r.events.filter(e=>e.type==='portal-used').length,1);assert.equal(r.events[0].kind,'deliver');
+});
+
+test('relay works in both directions on successive gestures without a charge reset',()=>{
+  const l=fixture([tile('a',2,0,0),tile('b',2,1,0),tile('peach',3,1,3)],{chainGoals:{fruit:{targetTier:4,count:1}},features:{portals:[portal(undefined,undefined,{reusable:true})]}});
+  const first=slide(E.createState(l),'a','right'),back=slide(first.state,'a','left');assert.deepEqual(first.events[0].to,{row:2,col:3});assert.deepEqual(back.events[0].to,{row:0,col:0});assert.equal(back.state.features.portals[0].charges,1);
+});
+
+test('relay then garden then blast can resolve in one action, and undo restores the full transaction',()=>{
+  const l=fixture([tile('a',2,0,0,'bomb'),tile('b',2,2,2),tile('peach',3,2,0)],{rows:4,mask:Array(4).fill('####'),chainGoals:{fruit:{targetTier:4,count:1}},features:{portals:[portal({row:0,col:1},{row:1,col:1},{reusable:true})],brakes:[{id:'turn',row:1,col:2,width:1,height:1,direction:'down',charges:1}],crates:[{id:'c',row:3,col:2,powder:true}]}}),game=new Session([l],memory()),before=E.clone(game.state),r=game.apply({type:'slide',tileId:'a',direction:'right'});
+  assert.equal(r.events[0].kind,'upgrade');assert.equal(r.state.features.crates.length,0);for(const type of ['flower-turned','portal-used','blast-resolved'])assert.ok(r.events.some(e=>e.type===type));assert.equal(r.state.successfulMoves,1);game.undo();assert.deepEqual(game.state,before);
+});
+
+test('every redesigned variant needs each advertised mechanic, not merely a reference-route cameo',()=>{
+  const {verifyLevel}=require('../tools/validate_v07_levels.cjs');for(const l of require('../web/slide-v07/levels.js').slice(14)){const r=verifyLevel(l);for(const v of r.variants)for(const m of l.requiredMechanics){assert.equal(v.ablations[m].status,'unsolvable');assert.equal(v.ablations[m].exhaustive,true);}}
+});
+
+test('content upgrade preserves earned level access while incompatible scores and runs reset',()=>{
+  const l=fixture([tile('a',2,0,0),tile('b',2,0,2)]),next={...l,id:'next'},store=memory();store.setItem('tile-explorer.slide.v07.best.v1',JSON.stringify({test:{hash:'old-layout',stars:3,score:500}}));store.setItem('tile-explorer.slide.v07.session.v1',JSON.stringify({levelId:'next',hash:'old-layout',variantId:'default',actions:[]}));
+  const g=new Session([l,next],store);assert.equal(g.state.levelId,'next');assert.equal(g.restoreNotice,'updated');assert.equal(g.bestFor(l).stars,0);assert.equal(g.isUnlocked(next),true);assert.equal(new Session([l,next],store).state.levelId,'next');
+});
+
+test('mechanic demo has isolated progress and does not unlock the main campaign',()=>{
+  const l=fixture([tile('a',2,0,0),tile('b',2,0,2)]),next={...l,id:'next'},store=memory(),demo=new Session([l,next],store,{demo:true});assert.equal(demo.start(next),true);demo.apply({type:'slide',tileId:'a',direction:'right'});const main=new Session([l,next],store);assert.equal(main.isUnlocked(next),false);assert.equal(main.bestFor(next).stars,0);
+});
+
+test('final showcase has a single gesture that relays, turns twice, merges and chain-blasts three crates',()=>{
+  const l=require('../web/slide-v07/levels.js').at(-1);let s=E.createState(l),found=false;
+  for(const a of l.referenceSolution){const r=E.applyAction(s,a);s=r.state;const e=r.events[0];if(e.bomb&&e.turns?.length===2&&e.transfers?.length===1&&e.removedCrateIds.length===3)found=true;}assert.equal(found,true);assert.equal(s.status,'won');
+});

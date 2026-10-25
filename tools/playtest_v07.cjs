@@ -14,7 +14,7 @@ async function move(p,a,mode='mouse',previewName){const before=await state(p);
   if(mode==='keyboard'){await n.focus();await p.keyboard.press('Arrow'+a.direction[0].toUpperCase()+a.direction.slice(1));}
   else{const b=await n.boundingBox(),x=b.x+b.width/2,y=b.y+b.height/2,[dx,dy]={right:[1,0],left:[-1,0],up:[0,-1],down:[0,1]}[a.direction];
     if(mode==='touch'){const cdp=await p.context().newCDPSession(p),point=(x,y)=>[{x,y,id:1,radiusX:4,radiusY:4,force:1}];await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:point(x,y)});await cdp.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:point(x+dx*36,y+dy*36)});await cdp.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]});await cdp.detach();}
-    else{await p.mouse.move(x,y);await p.mouse.down();await p.mouse.move(x+dx*36,y+dy*36,{steps:3});if(previewName){await p.locator('.preview-end').waitFor();await shot(p,previewName,false);}await p.mouse.up();}}
+    else{await p.mouse.move(x,y);await p.mouse.down();await p.mouse.move(x+dx*36,y+dy*36,{steps:3});if(previewName){await p.locator('.preview-end').waitFor();await shot(p,previewName);}await p.mouse.up();}}
   try{await p.waitForFunction(n=>window.slideV07.state.successfulMoves===n,before.successfulMoves+1);}catch(e){console.error(JSON.stringify({level:before.levelId,action:a,state:await state(p)}));await shot(p,'failure');throw e;}
 }
 async function main(){const browser=await chromium.launch({channel:'msedge',headless:true});
@@ -22,7 +22,8 @@ async function main(){const browser=await chromium.launch({channel:'msedge',head
     await p.goto(url);await ready(p);const resolvedUrl=p.url();await p.locator('#level-button').click();assert.equal(await p.locator('#level-list .level-card').count(),30);assert.equal(await p.locator('#level-list .level-card:disabled').count(),29);await p.locator('#level-dialog [data-close]').click();checks.progressInitiallyLocked=true;
     for(let i=0;i<30;i++){const l=await p.evaluate(()=>window.slideV07.level);assert.equal(l.id,'slide07-'+String(i+1).padStart(2,'0'));const before=await state(p);let saved=false;
       for(const a of l.referenceSolution){const check=await p.evaluate(a=>TileSlideV07.engine.inspectAction(window.slideV07.state,a),a);let preview;
-        if(!saved&&(check.bomb||check.brakeId||check.portalId)){preview='level-'+(i+1)+'-preview';saved=true;}
+        if(!saved&&(check.bomb||check.brakeId||check.portalId||check.turns?.length)){preview='level-'+(i+1)+'-preview';saved=true;}
+        if(check.bomb&&check.transfers?.length&&check.turns?.length)preview='level-'+(i+1)+'-combo-preview';
         await move(p,a,preview?'mouse':i%3===0?'mouse':'keyboard',preview);
       }
       assert.equal((await state(p)).status,'won');assert.equal((await p.evaluate(()=>window.slideV07.result)).stars,3);await p.locator('#win-dialog').waitFor({state:'visible'});checks['level'+(i+1)]={variant:l.variantId,moves:(await state(p)).successfulMoves};console.log('Passed level '+(i+1));
@@ -32,7 +33,7 @@ async function main(){const browser=await chromium.launch({channel:'msedge',head
     }checks.allThirtyNativeInput=true;checks.ninetyStars=true;await shot(p,'all-thirty');
     // Restore/undo after a terrain effect, including the fixed random assignment.
     for(const index of [15,19,24,29]){await choose(p,index);const before=await state(p),route=await p.evaluate(()=>window.slideV07.level.referenceSolution);let used=0;
-      for(const a of route){await move(p,a,'keyboard');used++;const s=await state(p);if(s.features.crates.length<before.features.crates.length||s.features.brakes.some(b=>!b.charges)||s.features.portals.some(b=>!b.charges))break;}
+      for(const a of route){const check=await p.evaluate(a=>TileSlideV07.engine.inspectAction(window.slideV07.state,a),a);await move(p,a,'keyboard');used++;if(check.bomb||check.turns?.length||check.transfers?.length)break;}
       const after=await state(p);await p.reload();await ready(p);assert.deepEqual(await state(p),after);await close(p);for(let n=0;n<used;n++)await p.locator('#undo').click();assert.deepEqual(await state(p),before);await p.locator('#restart').click();assert.deepEqual(await state(p),before);
     }checks.terrainUndoRefreshAndFrozenVariants=true;
     await choose(p,0);const initial=await state(p);for(let n=0;n<20;n++){const a=await p.evaluate(()=>{const E=TileSlideV07.engine,s=window.slideV07.state;return E.listLegalActions(s).find(a=>E.inspectAction(s,a).kind==='move');});await move(p,a,'keyboard');}
@@ -44,7 +45,10 @@ async function main(){const browser=await chromium.launch({channel:'msedge',head
     await context.close();
     const touch=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,isMobile:true}),tp=await touch.newPage();tp.on('pageerror',e=>errors.push(e.message));const debugUrl=new URL(resolvedUrl);debugUrl.searchParams.set('debug','1');await tp.goto(debugUrl.href);await ready(tp);
     for(const index of [14,19,24,29]){await choose(tp,index);for(const a of await tp.evaluate(()=>window.slideV07.level.referenceSolution))await move(tp,a,'touch');assert.equal((await state(tp)).status,'won');}
-    checks.nativeTouchSimulation=true;await shot(tp,'final-touch');await touch.close();assert.deepEqual(errors,[]);
+    checks.nativeTouchSimulation=true;await shot(tp,'final-touch');await touch.close();
+    const demoContext=await browser.newContext({viewport:{width:390,height:844}}),dp=await demoContext.newPage();dp.on('pageerror',e=>errors.push(e.message));const demoUrl=new URL(resolvedUrl);demoUrl.search='?demo=15';await dp.goto(demoUrl.href);await ready(dp);assert.equal((await state(dp)).levelId,'slide07-15');
+    for(const n of [15,20,25,30]){await close(dp);await dp.locator(`[data-demo="${n}"]`).click();assert.equal((await state(dp)).levelId,'slide07-'+n);for(const a of await dp.evaluate(()=>window.slideV07.level.referenceSolution))await move(dp,a,'keyboard');assert.equal((await state(dp)).status,'won');}
+    await close(dp);await dp.locator('#exit-demo').click();await ready(dp);assert.equal((await state(dp)).levelId,'slide07-01');await dp.locator('#level-button').click();assert.equal(await dp.locator('#level-list .level-card:disabled').count(),29);checks.demoShortcutsAndIsolatedProgress=true;await demoContext.close();assert.deepEqual(errors,[]);
     const report={url,checks,errors,limitations:['Android/iOS hardware and unfamiliar-player tests not performed']};fs.writeFileSync(path.join(out,'report.json'),JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));
   }finally{await browser.close();}}
 main().catch(e=>{console.error(e.stack);process.exitCode=1;});

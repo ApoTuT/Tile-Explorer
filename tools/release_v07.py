@@ -19,6 +19,7 @@ HOST = 'root@106.12.167.253'
 SSH = ['ssh', '-o', 'BatchMode=yes', '-o', 'StrictHostKeyChecking=yes', HOST]
 HTML = '/root/my-project/Group-Buy-16009-sheng/docs/dev-ops/ui/html'
 CONF = '/root/my-project/Group-Buy-16009-sheng/docs/dev-ops/nginx/config/default.conf'
+EXPECTED_PREVIOUS = '/tile-explorer/releases/20261024-v07-7393fcb5/'
 
 
 def remote(script):
@@ -43,7 +44,7 @@ def package():
     commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     assert re.fullmatch(r'[0-9a-f]{40}', commit)
     subprocess.run([sys.executable, 'tools/export_v07.py'], cwd=ROOT, check=True)
-    build = '20261024-v07-' + commit[:8]
+    build = '20261025-v07r2-' + commit[:8]
     output = WORK / build
     output.mkdir(parents=True, exist_ok=False)
     source = ROOT / '.local/h5-v07'
@@ -54,7 +55,7 @@ def package():
         for file in files:
             tar.add(file, arcname='html/' + file.relative_to(source).as_posix())
     entries = [{'path': f.relative_to(source).as_posix(), 'bytes': f.stat().st_size, 'sha256': digest(f.read_bytes())} for f in files]
-    manifest = {'buildId': build, 'sourceCommit': commit, 'version': '0.7.0', 'ruleset': 'slide-v07-1', 'createdAt': datetime.datetime.now(datetime.timezone.utc).isoformat(), 'files': entries}
+    manifest = {'buildId': build, 'sourceCommit': commit, 'version': '0.7.1', 'ruleset': 'slide-v07-2', 'createdAt': datetime.datetime.now(datetime.timezone.utc).isoformat(), 'files': entries}
     (output / 'manifest.json').write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
     sums = [digest(archive.read_bytes()) + '  tile-explorer.tar.gz'] + [e['sha256'] + '  html/' + e['path'] for e in entries]
     (output / 'SHA256SUMS').write_bytes(('\n'.join(sums) + '\n').encode())
@@ -71,7 +72,7 @@ def main():
         return
     current = json.loads((WORK / 'v07-current.json').read_text())
     build = current['buildId']
-    assert re.fullmatch(r'20261024-v07-[0-9a-f]{8}', build)
+    assert re.fullmatch(r'20261025-v07r2-[0-9a-f]{8}', build)
     output = Path(current['out'])
     release = '/root/apps/tile-explorer/releases/' + build
     preview = HTML + '/tile-explorer-v07-preview/' + build
@@ -97,7 +98,7 @@ curl --fail --silent --output /dev/null http://127.0.0.1/tile-explorer-v07-previ
         assert len(matches) == 1, 'Expected one stable game route'
         match = matches[0]
         previous = match.group(2).decode()
-        assert previous == '/tile-explorer/releases/20261023-v06-blocks-13427d7f/', 'Production changed; inspect before replacing route'
+        assert previous == EXPECTED_PREVIOUS, 'Production changed; inspect before replacing route'
         candidate = original[:match.start(2)] + target.encode() + original[match.end(2):]
         (output / 'default.conf.before').write_bytes(original)
         (output / 'default.conf.candidate').write_bytes(candidate)
@@ -145,7 +146,9 @@ curl --fail --silent --head http://127.0.0.1/tile-explorer/
             assert response.url == base + target
         with urllib.request.urlopen(base + '/tile-explorer/releases/20261023-v06-blocks-13427d7f/', timeout=20) as response:
             assert response.status == 200
-        print('Verified all 23 public file digests, stable redirect and preserved v0.6 release')
+        with urllib.request.urlopen(base + EXPECTED_PREVIOUS, timeout=20) as response:
+            assert response.status == 200
+        print('Verified all 23 public file digests, stable redirect and preserved v0.6/v0.7 original releases')
 
 
 if __name__ == '__main__':

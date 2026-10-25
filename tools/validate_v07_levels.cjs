@@ -41,6 +41,7 @@ function proveSpatialSafety(level,{maxStates=900000,variantId,recommendStart=fal
   return {ruleset:E.RULESET,variantId:initial.variantId,definitionHash:initial.definitionHash,states:nodes.length,edges,allReachableSolvable:safety.count===nodes.length,unwinnableStates:nodes.length-safety.count,shortestMoves:placements[0].shortestMoves,placements,recommendation};
 }
 function verifyLevel(level,options={}){
+  if(level.requiredMechanics)return verifyMechanicLevel(level);
   const variants=level.variants||[{id:'default'}],proofs=[];
   for(const v of variants){const resolved=E.resolveLevel(level,v.id),proof=proveSpatialSafety(resolved,{...options,variantId:v.id});
     if(!proof.allReachableSolvable||!proof.placements.every(p=>p.withinBudget))throw Error(level.id+'/'+v.id+': unsafe or exceeds budget');
@@ -53,8 +54,21 @@ function verifyLevel(level,options={}){
     const {recommendation,...summary}=proof;proofs.push({...summary,referenceMoves:played.state.successfulMoves,score:r.score,stars:r.stars,merges,used});
   }return {id:level.id,title:level.title,variants:proofs};
 }
-function main(){const levels=require('../web/slide-v07/levels.js'),report={ruleset:E.RULESET,scoring:E.SCORING,method:'Complete spatial graph per variant and opening placement; all transitions use the shipped kernel with only the total move budget ignored. Explicit delivery, effects and terrain state. Reverse BFS proves zero spatial dead ends. Budget and stars verified by actual replays.',levels:[]};
+function verifyMechanicLevel(level){
+  const {disable,search}=require('./redesign_v07_levels.cjs'),variants=[];
+  for(const v of level.variants){const resolved=E.resolveLevel(level,v.id),played=E.replay(resolved,resolved.referenceSolution),r=E.result(played.state,resolved);
+    if(played.state.status!=='won'||played.state.successfulMoves>20||r.stars!==3)throw Error('Invalid witness '+level.id+'/'+v.id);
+    for(const p of resolved.scoreProofs||[]){const done=E.replay(resolved,p.actions),score=E.result(done.state,resolved);if(done.state.status!=='won'||score.score!==p.score||score.stars!==p.stars)throw Error('Score proof '+level.id);}
+    const used={bomb:played.events.some(e=>e.type==='blast-resolved'&&e.removedIds.length),turn:played.events.some(e=>e.type==='flower-turned'),portal:played.events.some(e=>e.type==='portal-used')},ablations={};
+    for(const mechanic of level.requiredMechanics){if(!used[mechanic])throw Error('Unused '+mechanic+' '+level.id);const counterfactual=search(disable(level,mechanic),v.id);
+      if(counterfactual.status!=='unsolvable')throw Error('Mechanic optional or unverified: '+level.id+' '+mechanic+' '+counterfactual.status);
+      ablations[mechanic]={status:'unsolvable',exhaustive:true,moveBudgetIgnored:true,visited:counterfactual.visited};}
+    variants.push({ruleset:E.RULESET,variantId:v.id,definitionHash:E.definitionHash(resolved),initialSolvable:true,referenceMoves:played.state.successfulMoves,score:r.score,stars:r.stars,used,ablations,
+      blastCrates:played.events.filter(e=>e.type==='blast-resolved').map(e=>e.removedIds.length),turns:played.events.filter(e=>e.type==='flower-turned').length,transfers:played.events.filter(e=>e.type==='portal-used').length});
+  }return {id:level.id,title:level.title,variants};
+}
+function main(){const levels=require('../web/slide-v07/levels.js'),report={ruleset:E.RULESET,scoring:E.SCORING,method:'Levels 1–14: complete spatial graph and reverse BFS. Levels 15–30: winning replay for every variant, then exhaustive search with EACH required mechanic disabled, ignoring total move budget; every ablation must be unsolvable, never a timeout. Wrong blast placement can require free undo. Scores and budgets use actual kernel replays.',levels:[]};
   for(const l of levels){process.stderr.write('Proving '+l.id+' '+l.title+'\n');report.levels.push(verifyLevel(l));}
-  report.ok=report.levels.length===30;if(!report.ok)throw Error('Expected 30 levels');if(process.argv.includes('--write'))fs.writeFileSync('docs/technical/v0.7-level-report.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));return report;
+  report.ok=report.levels.length===30;if(!report.ok)throw Error('Expected 30 levels');if(process.argv.includes('--write'))fs.writeFileSync('docs/technical/v0.7-redesign-level-report.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));return report;
 }
 module.exports={proveSpatialSafety,verifyLevel};if(require.main===module)main();

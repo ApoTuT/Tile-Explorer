@@ -2,7 +2,7 @@
 (function(root){
   'use strict';
   const C=typeof module!=='undefined'?require('./content.js'):root.TileSlideV07.content;
-  const RULESET='slide-v07-1',SCORING='score-v07-1';
+  const RULESET='slide-v07-2',SCORING='score-v07-1';
   const directions={up:{row:-1,col:0},down:{row:1,col:0},left:{row:0,col:-1},right:{row:0,col:1}};
   const clone=v=>JSON.parse(JSON.stringify(v));
   const walkable=(s,r,c)=>Number.isInteger(r)&&Number.isInteger(c)&&r>=0&&c>=0&&r<s.rows&&c<s.cols&&s.mask[r][c]==='#';
@@ -53,7 +53,7 @@
     const addArea=(p,f)=>{if(!p||![1,2].includes(f.width)||![1,2].includes(f.height)){errors.push('feature-area');return;}for(const q of rectangle(p,f)){const k=q.row+','+q.col;if(!walkable(l,q.row,q.col)||terrain.has(k))errors.push('terrain-overlap');terrain.add(k);}};
     const features=l.features||{};for(const key of ['crates','brakes','portals'])if(features[key]!==undefined&&!Array.isArray(features[key]))return ['features:'+key];
     for(const p of features.crates||[]){addId(p.id);addArea(p,{width:1,height:1});if(tileAt(l,p.row,p.col))errors.push('crate-tile');}
-    for(const b of features.brakes||[]){addId(b.id);addArea(b,b);if(b.charges!==1)errors.push('brake-charges');}
+    for(const b of features.brakes||[]){addId(b.id);addArea(b,b);if(b.charges!==1)errors.push('brake-charges');if(b.direction&&!Object.hasOwn(directions,b.direction))errors.push('turn-direction');}
     for(const p of features.portals||[]){addId(p.id);addArea(p.a,p);addArea(p.b,p);if(p.charges!==1)errors.push('portal-charges');}
     if((features.portals||[]).length>1)errors.push('portal-count');
     for(const p of l.obstacle?.placementCells||[])if(terrain.has(p.row+','+p.col))errors.push('placement-terrain');
@@ -78,28 +78,44 @@
     if(a.type==='move-obstacle'){const o=s.obstacle;if(!o?.position||o.movesUsed>=o.moveLimit)return bad('obstacle-limit');const d=directions[a.direction],to={row:o.position.row+d.row,col:o.position.col+d.col};
       return !walkable(s,to.row,to.col)||s.rocks.some(p=>p.row===to.row&&p.col===to.col)||s.features.crates.some(p=>p.row===to.row&&p.col===to.col)||tileAt(s,to.row,to.col)?bad('occupied'):{ok:true,kind:'obstacle',sourceId:'obstacle',from:o.position,to,path:[to],distance:1};}
     const t=s.tiles.find(t=>t.id===a.tileId);if(!t)return bad('missing');
-    const d=directions[a.direction],path=[],from={row:t.row,col:t.col};let p=from;
+    let direction=a.direction,d=directions[direction];
+    const path=[],from={row:t.row,col:t.col},turns=[],transfers=[],waypoints=[from];let p=from;
+    const travel=()=>({sourceId:t.id,from,path,distance:path.length,turns,transfers,waypoints,
+      ...(transfers.length?{portalId:transfers[0].id,entry:transfers[0].entry,exit:transfers[0].exit}:{})});
     while(true){
       const next={row:p.row+d.row,col:p.col+d.col};
       const covered=cells(s,t,next),targets=new Map();let stopped=null;
       for(const q of covered){if(!walkable(s,q.row,q.col))stopped='edge';else if(rockAt(s,q.row,q.col))stopped='rock';const hit=tileAt(s,q.row,q.col);if(hit&&hit.id!==t.id)targets.set(hit.id,hit);}
       const target=targets.size===1?[...targets.values()][0]:null;
-      const aligned=target&&(d.col?t.row===target.row:t.col===target.col);
+      const aligned=target&&(d.col?p.row===target.row:p.col===target.col);
       if(targets.size&&(!target||target.itemId!==t.itemId||!aligned))stopped=stopped||'tile';
-      if(stopped)return path.length?{ok:true,kind:'move',sourceId:t.id,from,to:p,path,distance:path.length,stoppedBy:stopped}:{...bad(stopped),targetId:target?.id};
+      if(stopped)return path.length?{ok:true,kind:'move',...travel(),to:p,stoppedBy:stopped}:{...bad(stopped),targetId:target?.id};
       path.push(next);
       if(target){const item=C.items[t.itemId],result=C.items[item.nextItemId],goal=s.chainGoals[item.chainId];
         if(!result||result.tier>goal.targetTier)return bad('recipe');
         const to={row:target.row,col:target.col},bomb=t.effect==='bomb'||target.effect==='bomb',blast=bomb?blastArea(s,t,to):[];
-        return {ok:true,kind:result.tier===goal.targetTier?'deliver':'upgrade',sourceId:t.id,targetId:target.id,
-          from,to,path,distance:path.length,resultId:result.id,resultTier:result.tier,chainId:item.chainId,bomb,blast,removedCrateIds:s.features.crates.filter(c=>blast.some(p=>p.row===c.row&&p.col===c.col)).map(c=>c.id)};}
+        const removedCrateIds=bomb?chainCrates(s,blast):[];waypoints.push(to);
+        return {ok:true,kind:result.tier===goal.targetTier?'deliver':'upgrade',...travel(),targetId:target.id,
+          to,resultId:result.id,resultTier:result.tier,chainId:item.chainId,bomb,blast,removedCrateIds};}
       const f=footprint(s,t),brake=s.features.brakes.find(b=>b.charges&&b.row===next.row&&b.col===next.col&&b.width===f.width&&b.height===f.height);
-      if(brake)return {ok:true,kind:'move',sourceId:t.id,from,to:next,path,distance:path.length,brakeId:brake.id};
-      const portal=portalExit(s,t,next);if(portal)return {ok:true,kind:'move',sourceId:t.id,from,to:portal.exit,path,distance:path.length,...portal};
+      if(brake){
+        if(!brake.direction)return {ok:true,kind:'move',...travel(),to:next,brakeId:brake.id};
+        if(!turns.some(b=>b.id===brake.id)){turns.push({id:brake.id,at:next,direction:brake.direction});direction=brake.direction;d=directions[direction];waypoints.push(next);}
+      }
+      const portal=portalExit(s,t,next);if(portal&&!transfers.some(p=>p.id===portal.portalId)){
+        transfers.push({id:portal.portalId,entry:portal.entry,exit:portal.exit});waypoints.push(portal.entry,{...portal.exit,jump:true});
+        if(!s.features.portals.find(p=>p.id===portal.portalId).reusable)return {ok:true,kind:'move',...travel(),to:portal.exit};
+        p=portal.exit;continue;
+      }
       p=next;
     }
   }
   function blastArea(s,t,p=t){const f=footprint(s,t),out=[];for(let c=0;c<f.width;c++)out.push({row:p.row-1,col:p.col+c},{row:p.row+f.height,col:p.col+c});for(let r=0;r<f.height;r++)out.push({row:p.row+r,col:p.col-1},{row:p.row+r,col:p.col+f.width});return out.filter(q=>walkable(s,q.row,q.col));}
+  // Powder crates relay the blast only to orthogonally touching powder crates.
+  // Ordinary materials and stone never participate in the chain reaction.
+  function chainCrates(s,area){const hit=s.features.crates.filter(c=>area.some(p=>p.row===c.row&&p.col===c.col)),seen=new Set(hit.map(c=>c.id));
+    for(let i=0;i<hit.length;i++)if(hit[i].powder)for(const c of s.features.crates)if(c.powder&&!seen.has(c.id)&&Math.abs(c.row-hit[i].row)+Math.abs(c.col-hit[i].col)===1){seen.add(c.id);hit.push(c);}
+    return [...seen];}
   function portalExit(s,t,p){const f=footprint(s,t);for(const portal of s.features.portals){if(!portal.charges||portal.width!==f.width||portal.height!==f.height)continue;
     const same=q=>q.row===p.row&&q.col===p.col,exit=same(portal.a)?portal.b:same(portal.b)?portal.a:null;
     if(exit&&cells(s,t,exit).every(q=>walkable(s,q.row,q.col)&&!rockAt(s,q.row,q.col)&&(!tileAt(s,q.row,q.col)||tileAt(s,q.row,q.col).id===t.id)))return {portalId:portal.id,entry:{...p},exit:{...exit}};
@@ -116,7 +132,6 @@
       if(check.kind==='obstacle'){s.obstacle.position={...check.to};s.obstacle.movesUsed++;}else Object.assign(s.tiles.find(t=>t.id===check.sourceId),check.to);
       if(s.chainCount){s.setupMovesSinceMerge++;if(s.setupMovesSinceMerge>1)s.chainCount=0;}
       if(check.brakeId){s.features.brakes=s.features.brakes.map(b=>b.id===check.brakeId?{...b,charges:0}:b);effects.push({type:'brake-consumed',id:check.brakeId,to:check.to});}
-      if(check.portalId){s.features.portals=s.features.portals.map(p=>p.id===check.portalId?{...p,charges:0}:p);effects.push({type:'portal-used',id:check.portalId,entry:check.entry,exit:check.exit});}
     }else{
       s.chainCount++;s.setupMovesSinceMerge=0;s.bestChain=Math.max(s.bestChain,s.chainCount);
       points=100+50*Math.min(s.chainCount-1,3)+50*(check.resultTier-1);s.mergeScore+=points;
@@ -125,6 +140,8 @@
       else s.delivered[check.chainId]++;
       if(check.bomb){s.features.crates=s.features.crates.filter(c=>!check.removedCrateIds.includes(c.id));effects.push({type:'blast-resolved',area:check.blast,removedIds:check.removedCrateIds});}
     }
+    for(const turn of check.turns||[])effects.push({type:'flower-turned',...turn});
+    for(const transfer of check.transfers||[]){s.features.portals=s.features.portals.map(p=>p.id===transfer.id&&!p.reusable?{...p,charges:0}:p);effects.push({type:'portal-used',...transfer});}
     // Completion on the last available move wins. Offline spatial proofs may ignore
     // only the budget; collision and upgrade rules remain exactly the same.
     s.status=isWon(s)?'won':!ignoreMoveLimit&&s.successfulMoves>=s.moveLimit?'lost':'playing';
@@ -140,6 +157,6 @@
   const canonicalKey=s=>JSON.stringify([s.definitionHash,s.tiles.map(t=>[t.row,t.col,t.itemId,t.effect||'']).sort(),s.delivered,s.obstacle?.position,s.obstacle?s.obstacle.moveLimit-s.obstacle.movesUsed:0,s.features.crates.map(c=>c.id),s.features.brakes.map(b=>b.charges),s.features.portals.map(p=>p.charges)]);
   function result(s,l){const efficiency=s.status==='won'?50*Math.max(0,Math.min(4,l.parMoves+4-s.successfulMoves)):0,score=s.mergeScore+efficiency;
     return {score,efficiency,stars:s.status!=='won'?0:score>=l.threeStarScore?3:score>=l.twoStarScore?2:1};}
-  const api={RULESET,SCORING,clone,directions,walkable,rockAt,tileAt,footprint,cells,rectangle,blastArea,portalExit,resolveLevel,definitionHash,validateDefinition,createState,inspectAction,applyAction,replay,isWon,candidateActions,listLegalActions,canonicalKey,result};
+  const api={RULESET,SCORING,clone,directions,walkable,rockAt,tileAt,footprint,cells,rectangle,blastArea,chainCrates,portalExit,resolveLevel,definitionHash,validateDefinition,createState,inspectAction,applyAction,replay,isWon,candidateActions,listLegalActions,canonicalKey,result};
   root.TileSlideV07={...(root.TileSlideV07||{}),engine:api};if(typeof module!=='undefined')module.exports=api;
 })(globalThis);
