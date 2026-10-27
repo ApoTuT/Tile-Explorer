@@ -2,7 +2,7 @@
 
 当前实现重排全部 **30 关**：前半段严格最短解 **7–22 步**，后半段为九列的三庭院大棋盘，严格最短解 **34–53 步**。第 15／20／25 关分别引入必须使用的爆破、转向与传送；支持无限次撤销、长局恢复与分区提示。后半段首通 5–10 分钟是设计目标，尚未做陌生玩家计时试验。
 
-运行 `python main.py` 后访问 `/slide-v07.html`；静态导出使用 `python tools/export_v07.py`。最新设计、30 关规格及验证方法见 [花园挑战技术文档](docs/technical/v0.7-challenge.md)。以下内容是历史版本记录。
+运行 `python main.py` 后访问 `/slide-v07.html`；静态导出使用 `python tools/export_v07.py`。最新设计、30 关规格及验证方法见 [花园挑战技术文档](docs/technical/v0.7-challenge.md)。在线试玩：[主线](http://120.53.94.192/tile-explorer/)／[机关速玩](http://120.53.94.192/tile-explorer/?demo=25)。以下内容是历史版本记录。
 
 # v0.7 首版（历史记录）
 

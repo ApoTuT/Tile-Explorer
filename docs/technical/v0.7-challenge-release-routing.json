@@ -1,0 +1,14 @@
+{
+  "buildId": "20261027-v07r3-882617f7",
+  "sourceCommit": "882617f74251604b054019608751bec28dd7980b",
+  "host": "120.53.94.192",
+  "entry": "http://120.53.94.192/tile-explorer/",
+  "target": "/tile-explorer/releases/20261027-v07r3-882617f7/",
+  "previousTarget": null,
+  "service": "tile-explorer-preview.service",
+  "sourceCI": {
+    "runId": 40428790805,
+    "ubuntu": "success",
+    "windows": "success"
+  }
+}
