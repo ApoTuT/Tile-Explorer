@@ -1,0 +1,2836 @@
+{
+  "ruleset": "slide-v07-2",
+  "scoring": "score-v07-1",
+  "method": "Exact reverse BFS on each complete spatial graph, using the shipped engine. For sealed multi-room gardens, verify all geometric and portal separations, prove every room, and sum exact distances. Replay the whole-board witness and scoring. Disabling each advertised mechanic must make at least one sealed room exhaustively unsolvable even without the move budget. Timeout means unverified, never proof. Undo permits recovery from wrong choices.",
+  "levels": [
+    {
+      "id": "slide07-01",
+      "title": "借位起手",
+      "variants": [
+        {
+          "ruleset": "slide-v07-2",
+          "variantId": "default",
+          "definitionHash": "01a03fdc",
+          "exhaustive": true,
+          "states": 6607,
+          "edges": 50026,
+          "shortestMoves": 7,
+          "referenceMoves": 7,
+          "moveLimit": 12,
+          "score": 800,
+          "stars": 3,
+          "planning": {
+            "decisionPoints": 7,
+            "greedyTraps": 2,
+            "maxSetupRun": 4,
+            "setupMoves": 4,
+            "openingChoices": 5,
+            "openingOptimal": 2
+          },
+          "ablations": {},
+          "unwinnableStates": 0,
+          "decisionSteps": [
+            {
+              "legalChoices": 5,
+              "optimalChoices": 2,
+              "remainingMoves": 7,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 8,
+              "optimalChoices": 2,
+              "remainingMoves": 6,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 8,
+              "optimalChoices": 2,
+              "remainingMoves": 5,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 9,
+              "optimalChoices": 2,
+              "remainingMoves": 4,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 1,
+              "remainingMoves": 3,
+              "kind": "upgrade"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 1,
+              "remainingMoves": 2,
+              "kind": "upgrade"
+            },
+            {
+              "legalChoices": 4,
+              "optimalChoices": 1,
+              "remainingMoves": 1,
+              "kind": "deliver"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide07-02",
+      "title": "回字小径",
+      "variants": [
+        {
+          "ruleset": "slide-v07-2",
+          "variantId": "default",
+          "definitionHash": "a00d86f3",
+          "exhaustive": true,
+          "states": 2703,
+          "edges": 15269,
+          "shortestMoves": 10,
+          "referenceMoves": 10,
+          "moveLimit": 15,
+          "score": 800,
+          "stars": 3,
+          "planning": {
+            "decisionPoints": 9,
+            "greedyTraps": 4,
+            "maxSetupRun": 6,
+            "setupMoves": 7,
+            "openingChoices": 6,
+            "openingOptimal": 2
+          },
+          "ablations": {},
+          "unwinnableStates": 48,
+          "decisionSteps": [
+            {
+              "legalChoices": 6,
+              "optimalChoices": 2,
+              "remainingMoves": 10,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 3,
+              "remainingMoves": 9,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 8,
+              "optimalChoices": 2,
+              "remainingMoves": 8,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 2,
+              "remainingMoves": 7,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 1,
+              "remainingMoves": 6,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 1,
+              "remainingMoves": 5,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 1,
+              "remainingMoves": 4,
+              "kind": "upgrade"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 1,
+              "remainingMoves": 3,
+              "kind": "upgrade"
+            },
+            {
+              "legalChoices": 4,
+              "optimalChoices": 1,
+              "remainingMoves": 2,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 3,
+              "optimalChoices": 1,
+              "remainingMoves": 1,
+              "kind": "deliver"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide07-03",
+      "title": "交错四角",
+      "variants": [
+        {
+          "ruleset": "slide-v07-2",
+          "variantId": "default",
+          "definitionHash": "0bff84fb",
+          "exhaustive": true,
+          "states": 655,
+          "edges": 3567,
+          "shortestMoves": 9,
+          "referenceMoves": 9,
+          "moveLimit": 14,
+          "score": 850,
+          "stars": 3,
+          "planning": {
+            "decisionPoints": 5,
+            "greedyTraps": 5,
+            "maxSetupRun": 5,
+            "setupMoves": 6,
+            "openingChoices": 6,
+            "openingOptimal": 4
+          },
+          "ablations": {},
+          "unwinnableStates": 0,
+          "decisionSteps": [
+            {
+              "legalChoices": 6,
+              "optimalChoices": 4,
+              "remainingMoves": 9,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 2,
+              "remainingMoves": 8,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 3,
+              "remainingMoves": 7,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 3,
+              "remainingMoves": 6,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 8,
+              "optimalChoices": 4,
+              "remainingMoves": 5,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 2,
+              "remainingMoves": 4,
+              "kind": "upgrade"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 2,
+              "remainingMoves": 3,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 1,
+              "remainingMoves": 2,
+              "kind": "upgrade"
+            },
+            {
+              "legalChoices": 4,
+              "optimalChoices": 1,
+              "remainingMoves": 1,
+              "kind": "deliver"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide07-04",
+      "title": "双线借道",
+      "variants": [
+        {
+          "ruleset": "slide-v07-2",
+          "variantId": "default",
+          "definitionHash": "89037bb8",
+          "exhaustive": true,
+          "states": 22842,
+          "edges": 164350,
+          "shortestMoves": 10,
+          "referenceMoves": 10,
+          "moveLimit": 15,
+          "score": 850,
+          "stars": 3,
+          "planning": {
+            "decisionPoints": 7,
+            "greedyTraps": 3,
+            "maxSetupRun": 7,
+            "setupMoves": 7,
+            "openingChoices": 6,
+            "openingOptimal": 5
+          },
+          "ablations": {},
+          "unwinnableStates": 0,
+          "decisionSteps": [
+            {
+              "legalChoices": 6,
+              "optimalChoices": 5,
+              "remainingMoves": 10,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 4,
+              "remainingMoves": 9,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 2,
+              "remainingMoves": 8,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 3,
+              "remainingMoves": 7,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 2,
+              "remainingMoves": 6,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 2,
+              "remainingMoves": 5,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 9,
+              "optimalChoices": 3,
+              "remainingMoves": 4,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 8,
+              "optimalChoices": 2,
+              "remainingMoves": 3,
+              "kind": "upgrade"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 2,
+              "remainingMoves": 2,
+              "kind": "deliver"
+            },
+            {
+              "legalChoices": 3,
+              "optimalChoices": 1,
+              "remainingMoves": 1,
+              "kind": "deliver"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide07-05",
+      "title": "最后的停靠点",
+      "variants": [
+        {
+          "ruleset": "slide-v07-2",
+          "variantId": "default",
+          "definitionHash": "4982e894",
+          "exhaustive": true,
+          "states": 53947,
+          "edges": 388546,
+          "shortestMoves": 13,
+          "referenceMoves": 13,
+          "moveLimit": 18,
+          "score": 1200,
+          "stars": 3,
+          "planning": {
+            "decisionPoints": 12,
+            "greedyTraps": 3,
+            "maxSetupRun": 9,
+            "setupMoves": 9,
+            "openingChoices": 1,
+            "openingOptimal": 1
+          },
+          "ablations": {},
+          "unwinnableStates": 0,
+          "decisionSteps": [
+            {
+              "legalChoices": 1,
+              "optimalChoices": 1,
+              "remainingMoves": 13,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 1,
+              "remainingMoves": 12,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 1,
+              "remainingMoves": 11,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 1,
+              "remainingMoves": 10,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 4,
+              "optimalChoices": 1,
+              "remainingMoves": 9,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 2,
+              "remainingMoves": 8,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 2,
+              "remainingMoves": 7,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 10,
+              "optimalChoices": 3,
+              "remainingMoves": 6,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 9,
+              "optimalChoices": 3,
+              "remainingMoves": 5,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 1,
+              "remainingMoves": 4,
+              "kind": "upgrade"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 1,
+              "remainingMoves": 3,
+              "kind": "upgrade"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 1,
+              "remainingMoves": 2,
+              "kind": "upgrade"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 1,
+              "remainingMoves": 1,
+              "kind": "deliver"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide07-06",
+      "title": "竖向拥堵",
+      "variants": [
+        {
+          "ruleset": "slide-v07-2",
+          "variantId": "default",
+          "definitionHash": "3f12cd72",
+          "exhaustive": true,
+          "states": 595,
+          "edges": 2565,
+          "shortestMoves": 15,
+          "referenceMoves": 15,
+          "moveLimit": 20,
+          "score": 800,
+          "stars": 3,
+          "planning": {
+            "decisionPoints": 10,
+            "greedyTraps": 2,
+            "maxSetupRun": 11,
+            "setupMoves": 12,
+            "openingChoices": 4,
+            "openingOptimal": 1
+          },
+          "ablations": {},
+          "unwinnableStates": 0,
+          "decisionSteps": [
+            {
+              "legalChoices": 4,
+              "optimalChoices": 1,
+              "remainingMoves": 15,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 2,
+              "optimalChoices": 1,
+              "remainingMoves": 14,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 2,
+              "optimalChoices": 1,
+              "remainingMoves": 13,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 3,
+              "optimalChoices": 1,
+              "remainingMoves": 12,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 4,
+              "optimalChoices": 1,
+              "remainingMoves": 11,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 2,
+              "optimalChoices": 1,
+              "remainingMoves": 10,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 3,
+              "optimalChoices": 1,
+              "remainingMoves": 9,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 4,
+              "optimalChoices": 2,
+              "remainingMoves": 8,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 4,
+              "optimalChoices": 2,
+              "remainingMoves": 7,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 2,
+              "remainingMoves": 6,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 2,
+              "remainingMoves": 5,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 1,
+              "remainingMoves": 4,
+              "kind": "upgrade"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 2,
+              "remainingMoves": 3,
+              "kind": "upgrade"
+            },
+            {
+              "legalChoices": 3,
+              "optimalChoices": 1,
+              "remainingMoves": 2,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 4,
+              "optimalChoices": 1,
+              "remainingMoves": 1,
+              "kind": "deliver"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide07-07",
+      "title": "横车让路",
+      "variants": [
+        {
+          "ruleset": "slide-v07-2",
+          "variantId": "default",
+          "definitionHash": "a1d53fcf",
+          "exhaustive": true,
+          "states": 7169,
+          "edges": 46196,
+          "shortestMoves": 14,
+          "referenceMoves": 14,
+          "moveLimit": 19,
+          "score": 800,
+          "stars": 3,
+          "planning": {
+            "decisionPoints": 13,
+            "greedyTraps": 1,
+            "maxSetupRun": 11,
+            "setupMoves": 11,
+            "openingChoices": 3,
+            "openingOptimal": 1
+          },
+          "ablations": {},
+          "unwinnableStates": 0,
+          "decisionSteps": [
+            {
+              "legalChoices": 3,
+              "optimalChoices": 1,
+              "remainingMoves": 14,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 4,
+              "optimalChoices": 1,
+              "remainingMoves": 13,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 2,
+              "remainingMoves": 12,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 1,
+              "remainingMoves": 11,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 8,
+              "optimalChoices": 1,
+              "remainingMoves": 10,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 1,
+              "remainingMoves": 9,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 1,
+              "remainingMoves": 8,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 4,
+              "optimalChoices": 1,
+              "remainingMoves": 7,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 2,
+              "remainingMoves": 6,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 1,
+              "remainingMoves": 5,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 2,
+              "remainingMoves": 4,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 3,
+              "optimalChoices": 1,
+              "remainingMoves": 3,
+              "kind": "upgrade"
+            },
+            {
+              "legalChoices": 4,
+              "optimalChoices": 2,
+              "remainingMoves": 2,
+              "kind": "deliver"
+            },
+            {
+              "legalChoices": 3,
+              "optimalChoices": 1,
+              "remainingMoves": 1,
+              "kind": "deliver"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide07-08",
+      "title": "大块留白",
+      "variants": [
+        {
+          "ruleset": "slide-v07-2",
+          "variantId": "default",
+          "definitionHash": "2b8933f1",
+          "exhaustive": true,
+          "states": 3921,
+          "edges": 24669,
+          "shortestMoves": 13,
+          "referenceMoves": 13,
+          "moveLimit": 18,
+          "score": 800,
+          "stars": 3,
+          "planning": {
+            "decisionPoints": 11,
+            "greedyTraps": 6,
+            "maxSetupRun": 9,
+            "setupMoves": 10,
+            "openingChoices": 6,
+            "openingOptimal": 3
+          },
+          "ablations": {},
+          "unwinnableStates": 6,
+          "decisionSteps": [
+            {
+              "legalChoices": 6,
+              "optimalChoices": 3,
+              "remainingMoves": 13,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 2,
+              "remainingMoves": 12,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 1,
+              "remainingMoves": 11,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 2,
+              "remainingMoves": 10,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 1,
+              "remainingMoves": 9,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 2,
+              "remainingMoves": 8,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 1,
+              "remainingMoves": 7,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 1,
+              "remainingMoves": 6,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 2,
+              "remainingMoves": 5,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 1,
+              "remainingMoves": 4,
+              "kind": "upgrade"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 1,
+              "remainingMoves": 3,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 4,
+              "optimalChoices": 2,
+              "remainingMoves": 2,
+              "kind": "deliver"
+            },
+            {
+              "legalChoices": 4,
+              "optimalChoices": 1,
+              "remainingMoves": 1,
+              "kind": "deliver"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide07-09",
+      "title": "双线换位",
+      "variants": [
+        {
+          "ruleset": "slide-v07-2",
+          "variantId": "default",
+          "definitionHash": "06c1f526",
+          "exhaustive": true,
+          "states": 27224,
+          "edges": 185241,
+          "shortestMoves": 14,
+          "referenceMoves": 14,
+          "moveLimit": 19,
+          "score": 1100,
+          "stars": 3,
+          "planning": {
+            "decisionPoints": 6,
+            "greedyTraps": 6,
+            "maxSetupRun": 10,
+            "setupMoves": 10,
+            "openingChoices": 3,
+            "openingOptimal": 3
+          },
+          "ablations": {},
+          "unwinnableStates": 0,
+          "decisionSteps": [
+            {
+              "legalChoices": 3,
+              "optimalChoices": 3,
+              "remainingMoves": 14,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 4,
+              "remainingMoves": 13,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 4,
+              "remainingMoves": 12,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 5,
+              "remainingMoves": 11,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 3,
+              "remainingMoves": 10,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 3,
+              "remainingMoves": 9,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 4,
+              "remainingMoves": 8,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 3,
+              "remainingMoves": 7,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 9,
+              "optimalChoices": 3,
+              "remainingMoves": 6,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 9,
+              "optimalChoices": 3,
+              "remainingMoves": 5,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 2,
+              "remainingMoves": 4,
+              "kind": "deliver"
+            },
+            {
+              "legalChoices": 4,
+              "optimalChoices": 1,
+              "remainingMoves": 3,
+              "kind": "upgrade"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 1,
+              "remainingMoves": 2,
+              "kind": "upgrade"
+            },
+            {
+              "legalChoices": 4,
+              "optimalChoices": 1,
+              "remainingMoves": 1,
+              "kind": "deliver"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide07-10",
+      "title": "三路争先",
+      "variants": [
+        {
+          "ruleset": "slide-v07-2",
+          "variantId": "default",
+          "definitionHash": "6e8c04f6",
+          "exhaustive": true,
+          "states": 74209,
+          "edges": 461642,
+          "shortestMoves": 18,
+          "referenceMoves": 18,
+          "moveLimit": 23,
+          "score": 800,
+          "stars": 3,
+          "planning": {
+            "decisionPoints": 17,
+            "greedyTraps": 3,
+            "maxSetupRun": 8,
+            "setupMoves": 14,
+            "openingChoices": 9,
+            "openingOptimal": 2
+          },
+          "ablations": {},
+          "unwinnableStates": 0,
+          "decisionSteps": [
+            {
+              "legalChoices": 9,
+              "optimalChoices": 2,
+              "remainingMoves": 18,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 2,
+              "remainingMoves": 17,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 8,
+              "optimalChoices": 3,
+              "remainingMoves": 16,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 10,
+              "optimalChoices": 3,
+              "remainingMoves": 15,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 9,
+              "optimalChoices": 3,
+              "remainingMoves": 14,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 8,
+              "optimalChoices": 3,
+              "remainingMoves": 13,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 9,
+              "optimalChoices": 3,
+              "remainingMoves": 12,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 9,
+              "optimalChoices": 2,
+              "remainingMoves": 11,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 8,
+              "optimalChoices": 1,
+              "remainingMoves": 10,
+              "kind": "upgrade"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 2,
+              "remainingMoves": 9,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 1,
+              "remainingMoves": 8,
+              "kind": "deliver"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 1,
+              "remainingMoves": 7,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 4,
+              "optimalChoices": 2,
+              "remainingMoves": 6,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 2,
+              "remainingMoves": 5,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 2,
+              "remainingMoves": 4,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 1,
+              "remainingMoves": 3,
+              "kind": "deliver"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 2,
+              "remainingMoves": 2,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 3,
+              "optimalChoices": 1,
+              "remainingMoves": 1,
+              "kind": "deliver"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide07-11",
+      "title": "车道回旋",
+      "variants": [
+        {
+          "ruleset": "slide-v07-2",
+          "variantId": "default",
+          "definitionHash": "c4741985",
+          "exhaustive": true,
+          "states": 17958,
+          "edges": 123380,
+          "shortestMoves": 16,
+          "referenceMoves": 16,
+          "moveLimit": 21,
+          "score": 900,
+          "stars": 3,
+          "planning": {
+            "decisionPoints": 14,
+            "greedyTraps": 1,
+            "maxSetupRun": 9,
+            "setupMoves": 12,
+            "openingChoices": 2,
+            "openingOptimal": 1
+          },
+          "ablations": {},
+          "unwinnableStates": 0,
+          "decisionSteps": [
+            {
+              "legalChoices": 2,
+              "optimalChoices": 1,
+              "remainingMoves": 16,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 3,
+              "optimalChoices": 1,
+              "remainingMoves": 15,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 4,
+              "optimalChoices": 2,
+              "remainingMoves": 14,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 3,
+              "optimalChoices": 1,
+              "remainingMoves": 13,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 2,
+              "remainingMoves": 12,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 1,
+              "remainingMoves": 11,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 8,
+              "optimalChoices": 1,
+              "remainingMoves": 10,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 1,
+              "remainingMoves": 9,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 2,
+              "remainingMoves": 8,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 1,
+              "remainingMoves": 7,
+              "kind": "upgrade"
+            },
+            {
+              "legalChoices": 8,
+              "optimalChoices": 2,
+              "remainingMoves": 6,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 8,
+              "optimalChoices": 1,
+              "remainingMoves": 5,
+              "kind": "deliver"
+            },
+            {
+              "legalChoices": 9,
+              "optimalChoices": 1,
+              "remainingMoves": 4,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 8,
+              "optimalChoices": 2,
+              "remainingMoves": 3,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 2,
+              "remainingMoves": 2,
+              "kind": "upgrade"
+            },
+            {
+              "legalChoices": 3,
+              "optimalChoices": 1,
+              "remainingMoves": 1,
+              "kind": "deliver"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide07-12",
+      "title": "花园暗线",
+      "variants": [
+        {
+          "ruleset": "slide-v07-2",
+          "variantId": "default",
+          "definitionHash": "65bc0a25",
+          "exhaustive": true,
+          "states": 60231,
+          "edges": 365909,
+          "shortestMoves": 20,
+          "referenceMoves": 20,
+          "moveLimit": 25,
+          "score": 1150,
+          "stars": 3,
+          "planning": {
+            "decisionPoints": 19,
+            "greedyTraps": 2,
+            "maxSetupRun": 14,
+            "setupMoves": 16,
+            "openingChoices": 5,
+            "openingOptimal": 1
+          },
+          "ablations": {},
+          "unwinnableStates": 0,
+          "decisionSteps": [
+            {
+              "legalChoices": 5,
+              "optimalChoices": 1,
+              "remainingMoves": 20,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 4,
+              "optimalChoices": 1,
+              "remainingMoves": 19,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 4,
+              "optimalChoices": 2,
+              "remainingMoves": 18,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 1,
+              "remainingMoves": 17,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 2,
+              "remainingMoves": 16,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 1,
+              "remainingMoves": 15,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 1,
+              "remainingMoves": 14,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 2,
+              "remainingMoves": 13,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 1,
+              "remainingMoves": 12,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 1,
+              "remainingMoves": 11,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 1,
+              "remainingMoves": 10,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 2,
+              "remainingMoves": 9,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 2,
+              "remainingMoves": 8,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 2,
+              "remainingMoves": 7,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 1,
+              "remainingMoves": 6,
+              "kind": "upgrade"
+            },
+            {
+              "legalChoices": 4,
+              "optimalChoices": 1,
+              "remainingMoves": 5,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 1,
+              "remainingMoves": 4,
+              "kind": "upgrade"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 2,
+              "remainingMoves": 3,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 1,
+              "remainingMoves": 2,
+              "kind": "deliver"
+            },
+            {
+              "legalChoices": 3,
+              "optimalChoices": 1,
+              "remainingMoves": 1,
+              "kind": "deliver"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide07-13",
+      "title": "交换次序",
+      "variants": [
+        {
+          "ruleset": "slide-v07-2",
+          "variantId": "default",
+          "definitionHash": "97e7e715",
+          "exhaustive": true,
+          "states": 3515,
+          "edges": 21319,
+          "shortestMoves": 20,
+          "referenceMoves": 20,
+          "moveLimit": 25,
+          "score": 900,
+          "stars": 3,
+          "planning": {
+            "decisionPoints": 15,
+            "greedyTraps": 10,
+            "maxSetupRun": 10,
+            "setupMoves": 16,
+            "openingChoices": 4,
+            "openingOptimal": 2
+          },
+          "ablations": {},
+          "unwinnableStates": 0,
+          "decisionSteps": [
+            {
+              "legalChoices": 4,
+              "optimalChoices": 2,
+              "remainingMoves": 20,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 2,
+              "remainingMoves": 19,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 3,
+              "remainingMoves": 18,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 3,
+              "remainingMoves": 17,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 2,
+              "remainingMoves": 16,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 8,
+              "optimalChoices": 3,
+              "remainingMoves": 15,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 9,
+              "optimalChoices": 2,
+              "remainingMoves": 14,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 9,
+              "optimalChoices": 3,
+              "remainingMoves": 13,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 2,
+              "remainingMoves": 12,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 9,
+              "optimalChoices": 2,
+              "remainingMoves": 11,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 1,
+              "remainingMoves": 10,
+              "kind": "upgrade"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 1,
+              "remainingMoves": 9,
+              "kind": "deliver"
+            },
+            {
+              "legalChoices": 3,
+              "optimalChoices": 1,
+              "remainingMoves": 8,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 2,
+              "remainingMoves": 7,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 1,
+              "remainingMoves": 6,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 4,
+              "optimalChoices": 2,
+              "remainingMoves": 5,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 4,
+              "optimalChoices": 1,
+              "remainingMoves": 4,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 4,
+              "optimalChoices": 2,
+              "remainingMoves": 3,
+              "kind": "upgrade"
+            },
+            {
+              "legalChoices": 3,
+              "optimalChoices": 1,
+              "remainingMoves": 2,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 4,
+              "optimalChoices": 1,
+              "remainingMoves": 1,
+              "kind": "deliver"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide07-14",
+      "title": "序章终局",
+      "variants": [
+        {
+          "ruleset": "slide-v07-2",
+          "variantId": "default",
+          "definitionHash": "eb335e42",
+          "exhaustive": true,
+          "states": 23818,
+          "edges": 161420,
+          "shortestMoves": 22,
+          "referenceMoves": 22,
+          "moveLimit": 26,
+          "score": 950,
+          "stars": 3,
+          "planning": {
+            "decisionPoints": 14,
+            "greedyTraps": 13,
+            "maxSetupRun": 16,
+            "setupMoves": 18,
+            "openingChoices": 2,
+            "openingOptimal": 1
+          },
+          "ablations": {},
+          "unwinnableStates": 0,
+          "decisionSteps": [
+            {
+              "legalChoices": 2,
+              "optimalChoices": 1,
+              "remainingMoves": 22,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 4,
+              "optimalChoices": 2,
+              "remainingMoves": 21,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 4,
+              "optimalChoices": 2,
+              "remainingMoves": 20,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 2,
+              "remainingMoves": 19,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 2,
+              "remainingMoves": 18,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 3,
+              "remainingMoves": 17,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 2,
+              "remainingMoves": 16,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 2,
+              "remainingMoves": 15,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 3,
+              "remainingMoves": 14,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 6,
+              "optimalChoices": 3,
+              "remainingMoves": 13,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 2,
+              "remainingMoves": 12,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 7,
+              "optimalChoices": 3,
+              "remainingMoves": 11,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 8,
+              "optimalChoices": 2,
+              "remainingMoves": 10,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 8,
+              "optimalChoices": 3,
+              "remainingMoves": 9,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 8,
+              "optimalChoices": 2,
+              "remainingMoves": 8,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 5,
+              "optimalChoices": 2,
+              "remainingMoves": 7,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 3,
+              "optimalChoices": 1,
+              "remainingMoves": 6,
+              "kind": "upgrade"
+            },
+            {
+              "legalChoices": 4,
+              "optimalChoices": 1,
+              "remainingMoves": 5,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 3,
+              "optimalChoices": 1,
+              "remainingMoves": 4,
+              "kind": "move"
+            },
+            {
+              "legalChoices": 4,
+              "optimalChoices": 1,
+              "remainingMoves": 3,
+              "kind": "upgrade"
+            },
+            {
+              "legalChoices": 3,
+              "optimalChoices": 1,
+              "remainingMoves": 2,
+              "kind": "deliver"
+            },
+            {
+              "legalChoices": 2,
+              "optimalChoices": 1,
+              "remainingMoves": 1,
+              "kind": "deliver"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide07-15",
+      "title": "封锁三庭",
+      "variants": [
+        {
+          "ruleset": "slide-v07-2",
+          "variantId": "default",
+          "definitionHash": "e42ef68d",
+          "proof": "sealed-region-sum",
+          "shortestMoves": 34,
+          "referenceMoves": 34,
+          "moveLimit": 40,
+          "score": 2550,
+          "stars": 3,
+          "ablations": {
+            "bomb": {
+              "room": "slide07-15/r0",
+              "status": "unsolvable",
+              "exhaustive": true,
+              "states": 744
+            }
+          },
+          "regions": [
+            {
+              "id": "r0",
+              "title": "前庭",
+              "exhaustive": true,
+              "states": 1933,
+              "edges": 11230,
+              "shortestMoves": 14,
+              "unwinnableStates": 280,
+              "planning": {
+                "setupMoves": 10,
+                "decisionPoints": 10,
+                "greedyTraps": 2,
+                "maxSetupRun": 5
+              }
+            },
+            {
+              "id": "r1",
+              "title": "侧庭",
+              "exhaustive": true,
+              "states": 102490,
+              "edges": 771610,
+              "shortestMoves": 13,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 9,
+                "decisionPoints": 12,
+                "greedyTraps": 9,
+                "maxSetupRun": 7
+              }
+            },
+            {
+              "id": "r2",
+              "title": "后庭",
+              "exhaustive": true,
+              "states": 6607,
+              "edges": 50026,
+              "shortestMoves": 7,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 4,
+                "decisionPoints": 7,
+                "greedyTraps": 2,
+                "maxSetupRun": 4
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide07-16",
+      "title": "五苹果迷局",
+      "variants": [
+        {
+          "ruleset": "slide-v07-2",
+          "variantId": "default",
+          "definitionHash": "17ba824e",
+          "proof": "sealed-region-sum",
+          "shortestMoves": 40,
+          "referenceMoves": 40,
+          "moveLimit": 46,
+          "score": 2650,
+          "stars": 3,
+          "ablations": {
+            "bomb": {
+              "room": "slide07-16/r0",
+              "status": "unsolvable",
+              "exhaustive": true,
+              "states": 11095
+            }
+          },
+          "regions": [
+            {
+              "id": "r0",
+              "title": "前庭",
+              "exhaustive": true,
+              "states": 89963,
+              "edges": 799110,
+              "shortestMoves": 18,
+              "unwinnableStates": 3850,
+              "planning": {
+                "setupMoves": 14,
+                "decisionPoints": 17,
+                "greedyTraps": 13,
+                "maxSetupRun": 11
+              }
+            },
+            {
+              "id": "r1",
+              "title": "侧庭",
+              "exhaustive": true,
+              "states": 97221,
+              "edges": 725189,
+              "shortestMoves": 13,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 9,
+                "decisionPoints": 11,
+                "greedyTraps": 9,
+                "maxSetupRun": 9
+              }
+            },
+            {
+              "id": "r2",
+              "title": "后庭",
+              "exhaustive": true,
+              "states": 655,
+              "edges": 3567,
+              "shortestMoves": 9,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 6,
+                "decisionPoints": 5,
+                "greedyTraps": 5,
+                "maxSetupRun": 5
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide07-17",
+      "title": "爆破车站",
+      "variants": [
+        {
+          "ruleset": "slide-v07-2",
+          "variantId": "default",
+          "definitionHash": "ac51f5ad",
+          "proof": "sealed-region-sum",
+          "shortestMoves": 43,
+          "referenceMoves": 43,
+          "moveLimit": 49,
+          "score": 3100,
+          "stars": 3,
+          "ablations": {
+            "bomb": {
+              "room": "slide07-17/r0",
+              "status": "unsolvable",
+              "exhaustive": true,
+              "states": 910
+            }
+          },
+          "regions": [
+            {
+              "id": "r0",
+              "title": "前庭",
+              "exhaustive": true,
+              "states": 11458,
+              "edges": 80994,
+              "shortestMoves": 23,
+              "unwinnableStates": 143,
+              "planning": {
+                "setupMoves": 19,
+                "decisionPoints": 17,
+                "greedyTraps": 3,
+                "maxSetupRun": 13
+              }
+            },
+            {
+              "id": "r1",
+              "title": "侧庭",
+              "exhaustive": true,
+              "states": 53903,
+              "edges": 418282,
+              "shortestMoves": 11,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 7,
+                "decisionPoints": 10,
+                "greedyTraps": 5,
+                "maxSetupRun": 7
+              }
+            },
+            {
+              "id": "r2",
+              "title": "后庭",
+              "exhaustive": true,
+              "states": 39006,
+              "edges": 246387,
+              "shortestMoves": 9,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 4,
+                "decisionPoints": 7,
+                "greedyTraps": 1,
+                "maxSetupRun": 2
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide07-18",
+      "title": "回廊深处",
+      "variants": [
+        {
+          "ruleset": "slide-v07-2",
+          "variantId": "default",
+          "definitionHash": "4426500e",
+          "proof": "sealed-region-sum",
+          "shortestMoves": 43,
+          "referenceMoves": 43,
+          "moveLimit": 49,
+          "score": 2650,
+          "stars": 3,
+          "ablations": {
+            "bomb": {
+              "room": "slide07-18/r0",
+              "status": "unsolvable",
+              "exhaustive": true,
+              "states": 120
+            }
+          },
+          "regions": [
+            {
+              "id": "r0",
+              "title": "前庭",
+              "exhaustive": true,
+              "states": 15690,
+              "edges": 99259,
+              "shortestMoves": 20,
+              "unwinnableStates": 354,
+              "planning": {
+                "setupMoves": 16,
+                "decisionPoints": 20,
+                "greedyTraps": 2,
+                "maxSetupRun": 8
+              }
+            },
+            {
+              "id": "r1",
+              "title": "侧庭",
+              "exhaustive": true,
+              "states": 8628,
+              "edges": 59727,
+              "shortestMoves": 13,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 9,
+                "decisionPoints": 10,
+                "greedyTraps": 6,
+                "maxSetupRun": 7
+              }
+            },
+            {
+              "id": "r2",
+              "title": "后庭",
+              "exhaustive": true,
+              "states": 22842,
+              "edges": 164350,
+              "shortestMoves": 10,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 7,
+                "decisionPoints": 7,
+                "greedyTraps": 3,
+                "maxSetupRun": 7
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide07-19",
+      "title": "十字封园",
+      "variants": [
+        {
+          "ruleset": "slide-v07-2",
+          "variantId": "default",
+          "definitionHash": "b5653f6a",
+          "proof": "sealed-region-sum",
+          "shortestMoves": 38,
+          "referenceMoves": 38,
+          "moveLimit": 44,
+          "score": 2550,
+          "stars": 3,
+          "ablations": {
+            "bomb": {
+              "room": "slide07-19/r2",
+              "status": "unsolvable",
+              "exhaustive": true,
+              "states": 640
+            }
+          },
+          "regions": [
+            {
+              "id": "r0",
+              "title": "前庭",
+              "exhaustive": true,
+              "states": 33683,
+              "edges": 239512,
+              "shortestMoves": 19,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 15,
+                "decisionPoints": 13,
+                "greedyTraps": 15,
+                "maxSetupRun": 12
+              }
+            },
+            {
+              "id": "r1",
+              "title": "侧庭",
+              "exhaustive": true,
+              "states": 72889,
+              "edges": 504405,
+              "shortestMoves": 13,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 9,
+                "decisionPoints": 12,
+                "greedyTraps": 4,
+                "maxSetupRun": 5
+              }
+            },
+            {
+              "id": "r2",
+              "title": "后庭",
+              "exhaustive": true,
+              "states": 63150,
+              "edges": 682180,
+              "shortestMoves": 6,
+              "unwinnableStates": 256,
+              "planning": {
+                "setupMoves": 3,
+                "decisionPoints": 4,
+                "greedyTraps": 0,
+                "maxSetupRun": 2
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide07-20",
+      "title": "转向庭院",
+      "variants": [
+        {
+          "ruleset": "slide-v07-2",
+          "variantId": "default",
+          "definitionHash": "9cfba9cb",
+          "proof": "sealed-region-sum",
+          "shortestMoves": 38,
+          "referenceMoves": 38,
+          "moveLimit": 45,
+          "score": 2200,
+          "stars": 3,
+          "ablations": {
+            "turn": {
+              "room": "slide07-20/r2",
+              "status": "unsolvable",
+              "exhaustive": true,
+              "states": 16
+            }
+          },
+          "regions": [
+            {
+              "id": "r0",
+              "title": "前庭",
+              "exhaustive": true,
+              "states": 99906,
+              "edges": 691713,
+              "shortestMoves": 21,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 17,
+                "decisionPoints": 19,
+                "greedyTraps": 4,
+                "maxSetupRun": 15
+              }
+            },
+            {
+              "id": "r1",
+              "title": "侧庭",
+              "exhaustive": true,
+              "states": 72889,
+              "edges": 504405,
+              "shortestMoves": 15,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 11,
+                "decisionPoints": 13,
+                "greedyTraps": 6,
+                "maxSetupRun": 5
+              }
+            },
+            {
+              "id": "r2",
+              "title": "后庭",
+              "exhaustive": true,
+              "states": 27,
+              "edges": 102,
+              "shortestMoves": 2,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 1,
+                "decisionPoints": 2,
+                "greedyTraps": 0,
+                "maxSetupRun": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide07-21",
+      "title": "双弯花园",
+      "variants": [
+        {
+          "ruleset": "slide-v07-2",
+          "variantId": "default",
+          "definitionHash": "a016b2a9",
+          "proof": "sealed-region-sum",
+          "shortestMoves": 36,
+          "referenceMoves": 36,
+          "moveLimit": 43,
+          "score": 2350,
+          "stars": 3,
+          "ablations": {
+            "turn": {
+              "room": "slide07-21/r2",
+              "status": "unsolvable",
+              "exhaustive": true,
+              "states": 16
+            }
+          },
+          "regions": [
+            {
+              "id": "r0",
+              "title": "前庭",
+              "exhaustive": true,
+              "states": 97221,
+              "edges": 725189,
+              "shortestMoves": 20,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 16,
+                "decisionPoints": 19,
+                "greedyTraps": 3,
+                "maxSetupRun": 16
+              }
+            },
+            {
+              "id": "r1",
+              "title": "侧庭",
+              "exhaustive": true,
+              "states": 69905,
+              "edges": 443962,
+              "shortestMoves": 15,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 11,
+                "decisionPoints": 7,
+                "greedyTraps": 8,
+                "maxSetupRun": 11
+              }
+            },
+            {
+              "id": "r2",
+              "title": "后庭",
+              "exhaustive": true,
+              "states": 23,
+              "edges": 85,
+              "shortestMoves": 1,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 0,
+                "decisionPoints": 1,
+                "greedyTraps": 0,
+                "maxSetupRun": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide07-22",
+      "title": "宽车入弯",
+      "variants": [
+        {
+          "ruleset": "slide-v07-2",
+          "variantId": "default",
+          "definitionHash": "d329ee41",
+          "proof": "sealed-region-sum",
+          "shortestMoves": 41,
+          "referenceMoves": 41,
+          "moveLimit": 48,
+          "score": 2000,
+          "stars": 3,
+          "ablations": {
+            "turn": {
+              "room": "slide07-22/r2",
+              "status": "unsolvable",
+              "exhaustive": true,
+              "states": 16
+            }
+          },
+          "regions": [
+            {
+              "id": "r0",
+              "title": "前庭",
+              "exhaustive": true,
+              "states": 103858,
+              "edges": 722579,
+              "shortestMoves": 23,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 19,
+                "decisionPoints": 20,
+                "greedyTraps": 3,
+                "maxSetupRun": 16
+              }
+            },
+            {
+              "id": "r1",
+              "title": "侧庭",
+              "exhaustive": true,
+              "states": 29131,
+              "edges": 201662,
+              "shortestMoves": 15,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 11,
+                "decisionPoints": 14,
+                "greedyTraps": 2,
+                "maxSetupRun": 11
+              }
+            },
+            {
+              "id": "r2",
+              "title": "后庭",
+              "exhaustive": true,
+              "states": 41,
+              "edges": 160,
+              "shortestMoves": 3,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 2,
+                "decisionPoints": 3,
+                "greedyTraps": 0,
+                "maxSetupRun": 2
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide07-23",
+      "title": "墙后花台",
+      "variants": [
+        {
+          "ruleset": "slide-v07-2",
+          "variantId": "default",
+          "definitionHash": "b868db01",
+          "proof": "sealed-region-sum",
+          "shortestMoves": 39,
+          "referenceMoves": 39,
+          "moveLimit": 46,
+          "score": 2950,
+          "stars": 3,
+          "ablations": {
+            "bomb": {
+              "room": "slide07-23/r2",
+              "status": "unsolvable",
+              "exhaustive": true,
+              "states": 62
+            },
+            "turn": {
+              "room": "slide07-23/r2",
+              "status": "unsolvable",
+              "exhaustive": true,
+              "states": 32
+            }
+          },
+          "regions": [
+            {
+              "id": "r0",
+              "title": "前庭",
+              "exhaustive": true,
+              "states": 76103,
+              "edges": 529252,
+              "shortestMoves": 21,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 17,
+                "decisionPoints": 19,
+                "greedyTraps": 2,
+                "maxSetupRun": 17
+              }
+            },
+            {
+              "id": "r1",
+              "title": "侧庭",
+              "exhaustive": true,
+              "states": 102490,
+              "edges": 771610,
+              "shortestMoves": 15,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 11,
+                "decisionPoints": 15,
+                "greedyTraps": 9,
+                "maxSetupRun": 11
+              }
+            },
+            {
+              "id": "r2",
+              "title": "后庭",
+              "exhaustive": true,
+              "states": 95,
+              "edges": 446,
+              "shortestMoves": 3,
+              "unwinnableStates": 8,
+              "planning": {
+                "setupMoves": 1,
+                "decisionPoints": 3,
+                "greedyTraps": 0,
+                "maxSetupRun": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide07-24",
+      "title": "封锁回廊",
+      "variants": [
+        {
+          "ruleset": "slide-v07-2",
+          "variantId": "default",
+          "definitionHash": "fce86fd1",
+          "proof": "sealed-region-sum",
+          "shortestMoves": 39,
+          "referenceMoves": 39,
+          "moveLimit": 46,
+          "score": 2950,
+          "stars": 3,
+          "ablations": {
+            "bomb": {
+              "room": "slide07-24/r2",
+              "status": "unsolvable",
+              "exhaustive": true,
+              "states": 60
+            },
+            "turn": {
+              "room": "slide07-24/r2",
+              "status": "unsolvable",
+              "exhaustive": true,
+              "states": 88
+            }
+          },
+          "regions": [
+            {
+              "id": "r0",
+              "title": "前庭",
+              "exhaustive": true,
+              "states": 27430,
+              "edges": 188750,
+              "shortestMoves": 20,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 16,
+                "decisionPoints": 20,
+                "greedyTraps": 1,
+                "maxSetupRun": 16
+              }
+            },
+            {
+              "id": "r1",
+              "title": "侧庭",
+              "exhaustive": true,
+              "states": 33589,
+              "edges": 222875,
+              "shortestMoves": 15,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 11,
+                "decisionPoints": 15,
+                "greedyTraps": 4,
+                "maxSetupRun": 10
+              }
+            },
+            {
+              "id": "r2",
+              "title": "后庭",
+              "exhaustive": true,
+              "states": 139,
+              "edges": 758,
+              "shortestMoves": 4,
+              "unwinnableStates": 20,
+              "planning": {
+                "setupMoves": 2,
+                "decisionPoints": 4,
+                "greedyTraps": 0,
+                "maxSetupRun": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide07-25",
+      "title": "跨区花园",
+      "variants": [
+        {
+          "ruleset": "slide-v07-2",
+          "variantId": "default",
+          "definitionHash": "b0740b5e",
+          "proof": "sealed-region-sum",
+          "shortestMoves": 48,
+          "referenceMoves": 48,
+          "moveLimit": 55,
+          "score": 3250,
+          "stars": 3,
+          "ablations": {
+            "portal": {
+              "room": "slide07-25/r0",
+              "status": "unsolvable",
+              "exhaustive": true,
+              "states": 336
+            }
+          },
+          "regions": [
+            {
+              "id": "r0",
+              "title": "前庭",
+              "exhaustive": true,
+              "states": 109149,
+              "edges": 712805,
+              "shortestMoves": 19,
+              "unwinnableStates": 63,
+              "planning": {
+                "setupMoves": 15,
+                "decisionPoints": 14,
+                "greedyTraps": 5,
+                "maxSetupRun": 15
+              }
+            },
+            {
+              "id": "r1",
+              "title": "侧庭",
+              "exhaustive": true,
+              "states": 75494,
+              "edges": 570207,
+              "shortestMoves": 15,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 11,
+                "decisionPoints": 11,
+                "greedyTraps": 7,
+                "maxSetupRun": 10
+              }
+            },
+            {
+              "id": "r2",
+              "title": "后庭",
+              "exhaustive": true,
+              "states": 27224,
+              "edges": 185241,
+              "shortestMoves": 14,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 10,
+                "decisionPoints": 6,
+                "greedyTraps": 6,
+                "maxSetupRun": 10
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide07-26",
+      "title": "出口调度",
+      "variants": [
+        {
+          "ruleset": "slide-v07-2",
+          "variantId": "default",
+          "definitionHash": "553626d8",
+          "proof": "sealed-region-sum",
+          "shortestMoves": 53,
+          "referenceMoves": 53,
+          "moveLimit": 60,
+          "score": 4400,
+          "stars": 3,
+          "ablations": {
+            "portal": {
+              "room": "slide07-26/r0",
+              "status": "unsolvable",
+              "exhaustive": true,
+              "states": 175
+            }
+          },
+          "regions": [
+            {
+              "id": "r0",
+              "title": "前庭",
+              "exhaustive": true,
+              "states": 109288,
+              "edges": 614491,
+              "shortestMoves": 27,
+              "unwinnableStates": 416,
+              "planning": {
+                "setupMoves": 22,
+                "decisionPoints": 25,
+                "greedyTraps": 5,
+                "maxSetupRun": 18
+              }
+            },
+            {
+              "id": "r1",
+              "title": "侧庭",
+              "exhaustive": true,
+              "states": 9411,
+              "edges": 61988,
+              "shortestMoves": 18,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 14,
+                "decisionPoints": 16,
+                "greedyTraps": 0,
+                "maxSetupRun": 11
+              }
+            },
+            {
+              "id": "r2",
+              "title": "后庭",
+              "exhaustive": true,
+              "states": 81864,
+              "edges": 872495,
+              "shortestMoves": 8,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 1,
+                "decisionPoints": 5,
+                "greedyTraps": 1,
+                "maxSetupRun": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide07-27",
+      "title": "双车道接应",
+      "variants": [
+        {
+          "ruleset": "slide-v07-2",
+          "variantId": "default",
+          "definitionHash": "e63f89be",
+          "proof": "sealed-region-sum",
+          "shortestMoves": 45,
+          "referenceMoves": 45,
+          "moveLimit": 52,
+          "score": 2100,
+          "stars": 3,
+          "ablations": {
+            "portal": {
+              "room": "slide07-27/r2",
+              "status": "unsolvable",
+              "exhaustive": true,
+              "states": 36
+            }
+          },
+          "regions": [
+            {
+              "id": "r0",
+              "title": "前庭",
+              "exhaustive": true,
+              "states": 99906,
+              "edges": 691713,
+              "shortestMoves": 23,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 19,
+                "decisionPoints": 16,
+                "greedyTraps": 3,
+                "maxSetupRun": 16
+              }
+            },
+            {
+              "id": "r1",
+              "title": "侧庭",
+              "exhaustive": true,
+              "states": 102490,
+              "edges": 771610,
+              "shortestMoves": 17,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 13,
+                "decisionPoints": 12,
+                "greedyTraps": 6,
+                "maxSetupRun": 13
+              }
+            },
+            {
+              "id": "r2",
+              "title": "后庭",
+              "exhaustive": true,
+              "states": 553,
+              "edges": 2779,
+              "shortestMoves": 5,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 3,
+                "decisionPoints": 4,
+                "greedyTraps": 1,
+                "maxSetupRun": 3
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide07-28",
+      "title": "异地引爆",
+      "variants": [
+        {
+          "ruleset": "slide-v07-2",
+          "variantId": "default",
+          "definitionHash": "2be11b65",
+          "proof": "sealed-region-sum",
+          "shortestMoves": 44,
+          "referenceMoves": 44,
+          "moveLimit": 51,
+          "score": 2300,
+          "stars": 3,
+          "ablations": {
+            "bomb": {
+              "room": "slide07-28/r2",
+              "status": "unsolvable",
+              "exhaustive": true,
+              "states": 52
+            },
+            "portal": {
+              "room": "slide07-28/r2",
+              "status": "unsolvable",
+              "exhaustive": true,
+              "states": 24
+            }
+          },
+          "regions": [
+            {
+              "id": "r0",
+              "title": "前庭",
+              "exhaustive": true,
+              "states": 4002,
+              "edges": 24587,
+              "shortestMoves": 22,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 18,
+                "decisionPoints": 12,
+                "greedyTraps": 3,
+                "maxSetupRun": 9
+              }
+            },
+            {
+              "id": "r1",
+              "title": "侧庭",
+              "exhaustive": true,
+              "states": 69905,
+              "edges": 443962,
+              "shortestMoves": 18,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 14,
+                "decisionPoints": 15,
+                "greedyTraps": 7,
+                "maxSetupRun": 8
+              }
+            },
+            {
+              "id": "r2",
+              "title": "后庭",
+              "exhaustive": true,
+              "states": 125,
+              "edges": 509,
+              "shortestMoves": 4,
+              "unwinnableStates": 12,
+              "planning": {
+                "setupMoves": 2,
+                "decisionPoints": 2,
+                "greedyTraps": 0,
+                "maxSetupRun": 2
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide07-29",
+      "title": "回路接力",
+      "variants": [
+        {
+          "ruleset": "slide-v07-2",
+          "variantId": "default",
+          "definitionHash": "36ac6128",
+          "proof": "sealed-region-sum",
+          "shortestMoves": 45,
+          "referenceMoves": 45,
+          "moveLimit": 52,
+          "score": 1900,
+          "stars": 3,
+          "ablations": {
+            "turn": {
+              "room": "slide07-29/r2",
+              "status": "unsolvable",
+              "exhaustive": true,
+              "states": 20
+            },
+            "portal": {
+              "room": "slide07-29/r2",
+              "status": "unsolvable",
+              "exhaustive": true,
+              "states": 16
+            }
+          },
+          "regions": [
+            {
+              "id": "r0",
+              "title": "前庭",
+              "exhaustive": true,
+              "states": 103858,
+              "edges": 722579,
+              "shortestMoves": 25,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 21,
+                "decisionPoints": 18,
+                "greedyTraps": 3,
+                "maxSetupRun": 18
+              }
+            },
+            {
+              "id": "r1",
+              "title": "侧庭",
+              "exhaustive": true,
+              "states": 23591,
+              "edges": 160051,
+              "shortestMoves": 18,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 14,
+                "decisionPoints": 14,
+                "greedyTraps": 11,
+                "maxSetupRun": 11
+              }
+            },
+            {
+              "id": "r2",
+              "title": "后庭",
+              "exhaustive": true,
+              "states": 27,
+              "edges": 98,
+              "shortestMoves": 2,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 1,
+                "decisionPoints": 2,
+                "greedyTraps": 0,
+                "maxSetupRun": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "slide07-30",
+      "title": "终局花园",
+      "variants": [
+        {
+          "ruleset": "slide-v07-2",
+          "variantId": "default",
+          "definitionHash": "d46064de",
+          "proof": "sealed-region-sum",
+          "shortestMoves": 45,
+          "referenceMoves": 45,
+          "moveLimit": 52,
+          "score": 2800,
+          "stars": 3,
+          "ablations": {
+            "bomb": {
+              "room": "slide07-30/r2",
+              "status": "unsolvable",
+              "exhaustive": true,
+              "states": 60
+            },
+            "turn": {
+              "room": "slide07-30/r2",
+              "status": "unsolvable",
+              "exhaustive": true,
+              "states": 90
+            },
+            "portal": {
+              "room": "slide07-30/r2",
+              "status": "unsolvable",
+              "exhaustive": true,
+              "states": 48
+            }
+          },
+          "regions": [
+            {
+              "id": "r0",
+              "title": "前庭",
+              "exhaustive": true,
+              "states": 8168,
+              "edges": 54462,
+              "shortestMoves": 23,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 19,
+                "decisionPoints": 19,
+                "greedyTraps": 2,
+                "maxSetupRun": 15
+              }
+            },
+            {
+              "id": "r1",
+              "title": "侧庭",
+              "exhaustive": true,
+              "states": 9961,
+              "edges": 66129,
+              "shortestMoves": 18,
+              "unwinnableStates": 0,
+              "planning": {
+                "setupMoves": 14,
+                "decisionPoints": 18,
+                "greedyTraps": 0,
+                "maxSetupRun": 10
+              }
+            },
+            {
+              "id": "r2",
+              "title": "后庭",
+              "exhaustive": true,
+              "states": 77,
+              "edges": 387,
+              "shortestMoves": 4,
+              "unwinnableStates": 6,
+              "planning": {
+                "setupMoves": 1,
+                "decisionPoints": 4,
+                "greedyTraps": 0,
+                "maxSetupRun": 1
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "ok": true
+}

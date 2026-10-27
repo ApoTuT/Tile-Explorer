@@ -41,6 +41,8 @@ function proveSpatialSafety(level,{maxStates=900000,variantId,recommendStart=fal
   return {ruleset:E.RULESET,variantId:initial.variantId,definitionHash:initial.definitionHash,states:nodes.length,edges,allReachableSolvable:safety.count===nodes.length,unwinnableStates:nodes.length-safety.count,shortestMoves:placements[0].shortestMoves,placements,recommendation};
 }
 function verifyLevel(level,options={}){
+  if(level.difficulty?.edition==='gardens-1')return verifyGardenLevel(level,options);
+  if(level.difficulty?.edition==='challenge-1')return verifyChallengeLevel(level,options);
   if(level.requiredMechanics)return verifyMechanicLevel(level);
   const variants=level.variants||[{id:'default'}],proofs=[];
   for(const v of variants){const resolved=E.resolveLevel(level,v.id),proof=proveSpatialSafety(resolved,{...options,variantId:v.id});
@@ -53,6 +55,16 @@ function verifyLevel(level,options={}){
     if(level.features?.crates?.length&&!used.bomb||level.features?.brakes?.length&&!used.brake||level.features?.portals?.length&&!used.portal)throw Error('Unused mechanism '+level.id);
     const {recommendation,...summary}=proof;proofs.push({...summary,referenceMoves:played.state.successfulMoves,score:r.score,stars:r.stars,merges,used});
   }return {id:level.id,title:level.title,variants:proofs};
+}
+function verifyChallengeLevel(level,options={}){
+  const {analyze}=require('./v07_difficulty.cjs'),{disable}=require('./redesign_v07_levels.cjs'),S=require('../web/slide-v07/solver.js');
+  const proof=analyze(level,{maxStates:300000,maxMs:90000,...options});if(proof.status!=='solved'||!proof.exhaustive)throw Error('Unverified challenge '+level.id);
+  const d=level.difficulty;if(proof.shortestMoves!==d.optimalMoves||proof.shortestMoves<d.minimumMoves)throw Error('Shortcut/difficulty regression '+level.id);
+  if(proof.shortestMoves>level.moveLimit||proof.witness.setupMoves<Math.floor(d.minimumMoves*.55)||proof.witness.decisionPoints<Math.min(7,Math.floor(Number(level.id.slice(-2))/4)+2))throw Error('Missing planning depth '+level.id);
+  const played=E.replay(level,level.referenceSolution),score=E.result(played.state,level);if(played.state.status!=='won'||played.state.successfulMoves!==proof.shortestMoves||score.stars!==3)throw Error('Challenge reference '+level.id);
+  for(const p of level.scoreProofs||[]){const r=E.replay(level,p.actions),s=E.result(r.state,level);if(r.state.status!=='won'||s.score!==p.score||s.stars!==p.stars)throw Error('Challenge score '+level.id);}
+  const ablations={};for(const m of level.requiredMechanics){const without=disable(level,m);if(level.mechanicRequirements?.[m]?.kind==='budget'){const r=analyze(without,{maxStates:300000,maxMs:90000});if(!r.exhaustive||r.status!=='solved'||r.shortestMoves<proof.shortestMoves+6||r.shortestMoves<=level.moveLimit)throw Error('Mechanic not necessary within budget '+level.id);ablations[m]={status:'exceeds-budget',exhaustive:true,withoutMoves:r.shortestMoves,extraMoves:r.shortestMoves-proof.shortestMoves,states:r.states};}else{const r=S.findSolution(E.createState(without),{maxStates:300000,maxMs:30000,respectMoveLimit:false});if(r.status!=='unsolvable')throw Error('Optional/unverified mechanic '+level.id+' '+m+' '+r.status);ablations[m]={status:r.status,exhaustive:true,visited:r.visited};}}
+  const {actions,steps,...planning}=proof.witness;return {id:level.id,title:level.title,variants:[{ruleset:E.RULESET,variantId:'default',definitionHash:E.definitionHash(E.resolveLevel(level)),exhaustive:true,states:proof.states,edges:proof.edges,shortestMoves:proof.shortestMoves,referenceMoves:played.state.successfulMoves,moveLimit:level.moveLimit,score:score.score,stars:score.stars,planning,ablations,unwinnableStates:proof.unwinnableStates,decisionSteps:steps}]};
 }
 function verifyMechanicLevel(level){
   const {disable,search}=require('./redesign_v07_levels.cjs'),variants=[];
@@ -67,8 +79,17 @@ function verifyMechanicLevel(level){
       blastCrates:played.events.filter(e=>e.type==='blast-resolved').map(e=>e.removedIds.length),turns:played.events.filter(e=>e.type==='flower-turned').length,transfers:played.events.filter(e=>e.type==='portal-used').length});
   }return {id:level.id,title:level.title,variants};
 }
-function main(){const levels=require('../web/slide-v07/levels.js'),report={ruleset:E.RULESET,scoring:E.SCORING,method:'Levels 1–14: complete spatial graph and reverse BFS. Levels 15–30: winning replay for every variant, then exhaustive search with EACH required mechanic disabled, ignoring total move budget; every ablation must be unsolvable, never a timeout. Wrong blast placement can require free undo. Scores and budgets use actual kernel replays.',levels:[]};
+function verifyGardenLevel(level,options={}){
+  const {split}=require('./v07_regions.cjs'),{analyze}=require('./v07_difficulty.cjs'),{disable}=require('./redesign_v07_levels.cjs');
+  const rooms=split(level),proofs=rooms.map(({room,level:l})=>{const p=analyze(l,{maxStates:300000,maxMs:90000,...options});if(p.status!=='solved'||!p.exhaustive||p.shortestMoves!==room.minimumMoves)throw Error('Unverified room '+l.id);return {id:room.id,title:room.title,level:l,proof:p};});
+  const minimum=proofs.reduce((sum,p)=>sum+p.proof.shortestMoves,0);if(minimum!==level.difficulty.optimalMoves||minimum!==level.parMoves||minimum>level.moveLimit)throw Error('Incorrect sum '+level.id);
+  const played=E.replay(level,level.referenceSolution),score=E.result(played.state,level);if(played.state.status!=='won'||played.state.successfulMoves!==minimum||score.stars!==3)throw Error('Garden reference '+level.id);
+  const ablations={};for(const m of level.requiredMechanics){let witness;for(const {level:l} of proofs){if(m==='bomb'&&!l.tiles.some(t=>t.effect==='bomb')||m==='turn'&&!l.features.brakes.length||m==='portal'&&!l.features.portals.length)continue;const p=analyze(disable(l,m),{maxStates:300000,maxMs:90000,...options});if(p.status==='unsolvable'&&p.exhaustive){witness={room:l.id,status:'unsolvable',exhaustive:true,states:p.states};break;}}if(!witness)throw Error('Optional/unverified mechanic '+level.id+' '+m);ablations[m]=witness;}
+  for(const p of level.scoreProofs){const r=E.replay(level,p.actions),s=E.result(r.state,level);if(s.score!==p.score||s.stars!==p.stars)throw Error('Garden score '+level.id);}
+  return {id:level.id,title:level.title,variants:[{ruleset:E.RULESET,variantId:'default',definitionHash:E.definitionHash(E.resolveLevel(level)),proof:'sealed-region-sum',shortestMoves:minimum,referenceMoves:played.state.successfulMoves,moveLimit:level.moveLimit,score:score.score,stars:score.stars,ablations,regions:proofs.map(({id,title,proof:p})=>({id,title,exhaustive:p.exhaustive,states:p.states,edges:p.edges,shortestMoves:p.shortestMoves,unwinnableStates:p.unwinnableStates,planning:{setupMoves:p.witness.setupMoves,decisionPoints:p.witness.decisionPoints,greedyTraps:p.witness.greedyTraps,maxSetupRun:p.witness.maxSetupRun}}))}]};
+}
+function main(){const levels=require('../web/slide-v07/levels.js'),report={ruleset:E.RULESET,scoring:E.SCORING,method:'Exact reverse BFS on each complete spatial graph, using the shipped engine. For sealed multi-room gardens, verify all geometric and portal separations, prove every room, and sum exact distances. Replay the whole-board witness and scoring. Disabling each advertised mechanic must make at least one sealed room exhaustively unsolvable even without the move budget. Timeout means unverified, never proof. Undo permits recovery from wrong choices.',levels:[]};
   for(const l of levels){process.stderr.write('Proving '+l.id+' '+l.title+'\n');report.levels.push(verifyLevel(l));}
-  report.ok=report.levels.length===30;if(!report.ok)throw Error('Expected 30 levels');if(process.argv.includes('--write'))fs.writeFileSync('docs/technical/v0.7-redesign-level-report.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));return report;
+  report.ok=report.levels.length===30;if(!report.ok)throw Error('Expected 30 levels');if(process.argv.includes('--write'))fs.writeFileSync('docs/technical/v0.7-challenge-level-report.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));return report;
 }
 module.exports={proveSpatialSafety,verifyLevel};if(require.main===module)main();

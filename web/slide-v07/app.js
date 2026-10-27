@@ -6,7 +6,7 @@
   const session=new G.GameSession(levels,storage,{preview:location.pathname.includes('preview'),debug:params.get('debug')==='1',demo:[15,20,25,30].includes(demo)});
   if(session.demo&&session.read('demoTarget')!==demo){session.start(levels[demo-1]);session.write('demoTarget',demo);}
   const board=$('board'),dialogs=[...document.querySelectorAll('dialog')],cache=new Map(),taught=new Set();
-  let selected=null,pendingPlacement=null,activeChain=Object.keys(session.level.chainGoals)[0],input,winTimer,feedbackTimer,idleTimer,hintEpoch=0,solving=false,cell=60,audio;
+  let selected=null,pendingPlacement=null,activeChain=Object.keys(session.level.chainGoals)[0],input,winTimer,feedbackTimer,idleTimer,hintEpoch=0,solving=false,cell=60,gap=6,audio;
   const animations=new Set();
   const reduced=()=>session.settings.reducedMotion||matchMedia('(prefers-reduced-motion: reduce)').matches;
   const busy=()=>dialogs.some(d=>d.open)||document.hidden;
@@ -42,7 +42,7 @@
     for(const b of s.features.brakes){const n=document.createElement('div');n.className='terrain brake turntable';n.dataset.brakeId=b.id;n.textContent=arrow[b.direction]||'✿';n.setAttribute('aria-label',`${b.width}×${b.height}转向花台，向${directionName[b.direction]}继续滑，可反复使用`);setPos(n,b,b);board.append(n);}
     for(const p of s.features.portals)for(const [name,end,other] of [['A',p.a,p.b],['B',p.b,p.a]]){const blocked=E.rectangle(other,p).some(q=>E.rockAt(s,q.row,q.col)||E.tileAt(s,q.row,q.col)),n=document.createElement('div');n.className='terrain portal portal-'+name+(blocked?' occupied':'');n.dataset.portalId=p.id;n.dataset.end=name;n.textContent=name;n.setAttribute('aria-label',`${p.width}×${p.height}接力门 ${name}，${blocked?'另一端被占用':'沿原方向穿行，可重复使用'}`);const label=document.createElement('small');label.textContent=blocked?'出口占用':'↔ ∞';n.append(label);setPos(n,end,p);board.append(n);}}
   const view={
-    metrics:()=>({cellSize:cell,pitch:cell+6}),settle(){},reject(){},
+    metrics:()=>({cellSize:cell,pitch:cell+gap}),settle(){},reject(){},
     clearPreview(){board.querySelectorAll('.preview-route,.preview-end,.preview-blast,.preview-entry,.route-svg').forEach(n=>n.remove());board.querySelector('.preview-source')?.classList.remove('preview-source');$('route-readout').hidden=true;},
     preview(id,direction,check){this.clearPreview();if(!check.ok)return;
       const entity=session.state.tiles.find(t=>t.id===id)||{};
@@ -59,15 +59,18 @@
     }
   };
   function drawRoute(check,entity){const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');svg.classList.add('route-svg');svg.setAttribute('aria-hidden','true');
-    const f=entity.itemId?E.footprint(session.state,entity):{width:1,height:1},center=p=>({x:p.col*(cell+6)+(f.width*(cell+6)-6)/2,y:p.row*(cell+6)+(f.height*(cell+6)-6)/2});
+    const f=entity.itemId?E.footprint(session.state,entity):{width:1,height:1},center=p=>({x:p.col*(cell+gap)+(f.width*(cell+gap)-gap)/2,y:p.row*(cell+gap)+(f.height*(cell+gap)-gap)/2});
     const points=[...check.waypoints,check.to];for(let i=1;i<points.length;i++){const a=center(points[i-1]),b=center(points[i]);if(a.x===b.x&&a.y===b.y)continue;const line=document.createElementNS(ns,'line');line.setAttribute('x1',a.x);line.setAttribute('y1',a.y);line.setAttribute('x2',b.x);line.setAttribute('y2',b.y);line.setAttribute('class',points[i].jump?'jump':'slide');svg.append(line);}
     for(const t of check.turns||[]){const p=center(t.at),dot=document.createElementNS(ns,'circle');dot.setAttribute('cx',p.x);dot.setAttribute('cy',p.y);dot.setAttribute('r',7);svg.append(dot);}board.append(svg);}
-  function resize(){cell=Math.min(68,Math.floor(($('board').parentElement.clientWidth-6*(session.state.cols-1))/session.state.cols));
-    board.style.setProperty('--cell',cell+'px');board.style.setProperty('--pitch',(cell+6)+'px');board.style.width=(session.state.cols*(cell+6)-6)+'px';board.style.height=(session.state.rows*(cell+6)-6)+'px';}
+  function resize(){gap=session.state.cols>=8?3:6;cell=Math.min(68,Math.floor(($('board').parentElement.clientWidth-gap*(session.state.cols-1))/session.state.cols),session.level.regions?Math.max(28,Math.floor((innerHeight-310)/session.state.rows)-gap):68);
+    board.style.setProperty('--gap',gap+'px');board.style.setProperty('--cell',cell+'px');board.style.setProperty('--pitch',(cell+gap)+'px');board.style.width=(session.state.cols*(cell+gap)-gap)+'px';board.style.height=(session.state.rows*(cell+gap)-gap)+'px';}
   function drawPattern(node,pattern){node.replaceChildren();node.style.gridTemplateColumns=`repeat(${pattern[0].length},1fr)`;node.style.gridTemplateRows=`repeat(${pattern.length},1fr)`;for(const row of pattern)for(const c of row){const n=document.createElement('i');if(c==='#')n.className='on';node.append(n);}}
+  function renderGardens(){const nav=$('garden-progress'),regions=session.level.regions;nav.hidden=!regions;nav.replaceChildren();
+    for(const [i,r] of (regions||[]).entries()){const left=session.state.tiles.filter(t=>t.row>=r.row&&t.row<r.row+r.rows&&t.col>=r.col&&t.col<r.col+r.cols).length,b=document.createElement('button');b.className='garden-chip garden-'+i+(left?'':' complete');b.textContent=r.title+' · '+(left?left+' 块材料':'已完成 ✓');b.onclick=()=>{cancel();window.scrollTo({top:Math.max(0,scrollY+board.getBoundingClientRect().top+r.row*(cell+gap)-96),behavior:reduced()?'instant':'smooth'});};nav.append(b);}}
   function render(){
     const s=session.state,l=session.level,index=levels.findIndex(x=>x.id===l.id),r=E.result(s,l),focus=document.activeElement?.dataset?.tileId;
-    document.body.classList.toggle('reduced',reduced());$('title').textContent=`${index+1}. ${l.title}`;$('subtitle').textContent=l.subtitle;drawPattern($('pattern-shape'),l.pattern||l.mask);
+    document.body.classList.toggle('dense-garden',!!l.regions);if($('path-details').dataset.level!==l.id){$('path-details').dataset.level=l.id;$('path-details').open=!l.regions;}
+    renderGardens();document.body.classList.toggle('reduced',reduced());$('title').textContent=`${index+1}. ${l.title}`;$('subtitle').textContent=l.subtitle;drawPattern($('pattern-shape'),l.pattern||l.mask);
     $('score').textContent=r.score;$('chain').textContent=s.chainCount>1?`${s.chainCount} 连击${s.setupMovesSinceMerge===1?' · 再合一次接上':''}`:'';
     $('chapter').textContent=`第 ${l.chapter} / 6 章 · ${index+1} / 30 关`+(session.demo?' · 新玩法速玩':session.debug?' · 测试选关':'');$('feature-panel').hidden=!featureCopy();$('feature-panel').textContent=featureCopy();
     $('stars').textContent=stars(s.status==='won'?r.stars:s.status==='lost'?0:s.mergeScore>=l.threeStarScore?3:s.mergeScore>=l.twoStarScore?2:0);
@@ -82,7 +85,7 @@
     for(const [chain,g] of Object.entries(s.chainGoals)){const it=C.item(chain,g.targetTier),b=document.createElement('button');b.className='goal';b.dataset.chain=chain;
       b.setAttribute('aria-label',`${it.name} ${s.delivered[chain]}/${g.count}，查看合成路径`);b.append(image(it.id));const n=document.createElement('span');n.textContent=s.delivered[chain]+'/'+g.count;b.append(n);
       b.onclick=()=>{selected=null;activeChain=chain;renderPath();say(`每次用两个同级同类合成，最终收集${it.name}。`);};$('goals').append(b);}
-    board.replaceChildren();for(let row=0;row<s.rows;row++)for(let col=0;col<s.cols;col++)if(E.walkable(s,row,col)){const n=document.createElement('div');n.className=s.rocks.some(p=>p.row===row&&p.col===col)?'rock':'floor';if(n.className==='rock'){n.textContent='◆';n.setAttribute('aria-label','固定石块');}setPos(n,{row,col});board.append(n);}
+    board.replaceChildren();for(let row=0;row<s.rows;row++)for(let col=0;col<s.cols;col++)if(E.walkable(s,row,col)){const n=document.createElement('div');n.className=s.rocks.some(p=>p.row===row&&p.col===col)?'rock':'floor';if(n.className==='rock'){n.textContent='◆';n.setAttribute('aria-label','固定石块');}const region=l.regions?.findIndex(r=>row>=r.row&&row<r.row+r.rows&&col>=r.col&&col<r.col+r.cols);if(region>=0)n.classList.add('garden-'+region);else if(l.regions)n.classList.add('garden-divider');setPos(n,{row,col});board.append(n);}
     drawTerrain();
     if(s.status==='placing')for(const p of s.obstacle.placementCells){const n=document.createElement('button');n.className='placement'+(pendingPlacement?.row===p.row&&pendingPlacement.col===p.col?' chosen':'');n.textContent=pendingPlacement?.row===p.row&&pendingPlacement.col===p.col?'◆':'+';n.dataset.placeRow=p.row;n.dataset.placeCol=p.col;n.setAttribute('aria-label',`在第${p.row+1}行第${p.col+1}列放障碍`);setPos(n,p);n.onclick=()=>{pendingPlacement={...p};render();};board.append(n);}
     if(s.obstacle?.position){const n=document.createElement('button');n.className='tile obstacle';n.dataset.tileId='obstacle';n.textContent='◆';n.setAttribute('aria-label',`障碍，还可挪动${s.obstacle.moveLimit-s.obstacle.movesUsed}次，每次一格`);setPos(n,s.obstacle.position);n.onfocus=()=>select('obstacle');n.onclick=()=>select('obstacle');board.append(n);}
@@ -108,7 +111,7 @@
   function animate(event,sourceItemId){if(reduced()||!board.animate)return;
     const ghost=document.createElement('div');ghost.className='tile travel-ghost'+(sourceItemId?'':' obstacle');ghost.style.pointerEvents='none';ghost.style.zIndex=5;setPos(ghost,event.from,sourceItemId?{itemId:sourceItemId}:{});if(sourceItemId)ghost.append(image(sourceItemId));else ghost.textContent='◆';board.append(ghost);
     const route=[...(event.waypoints||[event.from]),event.to],frames=[];
-    for(let i=0;i<route.length;i++){const p=route[i],transform=`translate(${(p.col-event.from.col)*(cell+6)}px,${(p.row-event.from.row)*(cell+6)}px)`;if(p.jump){const prior=route[i-1],fromTransform=`translate(${(prior.col-event.from.col)*(cell+6)}px,${(prior.row-event.from.row)*(cell+6)}px)`;frames.push({transform:fromTransform,opacity:0,offset:(i-.55)/(route.length-1)},{transform,opacity:0,offset:(i-.5)/(route.length-1)});}frames.push({transform,opacity:i===route.length-1?.15:1,offset:i/(route.length-1)});}
+    for(let i=0;i<route.length;i++){const p=route[i],transform=`translate(${(p.col-event.from.col)*(cell+gap)}px,${(p.row-event.from.row)*(cell+gap)}px)`;if(p.jump){const prior=route[i-1],fromTransform=`translate(${(prior.col-event.from.col)*(cell+gap)}px,${(prior.row-event.from.row)*(cell+gap)}px)`;frames.push({transform:fromTransform,opacity:0,offset:(i-.55)/(route.length-1)},{transform,opacity:0,offset:(i-.5)/(route.length-1)});}frames.push({transform,opacity:i===route.length-1?.15:1,offset:i/(route.length-1)});}
     const ms=Math.min(850,180+event.distance*45+((event.turns?.length||0)+(event.transfers?.length||0))*120),animation=ghost.animate(frames,{duration:ms,easing:'linear'});
     animations.add(animation);animation.finished.then(()=>{animations.delete(animation);ghost.remove();}).catch(()=>ghost.remove());
     if(event.kind==='upgrade'){const target=board.querySelector(`[data-tile-id="${event.targetId}"] img`);if(target){const grow=target.animate([{transform:'scale(.78)'},{transform:'scale(1.12)'},{transform:'scale(1)'}],{duration:220,delay:ms*.6});animations.add(grow);grow.finished.then(()=>animations.delete(grow)).catch(()=>{});}}
@@ -131,9 +134,9 @@
   function flashTerrain(selector){if(reduced())return;for(const n of board.querySelectorAll(selector)){const a=n.animate([{filter:'brightness(1)',transform:'scale(1)'},{filter:'brightness(1.5)',transform:'scale(1.12)'},{filter:'brightness(1)',transform:'scale(1)'}],{duration:650});animations.add(a);a.finished.then(()=>animations.delete(a)).catch(()=>{});}}
   function undo(){cancel();closeAll();if(session.undo()){render();say(`退回上一步，棋盘、积分和步数一起恢复。还剩 ${session.state.moveLimit-session.state.successfulMoves} 步。`);}idle();}
   function start(l){if(!session.isUnlocked(l))return;cancel();closeAll();session.start(l);selected=null;pendingPlacement=null;activeChain=Object.keys(l.chainGoals)[0];render();idle();say(session.state.status==='placing'?'先选一个虚线格，放置障碍后开始挑战。':l.subtitle);
-    if(!taught.has(l.id)){taught.add(l.id);if(l.id==='slide07-05')say(`${session.state.moveLimit} 步内，安排升级路线；汽车也有自己的升级路径。`);else if(l.id==='slide07-09')say(`${session.state.moveLimit} 步内合成西瓜：两颗桃子才能继续升级。`);}}
+    if(!taught.has(l.id)){taught.add(l.id);if(l.regions)say('三处庭院可以自由选择顺序，共享步数；先看清停靠点，需要时免费撤销。');}}
   function levelList(){const total=levels.reduce((s,l)=>s+session.bestFor(l).stars,0);$('collection').textContent=`已收集 ${total} / 90 星 · 通关解锁下一关`;$('level-list').replaceChildren();
-    for(const [i,l] of levels.entries()){if(i%5===0){const h=document.createElement('h3');h.className='chapter-heading';h.textContent='第 '+l.chapter+' 章 · '+['碰面与让路','大小块与移动障碍','布局进阶与爆破','爆破与停靠','主动制造落点','借道与综合挑战'][l.chapter-1];$('level-list').append(h);}const b=document.createElement('button');b.disabled=!session.isUnlocked(l);b.className='level-card'+(l.id===session.level.id?' current':'');const mini=document.createElement('span');mini.className='mini-board';mini.setAttribute('aria-hidden','true');drawPattern(mini,l.pattern||l.mask);b.append(mini);
+    for(const [i,l] of levels.entries()){if(i%5===0){const h=document.createElement('h3');h.className='chapter-heading';h.textContent='第 '+l.chapter+' 章 · '+['停靠与次序','大小块调度','布局进阶与三庭','封锁与转向','转向与跨区','综合花园挑战'][l.chapter-1];$('level-list').append(h);}const b=document.createElement('button');b.disabled=!session.isUnlocked(l);b.className='level-card'+(l.id===session.level.id?' current':'');const mini=document.createElement('span');mini.className='mini-board';mini.setAttribute('aria-hidden','true');drawPattern(mini,l.pattern||l.mask);b.append(mini);
       const title=document.createElement('span');title.textContent=(i+1)+'. '+l.title;b.append(title);const st=document.createElement('span');st.className='level-stars';st.textContent=stars(session.bestFor(l).stars);b.append(st);const score=document.createElement('small');score.textContent=session.bestFor(l).score+' 分 · 限 '+l.moveLimit+' 步';b.append(score);b.onclick=()=>start(l);$('level-list').append(b);}}
   function hintRecipe(){const s=session.state,chain=activeChain,g=s.chainGoals[chain],tiles=s.tiles.filter(t=>C.items[t.itemId].chainId===chain),chosen=s.tiles.find(t=>t.id===selected)||tiles.sort((a,b)=>C.items[a.itemId].tier-C.items[b.itemId].tier)[0];
     const it=chosen?C.items[chosen.itemId]:C.item(chain,g.targetTier-1);$('hint-path').replaceChildren();$('hint-path').append(image(it.id,it.name),document.createTextNode(' + '),image(it.id,it.name),document.createTextNode(' → '),image(it.nextItemId,C.items[it.nextItemId].name));
@@ -158,7 +161,7 @@
   $('help-button').onclick=()=>open('help-dialog');$('hint').onclick=()=>{hintRecipe();open('hint-dialog');};
   $('solve-hint').onclick=async()=>{if(solving||!['playing','placing'].includes(session.state.status))return;solving=true;$('solve-hint').disabled=true;const epoch=session.epoch,token=++hintEpoch,copy=E.clone(session.state);
     $('hint-copy').textContent=`正在寻找剩余 ${copy.moveLimit-copy.successfulMoves} 步内的通关路线…`;let action=cachedRoute(copy),status='solved';
-    if(!action){const found=await S.workerHint(copy,{maxStates:18000,maxMs:1400,isCancelled:()=>token!==hintEpoch||epoch!==session.epoch});status=found.status;action=found.solution?.[0];}
+    if(!action){const found=await S.workerHint(copy,{regions:session.level.regions,maxStates:18000,maxMs:1400,isCancelled:()=>token!==hintEpoch||epoch!==session.epoch});status=found.status;action=found.solution?.[0];}
     if(token!==hintEpoch||epoch!==session.epoch)return;solving=false;$('solve-hint').disabled=false;
     if(action?.type==='place-obstacle'){closeAll();pendingPlacement={row:action.row,col:action.col};render();say('这个位置有经过验证的通关路线，点“开始挑战”确认。');}
     else if(action?.type==='move-obstacle'){closeAll();select('obstacle');view.preview('obstacle',action.direction,E.inspectAction(session.state,action));say(`把障碍向${{up:'上',down:'下',left:'左',right:'右'}[action.direction]}挪一格，给后面的材料让路。`);}
@@ -175,5 +178,5 @@
   document.querySelectorAll('[data-demo]').forEach(b=>b.onclick=()=>{if(session.demo)start(levels[Number(b.dataset.demo)-1]);else{const link=new URL(location.href);link.search='?demo='+b.dataset.demo;location.href=link.href;}});
   $('demo-nav').hidden=!session.demo;$('demo-button').hidden=session.demo;
   $('exit-demo').onclick=()=>{const link=new URL(location.href);link.search='';location.href=link.href;};
-  render();say(session.restoreNotice==='updated'?'三种新玩法已重做，本关重新开始；已解锁的关卡保留，新布局单独计星。':session.restoreNotice==='invalid'?'存档未能恢复，已从本关重新开始。':session.state.status==='lost'?`本关 ${session.state.moveLimit} 步已用完。可以撤销上一步或重新挑战。`:session.level.subtitle);idle();scheduleResult();
+  render();say(session.restoreNotice==='updated'?'30 关已重排为花园挑战，本关重新开始；已解锁关卡保留，新布局单独计星。':session.restoreNotice==='invalid'?'存档未能恢复，已从本关重新开始。':session.state.status==='lost'?`本关 ${session.state.moveLimit} 步已用完。可以撤销上一步或重新挑战。`:session.level.subtitle);idle();scheduleResult();
 })();

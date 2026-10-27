@@ -25,7 +25,7 @@
     isUnlocked(l){const i=this.levels.findIndex(x=>x.id===l.id);return i>=0&&(this.debug||this.demo||i<=this.unlockedThrough);}
     restore(){const saved=this.read('session');let l=this.levels.find(l=>l.id===saved?.levelId)||this.levels[0];if(!this.isUnlocked(l))l=this.levels[0];this.restoreNotice=null;this.start(l,false);
       if(saved&&(saved.hash!==this.state.definitionHash||saved.variantId!==this.state.variantId))this.restoreNotice='updated';
-      if(saved?.hash===this.state.definitionHash&&saved.variantId===this.state.variantId&&Array.isArray(saved.actions)&&saved.actions.length<=21){try{const replay=E.replay(this.level,saved.actions);this.state=replay.state;this.history=replay.transactions;}catch(_){this.start(l,false);this.restoreNotice='invalid';}}
+      if(saved?.hash===this.state.definitionHash&&saved.variantId===this.state.variantId&&Array.isArray(saved.actions)&&saved.actions.length<=this.state.moveLimit+(this.state.obstacle?1:0)){try{const replay=E.replay(this.level,saved.actions);this.state=replay.state;this.history=replay.transactions;}catch(_){this.start(l,false);this.restoreNotice='invalid';}}
       else if(saved&&!this.restoreNotice)this.restoreNotice='invalid';
       this.save();
     }

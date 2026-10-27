@@ -68,7 +68,7 @@ test('hint returns unknown on resource limit and never mutates the queried state
 });
 test('thirty published layouts and every variant reference actually win within budget and reach 3 stars',()=>{
   const levels=require('../web/slide-v07/levels.js');assert.equal(levels.length,30);assert.equal(new Set(levels.map(l=>l.id)).size,30);
-  for(const [i,l] of levels.entries()){assert.equal(l.id,'slide07-'+String(i+1).padStart(2,'0'));for(const v of l.variants){const r=E.resolveLevel(l,v.id),played=E.replay(r,r.referenceSolution);assert.equal(played.state.status,'won');assert.ok(played.state.successfulMoves<=20);assert.equal(E.result(played.state,r).stars,3);}
+  for(const [i,l] of levels.entries()){assert.equal(l.id,'slide07-'+String(i+1).padStart(2,'0'));for(const v of l.variants){const r=E.resolveLevel(l,v.id),played=E.replay(r,r.referenceSolution);assert.equal(played.state.status,'won');assert.ok(played.state.successfulMoves<=l.moveLimit);assert.equal(E.result(played.state,r).stars,3);}
     if(i<14)assert.equal(l.features.crates.length+l.features.brakes.length+l.features.portals.length,0);if(i<19)assert.equal(l.features.brakes.length,0);if(i<24)assert.equal(l.features.portals.length,0);}
 });
 
@@ -104,8 +104,9 @@ test('relay then garden then blast can resolve in one action, and undo restores 
   assert.equal(r.events[0].kind,'upgrade');assert.equal(r.state.features.crates.length,0);for(const type of ['flower-turned','portal-used','blast-resolved'])assert.ok(r.events.some(e=>e.type===type));assert.equal(r.state.successfulMoves,1);game.undo();assert.deepEqual(game.state,before);
 });
 
-test('every redesigned variant needs each advertised mechanic, not merely a reference-route cameo',()=>{
-  const {verifyLevel}=require('../tools/validate_v07_levels.cjs');for(const l of require('../web/slide-v07/levels.js').slice(14)){const r=verifyLevel(l);for(const v of r.variants)for(const m of l.requiredMechanics){assert.equal(v.ablations[m].status,'unsolvable');assert.equal(v.ablations[m].exhaustive,true);}}
+test('published challenge proofs match the runtime definitions and all required mechanics',()=>{
+  const report=require('../docs/technical/v0.7-challenge-level-report.json');
+  for(const l of require('../web/slide-v07/levels.js')){const p=report.levels.find(p=>p.id===l.id).variants[0];assert.equal(p.definitionHash,E.definitionHash(E.resolveLevel(l)));assert.equal(p.shortestMoves,l.difficulty.optimalMoves);for(const m of l.requiredMechanics||[])assert.equal(p.ablations[m].status,'unsolvable');}
 });
 
 test('content upgrade preserves earned level access while incompatible scores and runs reset',()=>{
@@ -117,7 +118,13 @@ test('mechanic demo has isolated progress and does not unlock the main campaign'
   const l=fixture([tile('a',2,0,0),tile('b',2,0,2)]),next={...l,id:'next'},store=memory(),demo=new Session([l,next],store,{demo:true});assert.equal(demo.start(next),true);demo.apply({type:'slide',tileId:'a',direction:'right'});const main=new Session([l,next],store);assert.equal(main.isUnlocked(next),false);assert.equal(main.bestFor(next).stars,0);
 });
 
-test('final showcase has a single gesture that relays, turns twice, merges and chain-blasts three crates',()=>{
-  const l=require('../web/slide-v07/levels.js').at(-1);let s=E.createState(l),found=false;
-  for(const a of l.referenceSolution){const r=E.applyAction(s,a);s=r.state;const e=r.events[0];if(e.bomb&&e.turns?.length===2&&e.transfers?.length===1&&e.removedCrateIds.length===3)found=true;}assert.equal(found,true);assert.equal(s.status,'won');
+test('final garden needs sustained planning and all three mechanics in its winning route',()=>{
+  const l=require('../web/slide-v07/levels.js').at(-1),r=E.replay(l,l.referenceSolution);assert.ok(l.parMoves>=28);assert.ok(l.difficulty.setupMoves>=18);assert.equal(l.regions.length,3);for(const type of ['flower-turned','portal-used','blast-resolved'])assert.ok(r.events.some(e=>e.type===type));assert.equal(r.state.status,'won');
+});
+
+test('long challenge runs restore beyond 21 actions, including repeated undo',()=>{
+  const l=require('../web/slide-v07/levels.js').at(-1),store=memory(),game=new Session([l],store);
+  for(const a of l.referenceSolution.slice(0,23))assert.ok(game.apply(a).ok);
+  const restored=new Session([l],store);assert.deepEqual(restored.state,game.state);assert.equal(restored.history.length,23);
+  for(let n=0;n<22;n++)assert.ok(restored.undo());assert.equal(restored.state.successfulMoves,1);
 });

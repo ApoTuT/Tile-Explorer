@@ -1,0 +1,4428 @@
+{
+  "15": {
+    "id": "side-15",
+    "title": "独立侧庭",
+    "subtitle": "观察每次合成留下的空间，找到属于你的解法。",
+    "chapter": 43,
+    "rows": 4,
+    "cols": 4,
+    "mask": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "rocks": [
+      {
+        "row": 3,
+        "col": 0
+      },
+      {
+        "row": 3,
+        "col": 1
+      },
+      {
+        "row": 2,
+        "col": 2
+      },
+      {
+        "row": 1,
+        "col": 2
+      }
+    ],
+    "tiles": [
+      {
+        "id": "t3",
+        "itemId": "fruit-2",
+        "row": 0,
+        "col": 1
+      },
+      {
+        "id": "t4",
+        "itemId": "plant-0",
+        "row": 0,
+        "col": 3
+      },
+      {
+        "id": "t6",
+        "itemId": "plant-1",
+        "row": 1,
+        "col": 3
+      },
+      {
+        "id": "t5",
+        "itemId": "plant-0",
+        "row": 2,
+        "col": 3
+      },
+      {
+        "id": "t1",
+        "itemId": "fruit-1",
+        "row": 3,
+        "col": 2
+      },
+      {
+        "id": "t2",
+        "itemId": "fruit-1",
+        "row": 3,
+        "col": 3
+      }
+    ],
+    "chainGoals": {
+      "fruit": {
+        "targetTier": 3,
+        "count": 1
+      },
+      "plant": {
+        "targetTier": 2,
+        "count": 1
+      }
+    },
+    "footprintByChain": {},
+    "features": {
+      "crates": [],
+      "brakes": [],
+      "portals": []
+    },
+    "variants": [
+      {
+        "id": "default",
+        "bombTileIds": []
+      }
+    ],
+    "moveLimit": 17,
+    "parMoves": 13,
+    "twoStarScore": 650,
+    "threeStarScore": 900,
+    "ruleset": "slide-v07-2",
+    "requiredMechanics": [],
+    "pattern": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "referenceSolution": [
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "down"
+      }
+    ],
+    "scoreProofs": [
+      {
+        "actions": [
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "down"
+          }
+        ],
+        "score": 900,
+        "stars": 3
+      }
+    ],
+    "difficulty": {
+      "edition": "challenge-1",
+      "minimumMoves": 10,
+      "optimalMoves": 13,
+      "setupMoves": 9,
+      "decisionPoints": 12,
+      "greedyTraps": 9,
+      "maxSetupRun": 7,
+      "openingChoices": 6,
+      "openingOptimal": 2,
+      "authorAttempt": 30
+    }
+  },
+  "16": {
+    "id": "side-16",
+    "title": "独立侧庭",
+    "subtitle": "观察每次合成留下的空间，找到属于你的解法。",
+    "chapter": 44,
+    "rows": 4,
+    "cols": 4,
+    "mask": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "rocks": [
+      {
+        "row": 2,
+        "col": 3
+      },
+      {
+        "row": 0,
+        "col": 0
+      },
+      {
+        "row": 2,
+        "col": 2
+      },
+      {
+        "row": 2,
+        "col": 1
+      }
+    ],
+    "tiles": [
+      {
+        "id": "t1",
+        "itemId": "fruit-1",
+        "row": 0,
+        "col": 2
+      },
+      {
+        "id": "t2",
+        "itemId": "fruit-1",
+        "row": 0,
+        "col": 3
+      },
+      {
+        "id": "t3",
+        "itemId": "fruit-2",
+        "row": 1,
+        "col": 3
+      },
+      {
+        "id": "t4",
+        "itemId": "plant-0",
+        "row": 2,
+        "col": 0
+      },
+      {
+        "id": "t6",
+        "itemId": "plant-1",
+        "row": 3,
+        "col": 1
+      },
+      {
+        "id": "t5",
+        "itemId": "plant-0",
+        "row": 3,
+        "col": 2
+      }
+    ],
+    "chainGoals": {
+      "fruit": {
+        "targetTier": 3,
+        "count": 1
+      },
+      "plant": {
+        "targetTier": 2,
+        "count": 1
+      }
+    },
+    "footprintByChain": {},
+    "features": {
+      "crates": [],
+      "brakes": [],
+      "portals": []
+    },
+    "variants": [
+      {
+        "id": "default",
+        "bombTileIds": []
+      }
+    ],
+    "moveLimit": 17,
+    "parMoves": 13,
+    "twoStarScore": 850,
+    "threeStarScore": 1100,
+    "ruleset": "slide-v07-2",
+    "requiredMechanics": [],
+    "pattern": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "referenceSolution": [
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "right"
+      }
+    ],
+    "scoreProofs": [
+      {
+        "actions": [
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "right"
+          }
+        ],
+        "score": 1100,
+        "stars": 3
+      }
+    ],
+    "difficulty": {
+      "edition": "challenge-1",
+      "minimumMoves": 10,
+      "optimalMoves": 13,
+      "setupMoves": 9,
+      "decisionPoints": 11,
+      "greedyTraps": 9,
+      "maxSetupRun": 9,
+      "openingChoices": 9,
+      "openingOptimal": 3,
+      "authorAttempt": 19
+    }
+  },
+  "17": {
+    "id": "side-17",
+    "title": "独立侧庭",
+    "subtitle": "观察每次合成留下的空间，找到属于你的解法。",
+    "chapter": 44,
+    "rows": 4,
+    "cols": 4,
+    "mask": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "rocks": [
+      {
+        "row": 2,
+        "col": 2
+      },
+      {
+        "row": 3,
+        "col": 3
+      },
+      {
+        "row": 2,
+        "col": 0
+      },
+      {
+        "row": 3,
+        "col": 0
+      }
+    ],
+    "tiles": [
+      {
+        "id": "t1",
+        "itemId": "fruit-0",
+        "row": 0,
+        "col": 2
+      },
+      {
+        "id": "t4",
+        "itemId": "fruit-2",
+        "row": 2,
+        "col": 1
+      },
+      {
+        "id": "t2",
+        "itemId": "fruit-0",
+        "row": 2,
+        "col": 3
+      },
+      {
+        "id": "t5",
+        "itemId": "fruit-3",
+        "row": 3,
+        "col": 1
+      },
+      {
+        "id": "t3",
+        "itemId": "fruit-1",
+        "row": 3,
+        "col": 2
+      }
+    ],
+    "chainGoals": {
+      "fruit": {
+        "targetTier": 4,
+        "count": 1
+      }
+    },
+    "footprintByChain": {},
+    "features": {
+      "crates": [],
+      "brakes": [],
+      "portals": []
+    },
+    "variants": [
+      {
+        "id": "default",
+        "bombTileIds": []
+      }
+    ],
+    "moveLimit": 15,
+    "parMoves": 11,
+    "twoStarScore": 950,
+    "threeStarScore": 1200,
+    "ruleset": "slide-v07-2",
+    "requiredMechanics": [],
+    "pattern": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "referenceSolution": [
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "left"
+      }
+    ],
+    "scoreProofs": [
+      {
+        "actions": [
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "left"
+          }
+        ],
+        "score": 1200,
+        "stars": 3
+      }
+    ],
+    "difficulty": {
+      "edition": "challenge-1",
+      "minimumMoves": 10,
+      "optimalMoves": 11,
+      "setupMoves": 7,
+      "decisionPoints": 10,
+      "greedyTraps": 5,
+      "maxSetupRun": 7,
+      "openingChoices": 5,
+      "openingOptimal": 4,
+      "authorAttempt": 2
+    }
+  },
+  "18": {
+    "id": "side-18",
+    "title": "独立侧庭",
+    "subtitle": "观察每次合成留下的空间，找到属于你的解法。",
+    "chapter": 44,
+    "rows": 4,
+    "cols": 4,
+    "mask": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "rocks": [
+      {
+        "row": 1,
+        "col": 2
+      },
+      {
+        "row": 2,
+        "col": 1
+      },
+      {
+        "row": 2,
+        "col": 0
+      },
+      {
+        "row": 2,
+        "col": 2
+      }
+    ],
+    "tiles": [
+      {
+        "id": "t1",
+        "itemId": "fruit-1",
+        "row": 0,
+        "col": 2
+      },
+      {
+        "id": "t2",
+        "itemId": "fruit-1",
+        "row": 1,
+        "col": 0
+      },
+      {
+        "id": "t4",
+        "itemId": "plant-0",
+        "row": 1,
+        "col": 1
+      },
+      {
+        "id": "t6",
+        "itemId": "plant-1",
+        "row": 3,
+        "col": 0
+      },
+      {
+        "id": "t3",
+        "itemId": "fruit-2",
+        "row": 3,
+        "col": 1
+      },
+      {
+        "id": "t5",
+        "itemId": "plant-0",
+        "row": 3,
+        "col": 2
+      }
+    ],
+    "chainGoals": {
+      "fruit": {
+        "targetTier": 3,
+        "count": 1
+      },
+      "plant": {
+        "targetTier": 2,
+        "count": 1
+      }
+    },
+    "footprintByChain": {},
+    "features": {
+      "crates": [],
+      "brakes": [],
+      "portals": []
+    },
+    "variants": [
+      {
+        "id": "default",
+        "bombTileIds": []
+      }
+    ],
+    "moveLimit": 17,
+    "parMoves": 13,
+    "twoStarScore": 700,
+    "threeStarScore": 950,
+    "ruleset": "slide-v07-2",
+    "requiredMechanics": [],
+    "pattern": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "referenceSolution": [
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "down"
+      }
+    ],
+    "scoreProofs": [
+      {
+        "actions": [
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "down"
+          }
+        ],
+        "score": 950,
+        "stars": 3
+      }
+    ],
+    "difficulty": {
+      "edition": "challenge-1",
+      "minimumMoves": 10,
+      "optimalMoves": 13,
+      "setupMoves": 9,
+      "decisionPoints": 10,
+      "greedyTraps": 6,
+      "maxSetupRun": 7,
+      "openingChoices": 5,
+      "openingOptimal": 3,
+      "authorAttempt": 3
+    }
+  },
+  "19": {
+    "id": "side-19",
+    "title": "独立侧庭",
+    "subtitle": "观察每次合成留下的空间，找到属于你的解法。",
+    "chapter": 44,
+    "rows": 4,
+    "cols": 4,
+    "mask": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "rocks": [
+      {
+        "row": 1,
+        "col": 2
+      },
+      {
+        "row": 1,
+        "col": 1
+      },
+      {
+        "row": 0,
+        "col": 2
+      },
+      {
+        "row": 2,
+        "col": 1
+      }
+    ],
+    "tiles": [
+      {
+        "id": "t4",
+        "itemId": "plant-0",
+        "row": 0,
+        "col": 0
+      },
+      {
+        "id": "t3",
+        "itemId": "fruit-2",
+        "row": 0,
+        "col": 1
+      },
+      {
+        "id": "t1",
+        "itemId": "fruit-1",
+        "row": 0,
+        "col": 3
+      },
+      {
+        "id": "t6",
+        "itemId": "plant-1",
+        "row": 1,
+        "col": 0
+      },
+      {
+        "id": "t2",
+        "itemId": "fruit-1",
+        "row": 2,
+        "col": 2
+      },
+      {
+        "id": "t5",
+        "itemId": "plant-0",
+        "row": 3,
+        "col": 3
+      }
+    ],
+    "chainGoals": {
+      "fruit": {
+        "targetTier": 3,
+        "count": 1
+      },
+      "plant": {
+        "targetTier": 2,
+        "count": 1
+      }
+    },
+    "footprintByChain": {},
+    "features": {
+      "crates": [],
+      "brakes": [],
+      "portals": []
+    },
+    "variants": [
+      {
+        "id": "default",
+        "bombTileIds": []
+      }
+    ],
+    "moveLimit": 17,
+    "parMoves": 13,
+    "twoStarScore": 650,
+    "threeStarScore": 900,
+    "ruleset": "slide-v07-2",
+    "requiredMechanics": [],
+    "pattern": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "referenceSolution": [
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "up"
+      }
+    ],
+    "scoreProofs": [
+      {
+        "actions": [
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "up"
+          }
+        ],
+        "score": 900,
+        "stars": 3
+      }
+    ],
+    "difficulty": {
+      "edition": "challenge-1",
+      "minimumMoves": 10,
+      "optimalMoves": 13,
+      "setupMoves": 9,
+      "decisionPoints": 12,
+      "greedyTraps": 4,
+      "maxSetupRun": 5,
+      "openingChoices": 6,
+      "openingOptimal": 3,
+      "authorAttempt": 52
+    }
+  },
+  "20": {
+    "id": "side-20",
+    "title": "独立侧庭",
+    "subtitle": "观察每次合成留下的空间，找到属于你的解法。",
+    "chapter": 44,
+    "rows": 4,
+    "cols": 4,
+    "mask": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "rocks": [
+      {
+        "row": 0,
+        "col": 2
+      },
+      {
+        "row": 1,
+        "col": 2
+      },
+      {
+        "row": 1,
+        "col": 1
+      },
+      {
+        "row": 2,
+        "col": 1
+      }
+    ],
+    "tiles": [
+      {
+        "id": "t4",
+        "itemId": "plant-0",
+        "row": 0,
+        "col": 0
+      },
+      {
+        "id": "t3",
+        "itemId": "fruit-2",
+        "row": 0,
+        "col": 1
+      },
+      {
+        "id": "t6",
+        "itemId": "plant-1",
+        "row": 1,
+        "col": 0
+      },
+      {
+        "id": "t1",
+        "itemId": "fruit-1",
+        "row": 1,
+        "col": 3
+      },
+      {
+        "id": "t5",
+        "itemId": "plant-0",
+        "row": 2,
+        "col": 0
+      },
+      {
+        "id": "t2",
+        "itemId": "fruit-1",
+        "row": 3,
+        "col": 0
+      }
+    ],
+    "chainGoals": {
+      "fruit": {
+        "targetTier": 3,
+        "count": 1
+      },
+      "plant": {
+        "targetTier": 2,
+        "count": 1
+      }
+    },
+    "footprintByChain": {},
+    "features": {
+      "crates": [],
+      "brakes": [],
+      "portals": []
+    },
+    "variants": [
+      {
+        "id": "default",
+        "bombTileIds": []
+      }
+    ],
+    "moveLimit": 19,
+    "parMoves": 15,
+    "twoStarScore": 700,
+    "threeStarScore": 950,
+    "ruleset": "slide-v07-2",
+    "requiredMechanics": [],
+    "pattern": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "referenceSolution": [
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "up"
+      }
+    ],
+    "scoreProofs": [
+      {
+        "actions": [
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "up"
+          }
+        ],
+        "score": 950,
+        "stars": 3
+      }
+    ],
+    "difficulty": {
+      "edition": "challenge-1",
+      "minimumMoves": 12,
+      "optimalMoves": 15,
+      "setupMoves": 11,
+      "decisionPoints": 13,
+      "greedyTraps": 6,
+      "maxSetupRun": 5,
+      "openingChoices": 3,
+      "openingOptimal": 1,
+      "authorAttempt": 28
+    }
+  },
+  "21": {
+    "id": "side-21",
+    "title": "独立侧庭",
+    "subtitle": "观察每次合成留下的空间，找到属于你的解法。",
+    "chapter": 45,
+    "rows": 4,
+    "cols": 4,
+    "mask": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "rocks": [
+      {
+        "row": 1,
+        "col": 2
+      },
+      {
+        "row": 3,
+        "col": 2
+      },
+      {
+        "row": 2,
+        "col": 0
+      },
+      {
+        "row": 1,
+        "col": 1
+      }
+    ],
+    "tiles": [
+      {
+        "id": "t1",
+        "itemId": "fruit-1",
+        "row": 0,
+        "col": 0
+      },
+      {
+        "id": "t4",
+        "itemId": "plant-0",
+        "row": 0,
+        "col": 3
+      },
+      {
+        "id": "t3",
+        "itemId": "fruit-2",
+        "row": 1,
+        "col": 0
+      },
+      {
+        "id": "t5",
+        "itemId": "plant-0",
+        "row": 3,
+        "col": 0
+      },
+      {
+        "id": "t6",
+        "itemId": "plant-1",
+        "row": 3,
+        "col": 1
+      },
+      {
+        "id": "t2",
+        "itemId": "fruit-1",
+        "row": 3,
+        "col": 3
+      }
+    ],
+    "chainGoals": {
+      "fruit": {
+        "targetTier": 3,
+        "count": 1
+      },
+      "plant": {
+        "targetTier": 2,
+        "count": 1
+      }
+    },
+    "footprintByChain": {},
+    "features": {
+      "crates": [],
+      "brakes": [],
+      "portals": []
+    },
+    "variants": [
+      {
+        "id": "default",
+        "bombTileIds": []
+      }
+    ],
+    "moveLimit": 19,
+    "parMoves": 15,
+    "twoStarScore": 850,
+    "threeStarScore": 1100,
+    "ruleset": "slide-v07-2",
+    "requiredMechanics": [],
+    "pattern": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "referenceSolution": [
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "down"
+      }
+    ],
+    "scoreProofs": [
+      {
+        "actions": [
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "down"
+          }
+        ],
+        "score": 1100,
+        "stars": 3
+      }
+    ],
+    "difficulty": {
+      "edition": "challenge-1",
+      "minimumMoves": 12,
+      "optimalMoves": 15,
+      "setupMoves": 11,
+      "decisionPoints": 7,
+      "greedyTraps": 8,
+      "maxSetupRun": 11,
+      "openingChoices": 5,
+      "openingOptimal": 2,
+      "authorAttempt": 61
+    }
+  },
+  "22": {
+    "id": "side-22",
+    "title": "独立侧庭",
+    "subtitle": "观察每次合成留下的空间，找到属于你的解法。",
+    "chapter": 45,
+    "rows": 4,
+    "cols": 4,
+    "mask": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "rocks": [
+      {
+        "row": 1,
+        "col": 2
+      },
+      {
+        "row": 0,
+        "col": 3
+      },
+      {
+        "row": 2,
+        "col": 1
+      },
+      {
+        "row": 3,
+        "col": 3
+      }
+    ],
+    "tiles": [
+      {
+        "id": "t6",
+        "itemId": "plant-1",
+        "row": 0,
+        "col": 0
+      },
+      {
+        "id": "t4",
+        "itemId": "plant-0",
+        "row": 0,
+        "col": 2
+      },
+      {
+        "id": "t3",
+        "itemId": "fruit-2",
+        "row": 1,
+        "col": 3
+      },
+      {
+        "id": "t1",
+        "itemId": "fruit-1",
+        "row": 2,
+        "col": 0
+      },
+      {
+        "id": "t5",
+        "itemId": "plant-0",
+        "row": 2,
+        "col": 2
+      },
+      {
+        "id": "t2",
+        "itemId": "fruit-1",
+        "row": 2,
+        "col": 3
+      }
+    ],
+    "chainGoals": {
+      "fruit": {
+        "targetTier": 3,
+        "count": 1
+      },
+      "plant": {
+        "targetTier": 2,
+        "count": 1
+      }
+    },
+    "footprintByChain": {},
+    "features": {
+      "crates": [],
+      "brakes": [],
+      "portals": []
+    },
+    "variants": [
+      {
+        "id": "default",
+        "bombTileIds": []
+      }
+    ],
+    "moveLimit": 19,
+    "parMoves": 15,
+    "twoStarScore": 850,
+    "threeStarScore": 1100,
+    "ruleset": "slide-v07-2",
+    "requiredMechanics": [],
+    "pattern": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "referenceSolution": [
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "right"
+      }
+    ],
+    "scoreProofs": [
+      {
+        "actions": [
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "right"
+          }
+        ],
+        "score": 1100,
+        "stars": 3
+      }
+    ],
+    "difficulty": {
+      "edition": "challenge-1",
+      "minimumMoves": 12,
+      "optimalMoves": 15,
+      "setupMoves": 11,
+      "decisionPoints": 14,
+      "greedyTraps": 2,
+      "maxSetupRun": 11,
+      "openingChoices": 6,
+      "openingOptimal": 3,
+      "authorAttempt": 36
+    }
+  },
+  "23": {
+    "id": "side-23",
+    "title": "独立侧庭",
+    "subtitle": "观察每次合成留下的空间，找到属于你的解法。",
+    "chapter": 45,
+    "rows": 4,
+    "cols": 4,
+    "mask": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "rocks": [
+      {
+        "row": 1,
+        "col": 1
+      },
+      {
+        "row": 3,
+        "col": 3
+      },
+      {
+        "row": 2,
+        "col": 3
+      },
+      {
+        "row": 1,
+        "col": 2
+      }
+    ],
+    "tiles": [
+      {
+        "id": "t1",
+        "itemId": "fruit-1",
+        "row": 0,
+        "col": 1
+      },
+      {
+        "id": "t3",
+        "itemId": "fruit-2",
+        "row": 0,
+        "col": 2
+      },
+      {
+        "id": "t6",
+        "itemId": "plant-1",
+        "row": 0,
+        "col": 3
+      },
+      {
+        "id": "t2",
+        "itemId": "fruit-1",
+        "row": 1,
+        "col": 3
+      },
+      {
+        "id": "t4",
+        "itemId": "plant-0",
+        "row": 2,
+        "col": 2
+      },
+      {
+        "id": "t5",
+        "itemId": "plant-0",
+        "row": 3,
+        "col": 0
+      }
+    ],
+    "chainGoals": {
+      "fruit": {
+        "targetTier": 3,
+        "count": 1
+      },
+      "plant": {
+        "targetTier": 2,
+        "count": 1
+      }
+    },
+    "footprintByChain": {},
+    "features": {
+      "crates": [],
+      "brakes": [],
+      "portals": []
+    },
+    "variants": [
+      {
+        "id": "default",
+        "bombTileIds": []
+      }
+    ],
+    "moveLimit": 19,
+    "parMoves": 15,
+    "twoStarScore": 850,
+    "threeStarScore": 1100,
+    "ruleset": "slide-v07-2",
+    "requiredMechanics": [],
+    "pattern": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "referenceSolution": [
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "right"
+      }
+    ],
+    "scoreProofs": [
+      {
+        "actions": [
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "right"
+          }
+        ],
+        "score": 1100,
+        "stars": 3
+      }
+    ],
+    "difficulty": {
+      "edition": "challenge-1",
+      "minimumMoves": 12,
+      "optimalMoves": 15,
+      "setupMoves": 11,
+      "decisionPoints": 15,
+      "greedyTraps": 9,
+      "maxSetupRun": 11,
+      "openingChoices": 5,
+      "openingOptimal": 2,
+      "authorAttempt": 22
+    }
+  },
+  "24": {
+    "id": "side-24",
+    "title": "独立侧庭",
+    "subtitle": "观察每次合成留下的空间，找到属于你的解法。",
+    "chapter": 45,
+    "rows": 4,
+    "cols": 4,
+    "mask": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "rocks": [
+      {
+        "row": 2,
+        "col": 1
+      },
+      {
+        "row": 1,
+        "col": 1
+      },
+      {
+        "row": 2,
+        "col": 2
+      },
+      {
+        "row": 3,
+        "col": 3
+      }
+    ],
+    "tiles": [
+      {
+        "id": "t6",
+        "itemId": "plant-1",
+        "row": 0,
+        "col": 0
+      },
+      {
+        "id": "t4",
+        "itemId": "plant-0",
+        "row": 0,
+        "col": 1
+      },
+      {
+        "id": "t3",
+        "itemId": "fruit-2",
+        "row": 0,
+        "col": 2
+      },
+      {
+        "id": "t5",
+        "itemId": "plant-0",
+        "row": 1,
+        "col": 0
+      },
+      {
+        "id": "t1",
+        "itemId": "fruit-1",
+        "row": 2,
+        "col": 3
+      },
+      {
+        "id": "t2",
+        "itemId": "fruit-1",
+        "row": 3,
+        "col": 0
+      }
+    ],
+    "chainGoals": {
+      "fruit": {
+        "targetTier": 3,
+        "count": 1
+      },
+      "plant": {
+        "targetTier": 2,
+        "count": 1
+      }
+    },
+    "footprintByChain": {},
+    "features": {
+      "crates": [],
+      "brakes": [],
+      "portals": []
+    },
+    "variants": [
+      {
+        "id": "default",
+        "bombTileIds": []
+      }
+    ],
+    "moveLimit": 19,
+    "parMoves": 15,
+    "twoStarScore": 850,
+    "threeStarScore": 1100,
+    "ruleset": "slide-v07-2",
+    "requiredMechanics": [],
+    "pattern": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "referenceSolution": [
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "up"
+      }
+    ],
+    "scoreProofs": [
+      {
+        "actions": [
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "up"
+          }
+        ],
+        "score": 1100,
+        "stars": 3
+      }
+    ],
+    "difficulty": {
+      "edition": "challenge-1",
+      "minimumMoves": 12,
+      "optimalMoves": 15,
+      "setupMoves": 11,
+      "decisionPoints": 15,
+      "greedyTraps": 4,
+      "maxSetupRun": 10,
+      "openingChoices": 6,
+      "openingOptimal": 2,
+      "authorAttempt": 26
+    }
+  },
+  "25": {
+    "id": "side-25",
+    "title": "独立侧庭",
+    "subtitle": "观察每次合成留下的空间，找到属于你的解法。",
+    "chapter": 45,
+    "rows": 4,
+    "cols": 4,
+    "mask": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "rocks": [
+      {
+        "row": 1,
+        "col": 1
+      },
+      {
+        "row": 3,
+        "col": 3
+      },
+      {
+        "row": 3,
+        "col": 2
+      },
+      {
+        "row": 2,
+        "col": 1
+      }
+    ],
+    "tiles": [
+      {
+        "id": "t4",
+        "itemId": "plant-0",
+        "row": 1,
+        "col": 0
+      },
+      {
+        "id": "t5",
+        "itemId": "plant-0",
+        "row": 1,
+        "col": 2
+      },
+      {
+        "id": "t3",
+        "itemId": "fruit-2",
+        "row": 2,
+        "col": 0
+      },
+      {
+        "id": "t1",
+        "itemId": "fruit-1",
+        "row": 2,
+        "col": 3
+      },
+      {
+        "id": "t2",
+        "itemId": "fruit-1",
+        "row": 3,
+        "col": 0
+      },
+      {
+        "id": "t6",
+        "itemId": "plant-1",
+        "row": 3,
+        "col": 1
+      }
+    ],
+    "chainGoals": {
+      "fruit": {
+        "targetTier": 3,
+        "count": 1
+      },
+      "plant": {
+        "targetTier": 2,
+        "count": 1
+      }
+    },
+    "footprintByChain": {},
+    "features": {
+      "crates": [],
+      "brakes": [],
+      "portals": []
+    },
+    "variants": [
+      {
+        "id": "default",
+        "bombTileIds": []
+      }
+    ],
+    "moveLimit": 19,
+    "parMoves": 15,
+    "twoStarScore": 850,
+    "threeStarScore": 1100,
+    "ruleset": "slide-v07-2",
+    "requiredMechanics": [],
+    "pattern": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "referenceSolution": [
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "left"
+      }
+    ],
+    "scoreProofs": [
+      {
+        "actions": [
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "left"
+          }
+        ],
+        "score": 1100,
+        "stars": 3
+      }
+    ],
+    "difficulty": {
+      "edition": "challenge-1",
+      "minimumMoves": 15,
+      "optimalMoves": 15,
+      "setupMoves": 11,
+      "decisionPoints": 11,
+      "greedyTraps": 7,
+      "maxSetupRun": 10,
+      "openingChoices": 6,
+      "openingOptimal": 3,
+      "authorAttempt": 81
+    }
+  },
+  "26": {
+    "id": "side-26",
+    "title": "独立侧庭",
+    "subtitle": "观察每次合成留下的空间，找到属于你的解法。",
+    "chapter": 46,
+    "rows": 4,
+    "cols": 4,
+    "mask": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "rocks": [
+      {
+        "row": 1,
+        "col": 1
+      },
+      {
+        "row": 2,
+        "col": 2
+      },
+      {
+        "row": 1,
+        "col": 0
+      },
+      {
+        "row": 1,
+        "col": 2
+      }
+    ],
+    "tiles": [
+      {
+        "id": "t3",
+        "itemId": "fruit-2",
+        "row": 0,
+        "col": 0
+      },
+      {
+        "id": "t1",
+        "itemId": "fruit-1",
+        "row": 0,
+        "col": 1
+      },
+      {
+        "id": "t4",
+        "itemId": "plant-0",
+        "row": 0,
+        "col": 2
+      },
+      {
+        "id": "t6",
+        "itemId": "plant-1",
+        "row": 1,
+        "col": 3
+      },
+      {
+        "id": "t2",
+        "itemId": "fruit-1",
+        "row": 2,
+        "col": 3
+      },
+      {
+        "id": "t5",
+        "itemId": "plant-0",
+        "row": 3,
+        "col": 2
+      }
+    ],
+    "chainGoals": {
+      "fruit": {
+        "targetTier": 3,
+        "count": 1
+      },
+      "plant": {
+        "targetTier": 2,
+        "count": 1
+      }
+    },
+    "footprintByChain": {},
+    "features": {
+      "crates": [],
+      "brakes": [],
+      "portals": []
+    },
+    "variants": [
+      {
+        "id": "default",
+        "bombTileIds": []
+      }
+    ],
+    "moveLimit": 22,
+    "parMoves": 18,
+    "twoStarScore": 650,
+    "threeStarScore": 900,
+    "ruleset": "slide-v07-2",
+    "requiredMechanics": [],
+    "pattern": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "referenceSolution": [
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "right"
+      }
+    ],
+    "scoreProofs": [
+      {
+        "actions": [
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "right"
+          }
+        ],
+        "score": 900,
+        "stars": 3
+      }
+    ],
+    "difficulty": {
+      "edition": "challenge-1",
+      "minimumMoves": 15,
+      "optimalMoves": 18,
+      "setupMoves": 14,
+      "decisionPoints": 16,
+      "greedyTraps": 0,
+      "maxSetupRun": 11,
+      "openingChoices": 5,
+      "openingOptimal": 3,
+      "authorAttempt": 22
+    }
+  },
+  "27": {
+    "id": "side-27",
+    "title": "独立侧庭",
+    "subtitle": "观察每次合成留下的空间，找到属于你的解法。",
+    "chapter": 46,
+    "rows": 4,
+    "cols": 4,
+    "mask": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "rocks": [
+      {
+        "row": 3,
+        "col": 3
+      },
+      {
+        "row": 2,
+        "col": 3
+      },
+      {
+        "row": 1,
+        "col": 2
+      },
+      {
+        "row": 1,
+        "col": 1
+      }
+    ],
+    "tiles": [
+      {
+        "id": "t6",
+        "itemId": "plant-1",
+        "row": 0,
+        "col": 0
+      },
+      {
+        "id": "t1",
+        "itemId": "fruit-1",
+        "row": 0,
+        "col": 1
+      },
+      {
+        "id": "t4",
+        "itemId": "plant-0",
+        "row": 0,
+        "col": 2
+      },
+      {
+        "id": "t3",
+        "itemId": "fruit-2",
+        "row": 0,
+        "col": 3
+      },
+      {
+        "id": "t2",
+        "itemId": "fruit-1",
+        "row": 1,
+        "col": 3
+      },
+      {
+        "id": "t5",
+        "itemId": "plant-0",
+        "row": 3,
+        "col": 2
+      }
+    ],
+    "chainGoals": {
+      "fruit": {
+        "targetTier": 3,
+        "count": 1
+      },
+      "plant": {
+        "targetTier": 2,
+        "count": 1
+      }
+    },
+    "footprintByChain": {},
+    "features": {
+      "crates": [],
+      "brakes": [],
+      "portals": []
+    },
+    "variants": [
+      {
+        "id": "default",
+        "bombTileIds": []
+      }
+    ],
+    "moveLimit": 21,
+    "parMoves": 17,
+    "twoStarScore": 850,
+    "threeStarScore": 1100,
+    "ruleset": "slide-v07-2",
+    "requiredMechanics": [],
+    "pattern": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "referenceSolution": [
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "down"
+      }
+    ],
+    "scoreProofs": [
+      {
+        "actions": [
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "down"
+          }
+        ],
+        "score": 1100,
+        "stars": 3
+      }
+    ],
+    "difficulty": {
+      "edition": "challenge-1",
+      "minimumMoves": 15,
+      "optimalMoves": 17,
+      "setupMoves": 13,
+      "decisionPoints": 12,
+      "greedyTraps": 6,
+      "maxSetupRun": 13,
+      "openingChoices": 3,
+      "openingOptimal": 3,
+      "authorAttempt": 4
+    }
+  },
+  "28": {
+    "id": "side-28",
+    "title": "独立侧庭",
+    "subtitle": "观察每次合成留下的空间，找到属于你的解法。",
+    "chapter": 46,
+    "rows": 4,
+    "cols": 4,
+    "mask": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "rocks": [
+      {
+        "row": 3,
+        "col": 1
+      },
+      {
+        "row": 2,
+        "col": 2
+      },
+      {
+        "row": 1,
+        "col": 0
+      },
+      {
+        "row": 1,
+        "col": 2
+      }
+    ],
+    "tiles": [
+      {
+        "id": "t1",
+        "itemId": "fruit-1",
+        "row": 0,
+        "col": 1
+      },
+      {
+        "id": "t6",
+        "itemId": "plant-1",
+        "row": 0,
+        "col": 2
+      },
+      {
+        "id": "t2",
+        "itemId": "fruit-1",
+        "row": 2,
+        "col": 0
+      },
+      {
+        "id": "t4",
+        "itemId": "plant-0",
+        "row": 2,
+        "col": 3
+      },
+      {
+        "id": "t5",
+        "itemId": "plant-0",
+        "row": 3,
+        "col": 0
+      },
+      {
+        "id": "t3",
+        "itemId": "fruit-2",
+        "row": 3,
+        "col": 3
+      }
+    ],
+    "chainGoals": {
+      "fruit": {
+        "targetTier": 3,
+        "count": 1
+      },
+      "plant": {
+        "targetTier": 2,
+        "count": 1
+      }
+    },
+    "footprintByChain": {},
+    "features": {
+      "crates": [],
+      "brakes": [],
+      "portals": []
+    },
+    "variants": [
+      {
+        "id": "default",
+        "bombTileIds": []
+      }
+    ],
+    "moveLimit": 22,
+    "parMoves": 18,
+    "twoStarScore": 700,
+    "threeStarScore": 950,
+    "ruleset": "slide-v07-2",
+    "requiredMechanics": [],
+    "pattern": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "referenceSolution": [
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "down"
+      }
+    ],
+    "scoreProofs": [
+      {
+        "actions": [
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "down"
+          }
+        ],
+        "score": 950,
+        "stars": 3
+      }
+    ],
+    "difficulty": {
+      "edition": "challenge-1",
+      "minimumMoves": 15,
+      "optimalMoves": 18,
+      "setupMoves": 14,
+      "decisionPoints": 15,
+      "greedyTraps": 7,
+      "maxSetupRun": 8,
+      "openingChoices": 6,
+      "openingOptimal": 3,
+      "authorAttempt": 5
+    }
+  },
+  "29": {
+    "id": "side-29",
+    "title": "独立侧庭",
+    "subtitle": "观察每次合成留下的空间，找到属于你的解法。",
+    "chapter": 46,
+    "rows": 4,
+    "cols": 4,
+    "mask": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "rocks": [
+      {
+        "row": 3,
+        "col": 0
+      },
+      {
+        "row": 1,
+        "col": 1
+      },
+      {
+        "row": 1,
+        "col": 2
+      },
+      {
+        "row": 2,
+        "col": 3
+      }
+    ],
+    "tiles": [
+      {
+        "id": "t3",
+        "itemId": "fruit-2",
+        "row": 0,
+        "col": 1
+      },
+      {
+        "id": "t4",
+        "itemId": "plant-0",
+        "row": 0,
+        "col": 2
+      },
+      {
+        "id": "t6",
+        "itemId": "plant-1",
+        "row": 0,
+        "col": 3
+      },
+      {
+        "id": "t5",
+        "itemId": "plant-0",
+        "row": 1,
+        "col": 3
+      },
+      {
+        "id": "t1",
+        "itemId": "fruit-1",
+        "row": 3,
+        "col": 2
+      },
+      {
+        "id": "t2",
+        "itemId": "fruit-1",
+        "row": 3,
+        "col": 3
+      }
+    ],
+    "chainGoals": {
+      "fruit": {
+        "targetTier": 3,
+        "count": 1
+      },
+      "plant": {
+        "targetTier": 2,
+        "count": 1
+      }
+    },
+    "footprintByChain": {},
+    "features": {
+      "crates": [],
+      "brakes": [],
+      "portals": []
+    },
+    "variants": [
+      {
+        "id": "default",
+        "bombTileIds": []
+      }
+    ],
+    "moveLimit": 22,
+    "parMoves": 18,
+    "twoStarScore": 650,
+    "threeStarScore": 900,
+    "ruleset": "slide-v07-2",
+    "requiredMechanics": [],
+    "pattern": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "referenceSolution": [
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t4",
+        "direction": "right"
+      }
+    ],
+    "scoreProofs": [
+      {
+        "actions": [
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t4",
+            "direction": "right"
+          }
+        ],
+        "score": 900,
+        "stars": 3
+      }
+    ],
+    "difficulty": {
+      "edition": "challenge-1",
+      "minimumMoves": 15,
+      "optimalMoves": 18,
+      "setupMoves": 14,
+      "decisionPoints": 14,
+      "greedyTraps": 11,
+      "maxSetupRun": 11,
+      "openingChoices": 5,
+      "openingOptimal": 2,
+      "authorAttempt": 61
+    }
+  },
+  "30": {
+    "id": "side-30",
+    "title": "独立侧庭",
+    "subtitle": "观察每次合成留下的空间，找到属于你的解法。",
+    "chapter": 46,
+    "rows": 4,
+    "cols": 4,
+    "mask": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "rocks": [
+      {
+        "row": 1,
+        "col": 1
+      },
+      {
+        "row": 2,
+        "col": 2
+      },
+      {
+        "row": 3,
+        "col": 0
+      },
+      {
+        "row": 0,
+        "col": 1
+      }
+    ],
+    "tiles": [
+      {
+        "id": "t6",
+        "itemId": "plant-1",
+        "row": 1,
+        "col": 0
+      },
+      {
+        "id": "t4",
+        "itemId": "plant-0",
+        "row": 2,
+        "col": 0
+      },
+      {
+        "id": "t1",
+        "itemId": "fruit-1",
+        "row": 2,
+        "col": 1
+      },
+      {
+        "id": "t2",
+        "itemId": "fruit-1",
+        "row": 2,
+        "col": 3
+      },
+      {
+        "id": "t3",
+        "itemId": "fruit-2",
+        "row": 3,
+        "col": 1
+      },
+      {
+        "id": "t5",
+        "itemId": "plant-0",
+        "row": 3,
+        "col": 3
+      }
+    ],
+    "chainGoals": {
+      "fruit": {
+        "targetTier": 3,
+        "count": 1
+      },
+      "plant": {
+        "targetTier": 2,
+        "count": 1
+      }
+    },
+    "footprintByChain": {},
+    "features": {
+      "crates": [],
+      "brakes": [],
+      "portals": []
+    },
+    "variants": [
+      {
+        "id": "default",
+        "bombTileIds": []
+      }
+    ],
+    "moveLimit": 22,
+    "parMoves": 18,
+    "twoStarScore": 650,
+    "threeStarScore": 900,
+    "ruleset": "slide-v07-2",
+    "requiredMechanics": [],
+    "pattern": [
+      "####",
+      "####",
+      "####",
+      "####"
+    ],
+    "referenceSolution": [
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t3",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t2",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t1",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "right"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "down"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "up"
+      },
+      {
+        "type": "slide",
+        "tileId": "t5",
+        "direction": "left"
+      },
+      {
+        "type": "slide",
+        "tileId": "t6",
+        "direction": "down"
+      }
+    ],
+    "scoreProofs": [
+      {
+        "actions": [
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t3",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t2",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t1",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "right"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "down"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "up"
+          },
+          {
+            "type": "slide",
+            "tileId": "t5",
+            "direction": "left"
+          },
+          {
+            "type": "slide",
+            "tileId": "t6",
+            "direction": "down"
+          }
+        ],
+        "score": 900,
+        "stars": 3
+      }
+    ],
+    "difficulty": {
+      "edition": "challenge-1",
+      "minimumMoves": 15,
+      "optimalMoves": 18,
+      "setupMoves": 14,
+      "decisionPoints": 18,
+      "greedyTraps": 0,
+      "maxSetupRun": 10,
+      "openingChoices": 4,
+      "openingOptimal": 1,
+      "authorAttempt": 33
+    }
+  }
+}
