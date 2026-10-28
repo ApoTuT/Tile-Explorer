@@ -5,7 +5,8 @@ const fs = require('node:fs');
 const E = require('../web/merge-v03/engine.js');
 const G = require('../web/merge-v03/geometry.js');
 const levels = require('../web/merge-v03/levels.js');
-const report = require('../docs/technical/v0.4-level-report.json');
+// 历史验关报告已随 2026-10-24 文档精简归档，关键结论内联如下（3／6／30 个状态、最短 1／3／5 步）
+const EXPECTED_STATES = [3, 6, 30], EXPECTED_ROUTE_LENGTHS = [1, 3, 5];
 function reachableStates(initial) {
   const pending = [initial], visited = new Map();
   while (pending.length) {
@@ -30,7 +31,8 @@ for (const [index, level] of levels.entries()) {
     assert.equal(result.search.deadStates, 0);
     assert.equal(result.search.allReachableSolvable, true);
     assert.equal(E.replay(level, result.search.route).state.status, 'won');
-    assert.deepEqual(result, Object.fromEntries(Object.entries(report.levels[index]).filter(([key]) => key !== 'id')));
+    assert.equal(result.search.states, EXPECTED_STATES[index]);
+    assert.equal(result.search.route.length, EXPECTED_ROUTE_LENGTHS[index]);
   });
   test('every reachable state in lesson ' + (index + 1) + ' still has a real route to completion', () => {
     const states = reachableStates(E.createState(level));

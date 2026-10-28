@@ -35,7 +35,7 @@ git push -u origin HEAD
 
 [Game checks](../.github/workflows/checks.yml) 在功能分支推送和 PR 上执行 Linux/Windows 检查：Python 规则与服务测试、JavaScript 语法、音频/调度/UI 生命周期测试。Node.js 是开发测试工具，不成为游戏运行依赖。CI 使用只读仓库权限，不在工作流中发布或修改分支。
 
-本地测试结果记录在 [v0.2 技术文档](technical/v0.2.md)，远程结果以 GitHub PR 页面显示为准。当前尚未创建正式 `v0.2` 发布标签。
+本地测试结果原记录已随 2026-10-24 文档精简归档（摘要见 [迭代记录](ITERATION_LOG.md)，代码见 `feat/v0.2-tray-theater` 分支），远程结果以 GitHub PR 页面显示为准。当前尚未创建正式 `v0.2` 发布标签。
 
 ## v0.3 的分支与检查
 
@@ -45,7 +45,7 @@ git push -u origin HEAD
 
 本地与 GitHub Actions 共用 tools/checks.py。它运行 Python、全部网页 JavaScript 语法、自动发现的全部 JavaScript 测试、三关验关、独立 H5 导出和空白检查。浏览器实际拖放及截图另外运行 tools/playtest_v03.cjs，不用纯内核测试代替交互验证。PR 检查覆盖 main、feat/** 和 codex/** 目标，支持本轮依赖分支。
 
-首轮远程 CI 因实现提交未附关卡报告而失败；关卡报告随本轮验证文档纳入，复跑结果以 PR 最新提交的实际记录为准，不把本地通过当作远程通过。不把本机导出、玩家进度、临时 QA 或与本次无关的文件带入提交。当前状态和证据见 [v0.3 技术文档](technical/v0.3.md)。
+首轮远程 CI 因实现提交未附关卡报告而失败；关卡报告随本轮验证文档纳入，复跑结果以 PR 最新提交的实际记录为准，不把本地通过当作远程通过。不把本机导出、玩家进度、临时 QA 或与本次无关的文件带入提交。v0.3 的状态和证据原记录已随 2026-10-24 文档精简归档，摘要见 [迭代记录](ITERATION_LOG.md)，代码见 `codex/v0.3-diagonal-merge` 分支。
 
 ## 跟踪范围
 
