@@ -1,14 +1,20 @@
 # 项目结构与维护入口
 
-更新日期：2026-10-23。
+更新日期：2026-10-27。
+
+## v0.7 接入点
+
+`web/slide-v07.html` 与 `config/slide-v07.json` 是入口和 23 文件资源清单。`web/slide-v07/content.js` 定义水果／植物／汽车三条多级链（素材复用 `web/assets/slide-v06/`）；`engine.js`（规则集 `slide-v07-2`）把滑动、碰撞升级、最终交付、爆破连锁、转向花台、接力门和计分放进同一事务；`levels.js` 是 30 关「花园挑战」（`challenge-1`）的生成产物，逐关记录最短解与步数预算；`solver.js` 与 `solver-worker.js` 提供可取消的有界提示搜索，三庭院关可按已证明的几何分区拆开搜索再整盘重放；`session.js` 负责动作回放、无限撤销、90 星与存档隔离；`app.js`／`input.js` 连接路线预览、爆破预览、花园导航、动画与对话框。
+
+关卡是搜索产物而非手写：`tools/author_v07_challenge.cjs` 按固定种子生成并初筛，`tools/search_v07_rooms.cjs`／`search_v07_sides.cjs` 探索主庭院与侧庭，冻结结果在 `tools/fixtures/`，`tools/build_v07_challenge.cjs` 重建 30 关。`tools/v07_difficulty.cjs` 用完整状态图反向 BFS 求严格最短解，`tools/v07_regions.cjs` 证明庭院几何隔离（整关最短解＝各庭院之和），`tools/validate_v07_levels.cjs` 独立复核并做机关消融实验；超时或超上限一律返回未验证，不当作证明。`tools/export_v07.py` 导出 23 文件静态包；`tools/playtest_v07.cjs` 以真实浏览器输入验收 30 关 90 星；发布用 `tools/release_v07.py` 打包，服务器端 `tools/install_v07_preview.sh` 两步 stage→activate 原子切换。详见 [v0.7 花园挑战文档](technical/v0.7-challenge.md)。
 
 ## v0.6 接入点
 
 `web/slide-v06.html` 与 `config/slide-v06.json` 是独立入口和资源清单。`web/slide-v06/content.js` 定义三条多级链；`engine.js` 同时提交地形、碰撞升级、最终交付和计分；`session.js` 保存完整动作与撤销事务；`solver.js` 提供可取消的有界搜索；`app.js` 连接 DOM 视图、合成路径、预览、教学、动画与对话框。输入识别从 v0.5 复用，存档与旧版隔离。
 
-`tools/build_v06_levels.cjs` 用真实内核反向制作十关，`validate_v06_levels.cjs` 正向回放通关和三星证据，前三关另完整枚举可达状态。`tools/export_v06.py` 复用共享清单导出 22 文件静态包；`playtest_v06.cjs` 以浏览器实际输入验收；`release_v06.py` 打包、上传独立预览、切换精确 Nginx 路由并在失败时回退。详见 [v0.6 文档](technical/v0.6.md)。
+`tools/build_v06_levels.cjs` 用真实内核反向制作十关，`validate_v06_levels.cjs` 正向回放通关和三星证据，前三关另完整枚举可达状态。`tools/export_v06.py` 复用共享清单导出 22 文件静态包；`playtest_v06.cjs` 以浏览器实际输入验收；v0.6 当时的发布脚本 `release_v06.py` 面向已停用的旧主机，已移除。详见 [v0.6 文档](technical/v0.6.md)。
 
-项目保留三个玩法：原九关旅行模式使用 Python 规则服务；v0.4“叠出新花样”和 v0.5“滑出新花样”各有独立的浏览器纯 JavaScript 内核，可分别导出静态 H5。它们复用启动器、音效管理器；两个合成模式还复用素材／配方注册表，不混用规则、历史或完成记录。
+项目保留五个入口：原九关旅行模式使用 Python 规则服务；v0.4“叠出新花样”、v0.5“滑出新花样”、v0.6 与 v0.7“花园挑战”各有独立的浏览器纯 JavaScript 内核，可分别导出静态 H5。它们复用启动器、音效管理器；合成系模式还复用素材／配方注册表，不混用规则、历史或完成记录。
 
 ## v0.5 从哪里开始
 
@@ -27,7 +33,7 @@
 
 `GameSession` 独占稳定状态与历史，另有单调递增的会话 revision；规则动作只包含方块 ID 和方向。`slide-v05-2` 沿该方向扫描到边界、异类前或第一张同类，返回完整路径、距离与终点。每段成功滑行产生一个完整事务，成品交付与棋盘消耗同时提交。输入、指引和表现共用这条路径，不能另算终点。取消、撤销、弹窗、切关或页面生命周期变化会使旧手势与异步提示失效。动画可被下一次操作取消，不锁整段收集过程。
 
-v0.5 状态图存在往返循环，验关先完整枚举，再从胜利状态逆向标记；不能通过“有合法操作”判断可解。三关的正式内核报告见 [v0.5-level-report.json](technical/v0.5-level-report.json)。提示搜索分时间片让出主线程，超预算返回未验证，不误判死局。
+v0.5 状态图存在往返循环，验关先完整枚举，再从胜利状态逆向标记；不能通过“有合法操作”判断可解。三关的正式内核验关结果（7／117／9,841 个可达局面全部可通关）摘要见 [迭代记录](ITERATION_LOG.md)，原报告已随 2026-10-24 文档精简归档。提示搜索分时间片让出主线程，超预算返回未验证，不误判死局。
 
 v0.5 的正式存档前缀是 `tile-explorer.slide.v05.`，预览为 `tile-explorer.slide.v05.preview.`。进行中记录保存完整成功动作并用真实内核回放，允许合法往返；存储失败继续使用内存状态。只迁移旧版验证过的音效和减少动态偏好。
 
@@ -108,11 +114,11 @@ config/merge-v03.json 记录入口、按加载顺序排列的脚本、样式和�
 python tools/checks.py
 ~~~
 
-该命令运行 Python 回归、全部网页 JS 语法、动态发现的 tests/*.test.cjs、三关完整验解、静态 H5 导出和空白检查；CI 调用同一命令。Node.js 24 只用于开发检查，不是游戏运行依赖。
+该命令运行 Python 回归、全部网页 JS 语法、动态发现的 tests/*.test.cjs、四代关卡验证（v0.4／v0.5／v0.6／v0.7，v0.7 需要 `--max-old-space-size=6000`）、四份静态 H5 导出和空白检查；CI 调用同一命令。Node.js 24 只用于开发检查，不是游戏运行依赖。
 
-真实交互另外使用 tools/playtest_v04.cjs。它需要本机已有 Playwright 和 Edge，检查三关、多类目标、借位顺序、快速操作、教程、设置、撤销与恢复，并保存截图和报告。V04_URL 指定实际地址，V04_STATIC=1 检查独立静态导出，V04_QA_OUTPUT 可隔离并行测试产物；PLAYWRIGHT_MODULE 可指定已有 Playwright 模块路径。tools/playtest_v03.cjs 留作上一版历史脚本。
+真实交互另外使用各代 `tools/playtest_v*.cjs`（当前版本为 playtest_v07.cjs，验收 30 关 90 星、五种视口与恢复）。它们需要本机已有 Playwright 和 Edge，保存截图和报告；各代以 V0X_URL 等环境变量指定地址。tools/playtest_v03.cjs 留作上一版历史脚本。
 
-2026-10-22 本地统一检查通过 57 项 Python、127 项 JavaScript、网页脚本语法、三关验解、25 文件导出与空白检查。主模式、独立静态 H5 及公网入口均检查 320×568、375×667、390×844、768×1024、1280×900 五种尺寸，以及鼠标、Chromium 触摸模拟和键盘，报告错误列表为空。结果见 [主模式](technical/v0.4-browser-report.json)、[静态 H5](technical/v0.4-static-report.json)、[公网](technical/v0.4-public-report.json)。实施提交 4b282549 已通过 [GitHub Actions Linux／Windows 回归](https://github.com/ApoTuT/Tile-Explorer/actions/runs/39806403450)。这些检查不等于 Android/iOS 实机或陌生玩家试玩。
+2026-10-27 本地统一检查通过 63 项 Python、234 项 JavaScript、全部关卡证明与四份导出。v0.4 当时的 57 项 Python、127 项 JavaScript 验收记录已随 2026-10-24 文档精简归档，摘要见 [迭代记录](ITERATION_LOG.md)；实施提交 4b282549 已通过 [GitHub Actions Linux／Windows 回归](https://github.com/ApoTuT/Tile-Explorer/actions/runs/39806403450)。这些检查不等于 Android/iOS 实机或陌生玩家试玩。
 
 .editorconfig 统一缩进、UTF-8 和换行编辑习惯；.gitattributes 约束 Git 中的文本换行。不要提交 .local、.qa、缓存、账号配置或不相关文件。
 
@@ -120,6 +126,6 @@ python tools/checks.py
 
 拖动阈值、吸附容错和动画时长放在 settings.js；修改它们不改变材料、遮挡或胜负规则。配方、可落点、暂放位容量或关卡坐标变化则需要重新验解并检查存档兼容。
 
-当前保证只覆盖 merge-v04-1 的三关：分别枚举 3、6、30 个合法可达状态，死局均为 0，最短通关操作数分别为 1、3、5，证据见 [v0.4 验关报告](technical/v0.4-level-report.json)。新增关卡必须使用实际内核验证，不能把现有结果扩展成任意布局都不会卡住。新模式仍是三关，比赛要求的 50 关未实现。
+当前保证只覆盖 merge-v04-1 的三关：分别枚举 3、6、30 个合法可达状态，死局均为 0，最短通关操作数分别为 1、3、5（原验关报告已随 2026-10-24 文档精简归档，摘要见 [迭代记录](ITERATION_LOG.md)）。新增关卡必须使用实际内核验证，不能把现有结果扩展成任意布局都不会卡住。v0.7 已实现 30 关，比赛要求的 50 关仍未完成。
 
-本轮已实现并部署到 [在线入口](http://106.12.167.253/tile-explorer/)，[PR #3](https://github.com/ApoTuT/Tile-Explorer/pull/3) 尚未合并。稳定入口通过不缓存的 HTTP 302 跳转至不可变版本目录 /tile-explorer/releases/20261022-v04-4b282549/，对应源码提交 4b282549a804ce5341bdd9f28e974ce3ed85c33c；旧版资源保留用于回退。具体部署与回退步骤见 [v0.4 发布记录](technical/v0.4-deployment.md)，实现和体验限制见 [v0.4 实现记录](technical/v0.4.md)。v0.3 原规则与当时证据保留在 [历史实现记录](technical/v0.3.md)。版本和提交约定见 [VERSION_CONTROL.md](VERSION_CONTROL.md)。
+v0.4 本轮曾部署到旧主机在线入口（该主机现已停用，当前试玩见 [README](../README.md) 顶部），[PR #3](https://github.com/ApoTuT/Tile-Explorer/pull/3) 尚未合并。稳定入口通过不缓存的 HTTP 302 跳转至不可变版本目录 /tile-explorer/releases/20261022-v04-4b282549/，对应源码提交 4b282549a804ce5341bdd9f28e974ce3ed85c33c。v0.4 的发布记录、实现记录与 v0.3 历史证据已随 2026-10-24 文档精简归档，摘要见 [迭代记录](ITERATION_LOG.md)，代码见 `codex/v0.4-first-three-polish` 与 `codex/v0.3-diagonal-merge` 分支。版本和提交约定见 [VERSION_CONTROL.md](VERSION_CONTROL.md)。

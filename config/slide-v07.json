@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "entry": "slide-v07.html",
+  "scripts": [
+    "slide-v07/content.js",
+    "slide-v07/engine.js",
+    "slide-v07/levels.js",
+    "slide-v07/solver.js",
+    "slide-v07/settings.js",
+    "slide-v07/input.js",
+    "slide-v07/session.js",
+    "slide-v07/app.js"
+  ],
+  "styles": [
+    "slide-v07/style.css"
+  ],
+  "assets": [
+    "assets/slide-v06/fruit-0.svg",
+    "assets/slide-v06/fruit-1.svg",
+    "assets/slide-v06/fruit-2.svg",
+    "assets/slide-v06/fruit-3.svg",
+    "assets/slide-v06/fruit-4.svg",
+    "assets/slide-v06/plant-0.svg",
+    "assets/slide-v06/plant-1.svg",
+    "assets/slide-v06/plant-2.svg",
+    "assets/slide-v06/plant-3.svg",
+    "assets/slide-v06/car-0.svg",
+    "assets/slide-v06/car-1.svg",
+    "assets/slide-v06/car-2.svg",
+    "slide-v07/solver-worker.js"
+  ]
+}

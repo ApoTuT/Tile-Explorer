@@ -1,0 +1,15 @@
+{
+  "url": "http://120.53.94.192/tile-explorer/?demo=25",
+  "resolved": "http://120.53.94.192/tile-explorer/releases/20261027-v07r3-882617f7/?demo=25",
+  "buildId": "20261027-v07r3-882617f7",
+  "checks": {
+    "stableRedirect": true,
+    "demo25": true,
+    "nativeKeyboard": true,
+    "undo": true,
+    "refresh": true,
+    "level26Has21Materials": true,
+    "noOverflow": true
+  },
+  "errors": []
+}

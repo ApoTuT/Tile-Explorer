@@ -1,0 +1,31 @@
+{
+  "buildId": "20261027-v07r3-882617f7",
+  "sourceCommit": "882617f74251604b054019608751bec28dd7980b",
+  "url": "http://120.53.94.192/tile-explorer/releases/20261027-v07r3-882617f7/",
+  "filesVerified": [
+    "assets/slide-v06/car-0.svg",
+    "assets/slide-v06/car-1.svg",
+    "assets/slide-v06/car-2.svg",
+    "assets/slide-v06/fruit-0.svg",
+    "assets/slide-v06/fruit-1.svg",
+    "assets/slide-v06/fruit-2.svg",
+    "assets/slide-v06/fruit-3.svg",
+    "assets/slide-v06/fruit-4.svg",
+    "assets/slide-v06/plant-0.svg",
+    "assets/slide-v06/plant-1.svg",
+    "assets/slide-v06/plant-2.svg",
+    "assets/slide-v06/plant-3.svg",
+    "index.html",
+    "slide-v07/app.js",
+    "slide-v07/content.js",
+    "slide-v07/engine.js",
+    "slide-v07/input.js",
+    "slide-v07/levels.js",
+    "slide-v07/session.js",
+    "slide-v07/settings.js",
+    "slide-v07/solver-worker.js",
+    "slide-v07/solver.js",
+    "slide-v07/style.css"
+  ],
+  "ok": true
+}

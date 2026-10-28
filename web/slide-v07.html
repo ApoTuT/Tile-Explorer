@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f7e4a8"><title>滑出新花样 · v0.7 花园挑战版</title>
+  <link rel="icon" type="image/svg+xml" href="./assets/slide-v06/fruit-2.svg">
+  <link rel="stylesheet" href="./slide-v07/style.css">
+  <script src="./slide-v07/content.js" defer></script>
+  <script src="./slide-v07/engine.js" defer></script>
+  <script src="./slide-v07/levels.js" defer></script>
+  <script src="./slide-v07/solver.js" defer></script>
+  <script src="./slide-v07/settings.js" defer></script>
+  <script src="./slide-v07/input.js" defer></script>
+  <script src="./slide-v07/session.js" defer></script>
+  <script src="./slide-v07/app.js" defer></script>
+</head>
+<body>
+<main class="game">
+  <header><button id="level-button" class="round" aria-label="选择关卡" aria-haspopup="dialog">▦</button><div class="heading"><span class="brand">滑出新花样 <b>v0.7 · 花园挑战</b></span><h1 id="title"></h1></div><button id="settings-button" class="round" aria-label="设置" aria-haspopup="dialog">⚙</button></header>
+  <p id="chapter" class="chapter-label"></p>
+  <button id="demo-button" class="demo-entry">✹ 挑战速玩：封锁花园 · 转向 · 传送 →</button>
+  <nav id="demo-nav" class="demo-nav" hidden aria-label="新玩法速玩"><button data-demo="15">15 爆破</button><button data-demo="20">20 转向</button><button data-demo="25">25 传送</button><button data-demo="30">30 接力</button><button id="exit-demo">回主线</button></nav>
+  <section class="score-row" aria-label="本局成绩"><div><span class="caption">本局积分</span><strong id="score">0</strong><span id="chain"></span></div><div class="star-area"><span id="stars" aria-label="星级进度">☆☆☆</span><span id="star-target" class="caption"></span></div></section>
+  <section id="move-budget" class="move-budget" aria-label="本关步数"><span>剩余步数 <strong id="moves-left">20</strong></span><span id="move-limit-copy">在限定步数内完成收集</span></section>
+  <section class="objectives" aria-label="本关目标"><span class="caption">收集目标</span><div id="goals"></div></section>
+  <details id="path-details" class="path-panel" open><summary>查看合成升级路径</summary><div id="recipe-path"></div><p id="recipe-copy">每步都需 2 个相同图案</p></details>
+  <div class="level-mood"><span id="pattern-shape" class="pattern-shape" aria-hidden="true"></span><p id="subtitle" class="subtitle"></p></div>
+  <section id="obstacle-panel" hidden aria-label="障碍布置与挪动"><p id="obstacle-copy" aria-live="polite"></p><button id="placement-confirm" class="primary" hidden disabled>开始挑战</button><div id="obstacle-arrows" hidden><button data-direction="up" aria-label="障碍向上挪一格">↑</button><button data-direction="left" aria-label="障碍向左挪一格">←</button><button data-direction="down" aria-label="障碍向下挪一格">↓</button><button data-direction="right" aria-label="障碍向右挪一格">→</button></div></section>
+  <section id="feature-panel" class="feature-panel" hidden aria-label="本关特殊规则"></section>
+  <nav id="garden-progress" class="garden-progress" aria-label="庭院进度" hidden></nav>
+  <nav class="tools" aria-label="游戏操作"><button id="undo">↶ <span>撤销</span></button><button id="hint">✧ <span>提示</span></button><button id="restart">↻ <span>重开</span></button><button id="help-button">? <span>玩法</span></button></nav>
+  <section class="board-wrap" aria-label="游戏棋盘"><div id="board" role="group" aria-label="选择方块，再向上下左右划动"></div></section>
+  <p id="route-readout" class="route-readout" hidden aria-live="polite"></p>
+  <p id="notice" role="status" aria-live="polite">选一块，划一下，一滑到底。</p>
+
+  <button id="continue" class="primary" hidden>查看结算 →</button>
+  <p class="footnote"><span id="moves">0 次滑动</span> · 没有倒计时 · 撤销可恢复步数</p>
+</main>
+<div id="feedback" role="status" aria-live="polite"></div>
+<dialog id="level-dialog"><div class="dialog-head"><div><small>六个章节，三十次发现</small><h2>选一关，继续成长</h2></div><button data-close aria-label="关闭选关">×</button></div><p id="collection"></p><div id="level-list"></div></dialog>
+<dialog id="settings-dialog"><div class="dialog-head"><h2>按自己的节奏</h2><button data-close aria-label="关闭设置">×</button></div><label><input type="checkbox" id="sound-toggle">开启合成音效</label><label><input type="checkbox" id="motion-toggle">减少动态效果</label><p>选择会保存在这台设备上。</p></dialog>
+<dialog id="help-dialog"><div class="dialog-head"><h2>想好再滑，步步成长</h2><button data-close aria-label="关闭帮助">×</button></div><ol><li>在一块图案上划一下，一直滑到边缘或障碍前。每次成功滑动消耗一步，碰壁未移动不扣步。</li><li>两个同级同类碰到一起，升级成下一种图案。不同等级互相挡路。</li><li>中间产物留在碰撞格；达到带皇冠的目标才收走。点图案，再展开合成升级路径查看。</li><li>在本关限定步数内完成全部收集，最后一步完成也算通关。步数用完可撤销上一步或重试本关；撤销会恢复棋盘、积分与步数。</li><li>连着合成获得 Good、Excellent、Perfect。中间允许一次挪位，思考和提示不会断连。更高等级额外加分，参考步数内通关有 200 分巧解奖励，每多一步少 50 分，最低为 0。</li></ol><p>爆破卡参与合成，炸开四邻火药箱，并沿相连火药箱连锁开路；普通材料安全。空爆也会消耗爆破卡，请先看预览；失误可免费撤销。滑入同尺寸转向花台，沿箭头继续滑行；穿过接力门后，沿原方向继续滑，可以直接合成。花台和门可反复使用，每处在一划内只触发一次，防止循环；从它们上面出发不触发。出口须空闲，尺寸须完全匹配；出口被占时入口暂为普通地面。新玩法速玩与主线进度分开。Tab 选择方块，方向键滑动；Ctrl / ⌘ + Z 撤销，Esc 关闭弹窗或取消手势。障碍在开局虚线格中放置；前期固定，后期按关开放挪动，每次一格，同时花一步和一次机会。大小块须整边对齐才能合成，升级后尺寸不变。大型关卡包含三处庭院，可以自由选择顺序，共享步数。点庭院进度可以定位；所有庭院都收集完才通关。没有倒计时，可以慢慢想。</p></dialog>
+<dialog id="hint-dialog"><div class="dialog-head"><h2>下一步，怎么成长？</h2><button data-close aria-label="关闭提示">×</button></div><div id="hint-path"></div><p id="hint-copy"></p><button id="solve-hint" class="primary">告诉我怎么走</button></dialog>
+<dialog id="win-dialog" aria-labelledby="win-title"><button class="win-close" data-close aria-label="关闭结算">×</button><div class="medal">✦</div><p class="caption">又一个漂亮的发现</p><h2 id="win-title">本关完成！</h2><div id="win-stars"></div><strong id="win-score"></strong><div id="win-goals"></div><p id="win-detail"></p><p id="win-best"></p><div class="win-actions"><button id="next" class="primary">下一关 →</button><button id="replay" class="secondary">再试一次</button></div></dialog>
+<dialog id="loss-dialog" aria-labelledby="loss-title"><button class="win-close" data-close aria-label="关闭未通关结算">×</button><div class="loss-mark" aria-hidden="true">↶</div><p class="caption">这次的步数用完了</p><h2 id="loss-title">还差一点，再想一步</h2><p id="loss-detail"></p><p>撤销可恢复上一步的棋盘、积分和步数，也可以重新挑战。</p><div class="win-actions"><button id="loss-undo" class="primary">撤销上一步</button><button id="loss-retry" class="secondary">重试本关</button></div></dialog>
+</body></html>

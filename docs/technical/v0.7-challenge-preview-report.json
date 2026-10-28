@@ -1,0 +1,145 @@
+{
+  "url": "http://120.53.94.192/tile-explorer/releases/20261027-v07r3-882617f7/",
+  "checks": {
+    "progressInitiallyLocked": true,
+    "level1": {
+      "variant": "default",
+      "moves": 7
+    },
+    "level2": {
+      "variant": "default",
+      "moves": 10
+    },
+    "level3": {
+      "variant": "default",
+      "moves": 9
+    },
+    "level4": {
+      "variant": "default",
+      "moves": 10
+    },
+    "level5": {
+      "variant": "default",
+      "moves": 13
+    },
+    "level6": {
+      "variant": "default",
+      "moves": 15
+    },
+    "level7": {
+      "variant": "default",
+      "moves": 14
+    },
+    "level8": {
+      "variant": "default",
+      "moves": 13
+    },
+    "level9": {
+      "variant": "default",
+      "moves": 14
+    },
+    "level10": {
+      "variant": "default",
+      "moves": 18
+    },
+    "level11": {
+      "variant": "default",
+      "moves": 16
+    },
+    "level12": {
+      "variant": "default",
+      "moves": 20
+    },
+    "level13": {
+      "variant": "default",
+      "moves": 20
+    },
+    "level14": {
+      "variant": "default",
+      "moves": 22
+    },
+    "level15": {
+      "variant": "default",
+      "moves": 34
+    },
+    "level16": {
+      "variant": "default",
+      "moves": 40
+    },
+    "level17": {
+      "variant": "default",
+      "moves": 43
+    },
+    "level18": {
+      "variant": "default",
+      "moves": 43
+    },
+    "level19": {
+      "variant": "default",
+      "moves": 38
+    },
+    "level20": {
+      "variant": "default",
+      "moves": 38
+    },
+    "level21": {
+      "variant": "default",
+      "moves": 36
+    },
+    "level22": {
+      "variant": "default",
+      "moves": 41
+    },
+    "level23": {
+      "variant": "default",
+      "moves": 39
+    },
+    "level24": {
+      "variant": "default",
+      "moves": 39
+    },
+    "level25": {
+      "variant": "default",
+      "moves": 48
+    },
+    "level26": {
+      "variant": "default",
+      "moves": 53
+    },
+    "level27": {
+      "variant": "default",
+      "moves": 45
+    },
+    "level28": {
+      "variant": "default",
+      "moves": 44
+    },
+    "level29": {
+      "variant": "default",
+      "moves": 45
+    },
+    "level30": {
+      "variant": "default",
+      "moves": 45
+    },
+    "allThirtyNativeInput": true,
+    "ninetyStars": true,
+    "terrainUndoRefreshAndFrozenVariants": true,
+    "longRunRestoreAndUndo": true,
+    "gardenNavigationKeepsTilesVisible": true,
+    "budgetLossAndUndo": true,
+    "referenceHint": true,
+    "workerHintResponsive": true,
+    "size320": true,
+    "size375": true,
+    "size390": true,
+    "size768": true,
+    "size1280": true,
+    "nativeTouchSimulation": true,
+    "demoShortcutsAndIsolatedProgress": true
+  },
+  "errors": [],
+  "limitations": [
+    "Android/iOS hardware and unfamiliar-player tests not performed"
+  ]
+}

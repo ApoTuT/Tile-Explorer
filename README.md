@@ -1,3 +1,15 @@
+# 滑出新花样 / Tile Explorer · v0.7 花园挑战
+
+当前实现重排全部 **30 关**：前半段严格最短解 **7–22 步**，后半段为九列的三庭院大棋盘，严格最短解 **34–53 步**。第 15／20／25 关分别引入必须使用的爆破、转向与传送；支持无限次撤销、长局恢复与分区提示。后半段首通 5–10 分钟是设计目标，尚未做陌生玩家计时试验。
+
+运行 `python main.py` 后访问 `/slide-v07.html`；静态导出使用 `python tools/export_v07.py`。最新设计、30 关规格及验证方法见 [花园挑战技术文档](docs/technical/v0.7-challenge.md)。在线试玩：[主线](http://120.53.94.192/tile-explorer/)／[机关速玩](http://120.53.94.192/tile-explorer/?demo=25)。以下内容是历史版本记录。
+
+# v0.7 首版（历史记录）
+
+v0.7 已实现 **30 关、6 章、90 星**，第 15/20/25 关依次加入爆破卡、一次性停靠花台和成对传送门。保留三条多级合成链、20 步、大小块、障碍挪动、免费撤销和提示；通关解锁下一关，随机爆破位置固定随存档恢复。
+
+运行启动器后打开 [v0.7](http://127.0.0.1:8765/slide-v07.html)，或从首页进入。静态导出：`python tools/export_v07.py --output .local/h5-v07`，共 23 个文件。30 关的 36 个变体已完整枚举 2,633,169 个空间局面，空间死局为零；全部参考解在 20 步内完成并达到三星。216 项 JavaScript、62 项 Python 测试通过。真实浏览器与静态 H5 验收记录、实际实施调整见 [v0.7 实现记录](docs/technical/v0.7-implementation.md)。已发布至 [公网试玩](http://106.12.167.253/tile-explorer/)，23 个文件校验一致，Linux/Windows CI 均通过；[发布与回退记录](docs/technical/v0.7-deployment.md)。真机与陌生玩家试玩待执行。
+
 # 滑出新花样 / Tile Explorer · v0.6
 
 v0.6 已实现十关 **20 步挑战**与多阶段合成：**荔枝 → 橘子 → 苹果 → 桃子 → 西瓜**，并加入植物、汽车两条升级路线。每次用两个同级同类合成，中间产物留在碰撞格，本关最终目标才自动收集。关卡使用完整小棋盘，心形、花朵、飞鸟等图案作为视觉主题。
@@ -18,7 +30,7 @@ v0.5 在 `v0.5` 分支实现三关「滑出新花样」：在单层方格棋盘�
 
 通关后自动弹出结算窗，展示收集图形与滑动次数，点击“下一关”继续。第三关完成后可“再玩一次”回到第一关，或“重玩本关”；关闭弹窗仍可撤销，也可从“继续”再次打开。
 
-启动后访问 [滑出新花样](http://127.0.0.1:8765/slide-v05.html)，使用其他端口时替换地址中的端口。旧版层叠模式和九关旅行模式仍可从首页进入。2026-10-23 已更新 [线上试玩](http://106.12.167.253/tile-explorer/) 至 v0.5，保留旧版完整目录；发布与回退见 [部署记录](docs/technical/v0.5-deployment.md)。
+启动后访问 [滑出新花样](http://127.0.0.1:8765/slide-v05.html)，使用其他端口时替换地址中的端口。旧版层叠模式和九关旅行模式仍可从首页进入。v0.5 曾部署至线上试玩（现稳定入口已为 v0.6），历史发布与回退记录见 [迭代记录](docs/ITERATION_LOG.md)。
 
 ```text
 python main.py --no-browser
@@ -27,7 +39,7 @@ python tools/export_v05.py --output .local/h5-v05
 python -m http.server 8776 --bind 127.0.0.1 --directory .local/h5-v05
 ```
 
-v0.5 导出包共 25 个文件，使用相对资源路径、无规则后端和外部 CDN。技术方案及实际调整见 [v0.5 文档](docs/technical/v0.5.md)，正式内核证据见 [验关报告](docs/technical/v0.5-level-report.json)。本轮 60 项 Python、184 项 JavaScript 与完整项目检查通过；主入口、独立静态包和恢复测试结果见文档中的验收记录。Android/iOS 实机、原生页面隐藏分支和陌生玩家试玩尚未验证。
+v0.5 导出包共 25 个文件，使用相对资源路径、无规则后端和外部 CDN。本轮 60 项 Python、184 项 JavaScript 与完整项目检查通过。v0.5 的独立技术文档已随 2026-10-24 精简归档，方案、验关证据与验收记录摘要见 [迭代记录](docs/ITERATION_LOG.md)，代码见 `v0.5` 分支。Android/iOS 实机、原生页面隐藏分支和陌生玩家试玩尚未验证。
 
 ## 保留的 v0.4 层叠模式
 
@@ -37,7 +49,7 @@ v0.4 已实现三关 **「叠出新花样」**：把上层方块拖到可用的�
 
 新手演示只画虚影，抓牌时立即退场；连续拖错时提供当前局面的提示，帮助入口可重看操作。设置支持静音和减少动态效果；拖放、回位及交付表现可以被新操作取消，不要求等动画演完。v0.4 存档与旧版隔离，只迁移旧版静音偏好，预览存档也与正式入口分开。
 
-2026-10-22：本地自动检查、主模式与独立静态 H5 的浏览器验收已通过，现已部署到 [在线试玩](http://106.12.167.253/tile-explorer/)，公网全套试玩错误列表为空。[PR #3](https://github.com/ApoTuT/Tile-Explorer/pull/3) 已提交，尚未合并；实施提交 4b282549 已通过 [Linux／Windows CI](https://github.com/ApoTuT/Tile-Explorer/actions/runs/39806403450)。Android/iOS 实机和陌生玩家试玩尚未完成。实现见 [v0.4 文档](docs/technical/v0.4.md)，部署与回退见 [发布记录](docs/technical/v0.4-deployment.md)，公网证据见 [试玩报告](docs/technical/v0.4-public-report.json)；此前 v0.3 的交互整理及 [PR #2](https://github.com/ApoTuT/Tile-Explorer/pull/2) 保留为历史记录。
+2026-10-22：本地自动检查、主模式与独立静态 H5 的浏览器验收已通过，当时曾部署到在线试玩（现稳定入口已为 v0.6），公网全套试玩错误列表为空。[PR #3](https://github.com/ApoTuT/Tile-Explorer/pull/3) 已提交，尚未合并；实施提交 4b282549 已通过 [Linux／Windows CI](https://github.com/ApoTuT/Tile-Explorer/actions/runs/39806403450)。Android/iOS 实机和陌生玩家试玩尚未完成。v0.4 的独立技术文档与报告已随 2026-10-24 精简归档，摘要见 [迭代记录](docs/ITERATION_LOG.md)，代码见 `codex/v0.4-first-three-polish` 分支；此前 v0.3 的交互整理及 [PR #2](https://github.com/ApoTuT/Tile-Explorer/pull/2) 保留为历史记录。
 
 启动后访问 [叠出新花样](http://127.0.0.1:8765/merge-v03.html)，或点击首页顶部的 v0.4 入口。若启动器选择了其他端口，在实际地址后加 /merge-v03.html。入口、内部目录和导出脚本暂沿用 merge-v03 命名，没有另建一套游戏运行代码。
 
@@ -48,7 +60,7 @@ python tools/export_v03.py --output .local/h5-v04
 python -m http.server 8767 --bind 127.0.0.1 --directory .local/h5-v04
 ~~~
 
-然后访问 [独立 H5](http://127.0.0.1:8767/)。导出默认目录也是 .local/h5-v04；抽取共享内容脚本后，当前本地导出包含 26 个文件，无外部 CDN 或规则后端，旧线上快照仍为原 25 个文件。它仍是三关体验原型，尚未扩展为比赛所需的 50 关。规则证据见 [v0.4 验关报告](docs/technical/v0.4-level-report.json)。
+然后访问 [独立 H5](http://127.0.0.1:8767/)。导出默认目录也是 .local/h5-v04；抽取共享内容脚本后，当前本地导出包含 26 个文件，无外部 CDN 或规则后端，旧线上快照仍为原 25 个文件。它仍是三关体验原型，尚未扩展为比赛所需的 50 关。规则证据（三关 3／6／30 个可达状态、死局为 0）摘要见 [迭代记录](docs/ITERATION_LOG.md)。
 
 ## 保留的九关旅行模式
 
@@ -107,7 +119,7 @@ python tools/checks.py
 
 本地与 CI 共用这一入口：运行 Python 测试、检查全部网页 JavaScript 语法、自动发现所有 JavaScript 测试、验关、导出 H5 和检查空白。开发检查需要 Node.js 24；游戏运行不需要 Node 或 npm 依赖。
 
-2026-10-22 的 v0.4 统一检查通过 57 项 Python、127 项 JavaScript、全部网页脚本语法、三关完整验解、25 文件 H5 导出及空白检查。主模式、静态 H5 和公网入口均检查了 320×568、375×667、390×844、768×1024、1280×900 五种尺寸，以及鼠标、Chromium 触摸模拟、键盘、连续输入、完整撤销、刷新恢复、帮助与设置，浏览器错误列表为空。报告见 [主模式](docs/technical/v0.4-browser-report.json)、[静态 H5](docs/technical/v0.4-static-report.json)、[公网](docs/technical/v0.4-public-report.json)。这些结果不代表 Android/iOS 实机或陌生玩家试玩已经完成。实施提交 4b282549 的 [GitHub Actions Linux／Windows 回归](https://github.com/ApoTuT/Tile-Explorer/actions/runs/39806403450) 已通过。
+2026-10-22 的 v0.4 统一检查通过 57 项 Python、127 项 JavaScript、全部网页脚本语法、三关完整验解、25 文件 H5 导出及空白检查。主模式、静态 H5 和公网入口均检查了 320×568、375×667、390×844、768×1024、1280×900 五种尺寸，以及鼠标、Chromium 触摸模拟、键盘、连续输入、完整撤销、刷新恢复、帮助与设置，浏览器错误列表为空。当时的报告已随 2026-10-24 文档精简归档，摘要见 [迭代记录](docs/ITERATION_LOG.md)。这些结果不代表 Android/iOS 实机或陌生玩家试玩已经完成。实施提交 4b282549 的 [GitHub Actions Linux／Windows 回归](https://github.com/ApoTuT/Tile-Explorer/actions/runs/39806403450) 已通过。
 
 浏览器复测使用 tools/playtest_v04.cjs，需要已安装 Playwright 与 Edge：V04_URL 指定游戏地址，V04_STATIC=1 用于独立静态入口，V04_QA_OUTPUT 指定截图与报告目录；Playwright 不在默认模块路径时可设置 PLAYWRIGHT_MODULE。运行命令为 node tools/playtest_v04.cjs。
 
@@ -125,7 +137,6 @@ python tools/checks.py
 - `docs/IDEAS.md`：供后续脑暴的候选创意，未列入本版已实现功能。
 - [docs/ITERATION_LOG.md](docs/ITERATION_LOG.md)：各代新增功能、内容与体验变化，以及实现、验证和发布状态。
 - [docs/technical/README.md](docs/technical/README.md)：各代独立技术文档索引，说明实现方式、数据流程、技术边界与验证。
-- [docs/technical/v0.2.md](docs/technical/v0.2.md)：小剧场实际实现、素材调整、验证结果和待实机检查事项。
 - [web/assets/audio/v02/manifest.json](web/assets/audio/v02/manifest.json)：18 个声音的来源、时长、体积及校验值；可用 `py -3.12 tools/generate_audio.py` 离线重新生成。
 - `docs/ASSETS_V3.md`：卡通牌面生成记录、完整提示词与图集索引。
 - `docs/VERSION_CONTROL.md`：主分支、版本标签及后续提交约定。
