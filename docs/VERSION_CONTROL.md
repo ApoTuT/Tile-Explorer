@@ -47,6 +47,19 @@ git push -u origin HEAD
 
 首轮远程 CI 因实现提交未附关卡报告而失败；关卡报告随本轮验证文档纳入，复跑结果以 PR 最新提交的实际记录为准，不把本地通过当作远程通过。不把本机导出、玩家进度、临时 QA 或与本次无关的文件带入提交。v0.3 的状态和证据原记录已随 2026-10-24 文档精简归档，摘要见 [迭代记录](ITERATION_LOG.md)，代码见 `codex/v0.3-diagonal-merge` 分支。
 
+## v0.4–v0.7 的分支现状
+
+后续各代沿用同一约定：每代一个功能分支、一个 PR，正式标签留到验收后建立。截至 2026-10-27 的实际状态：
+
+| 版本 | 分支 | PR | 标签 |
+|---|---|---|---|
+| v0.4 层叠模式 | `codex/v0.4-first-three-polish` | [PR #3](https://github.com/ApoTuT/Tile-Explorer/pull/3)，未合并 | 未建立 |
+| v0.5 滑动合成 | `v0.5` | — | 未建立 |
+| v0.6 二十步挑战 | `codex/v0.6-multistage` | [PR #4](https://github.com/ApoTuT/Tile-Explorer/pull/4)，未合并 | 未建立 |
+| v0.7 花园挑战（当前） | `codex/v0.7-thirty-levels` | [PR #5](https://github.com/ApoTuT/Tile-Explorer/pull/5)，未合并 | 未建立 |
+
+远端 `main` 仍是 `v0.1` 基线，PR #1–#5 均未合并；`v0.1` 是目前唯一正式标签。v0.7 的发布构建号约定为 `YYYYMMDD-v07rN-<提交前八位>`，构建产物与 SHA-256 清单保存在 `.local/deploy/`（不提交），发布与回退记录见 [v0.7 花园挑战发布记录](technical/v0.7-challenge-deployment.md)。
+
 ## 跟踪范围
 
 - 提交源码、启动器、测试、玩法与迭代文档、游戏内必需图集及试玩截图。
